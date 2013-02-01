@@ -1,0 +1,77 @@
+% Macros relatives à la traduction de PH avec arcs neutralisants vers PH à k-priorités fixes
+
+% Macros générales
+\def\Pint{\textsc{PINT}}
+
+% Notations générales pour PH
+\newcommand{\PH}{\mathcal{PH}}
+\newcommand{\PHs}{\Sigma}
+\newcommand{\PHl}{L}
+%\newcommand{\PHp}{\mathcal{P}}
+\newcommand{\PHp}{\textcolor{red}{\mathcal{P}}}
+\newcommand{\PHproc}{\mathcal{P}}
+\newcommand{\PHa}{\PHh}
+\newcommand{\PHh}{\mathcal{H}}
+\newcommand{\PHn}{\mathcal{N}}
+
+\newcommand{\PHhitter}{\mathsf{hitter}}
+\newcommand{\PHtarget}{\mathsf{target}}
+\newcommand{\PHbounce}{\mathsf{bounce}}
+\newcommand{\PHsort}{\Sigma}
+
+\def\f#1{\mathsf{#1}}
+\def\focals{\f{focals}}
+\def\play{\cdot}
+\def\configs#1{\mathbb C_{#1\rightarrow a}}
+
+%\newcommand{\PHfrappeR}{\textcolor{red}{\rightarrow}}
+%\newcommand{\PHmonte}{\textcolor{red}{\Rsh}}
+
+\newcommand{\PHfrappeA}{\rightarrow}
+\newcommand{\PHfrappeB}{\Rsh}
+%\newcommand{\PHfrappe}[3]{\mbox{$#1\PHfrappeA#2\PHfrappeB#3$}}
+%\newcommand{\PHfrappebond}[2]{\mbox{$#1\PHfrappeB#2$}}
+\newcommand{\PHfrappe}[3]{#1\PHfrappeA#2\PHfrappeB#3}
+\newcommand{\PHfrappebond}[2]{#1\PHfrappeB#2}
+\newcommand{\PHobjectif}[2]{\mbox{$#1\PHfrappeB^*\!#2$}}
+\newcommand{\PHconcat}{::}
+\newcommand{\PHneutralise}{\rtimes}
+
+\def\PHget#1#2{{#1[#2]}}
+%\newcommand{\PHchange}[2]{#1\langle #2 \rangle}
+\newcommand{\PHchange}[2]{(#1 \Lleftarrow #2)}
+\newcommand{\PHarcn}[2]{\mbox{$#1\PHneutralise#2$}}
+\newcommand{\PHjoue}{\cdot}
+
+\newcommand{\PHetat}[1]{\mbox{$\langle #1 \rangle$}}
+
+
+% Notations spécifiques à ce papier
+\newcommand{\PHdirectpredec}[1]{\PHs^{-1}(#1)}
+\newcommand{\PHpredec}[1]{\f{pred}(#1)}
+\newcommand{\PHpredecgene}[1]{\f{reg}({#1})}
+\newcommand{\PHpredeccs}[1]{\PHpredec{#1} \setminus \Gamma}
+
+\newcommand{\PHincl}[2]{#1 :: #2}
+
+\def\ctx{\varsigma}
+\def\ctxOverride{\Cap}
+\def\state#1{\langle #1 \rangle}
+
+% Notations spécifiques aux graphes d'états
+%\newcommand{\PHge}{\textcolor{red}{\mathcal{GE}}}
+%\newcommand{\PHt}{\mathcal{T}}
+%\newcommand{\GE}{\mathcal{GE}}
+%\newcommand{\GEt}{\mathcal{T}}
+%\newcommand{\GEl}{\PHl}
+%\newcommand{\GEa}{\PHa}
+%\newcommand{\GEva}[3]{#1 \stackrel{#2}{\longrightarrow} #3}
+%\newcommand{\GEval}[3]{#1 \stackrel{#2}{\Longrightarrow} #3}
+%\newcommand{\GEget}[2]{\PHget{#1}{#2}}
+
+
+\def\DEF{\stackrel{\Delta}=}
+\def\EQDEF{\stackrel{\Delta}\Leftrightarrow}
+
+\def\intervalless{<_{[]}}
+

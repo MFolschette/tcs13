@@ -1,0 +1,64 @@
+% Macros spécifiques au Modèle de Thomas / aux RRB
+
+% Notations pour le modèle de Thomas (depuis thèse)
+\newcommand{\GRN}{\mathcal{GRN}}
+\newcommand{\IG}{\mathcal{G}}
+%\def\IG{\mathrm{IG}}
+\newcommand{\GRNreg}[1]{\Gamma^{-1}(#1)}
+\newcommand{\GRNres}[2]{\mathsf{Res}_{#1}(#2)}
+\newcommand{\GRNallres}[1]{\mathsf{Res}_{#1}}
+\newcommand{\GRNget}[2]{\PHget{#1}{#2}}
+\newcommand{\GRNetat}[1]{\PHetat{#1}}
+
+\def\levels{\mathsf{levels}}
+\def\levelsA#1#2{\levels_+(#1\rightarrow #2)}
+\def\levelsI#1#2{\levels_-(#1\rightarrow #2)}
+%\newcommand{\PHres}{\mathsf{Res}}
+
+\newcommand{\Kinconnu}{\emptyset}
+\newcommand{\RRGva}[3]{#1 \stackrel{#2}{\longrightarrow} #3}
+\newcommand{\RRGgi}{\mathcal{G}}
+\newcommand{\RRGreg}[1]{\RRGgi_{#1}}
+
+
+
+%\definecolor{darkred}{rgb}{0.5,0,0}
+%\definecolor{lightred}{rgb}{1,0.8,0.8}
+%\definecolor{lightgreen}{rgb}{0.7,1,0.7}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+%\definecolor{darkyellow}{rgb}{0.5,0.5,0}
+%\definecolor{lightyellow}{rgb}{1,1,0.6}
+%\definecolor{darkcyan}{rgb}{0,0.6,0.6}
+%\definecolor{darkorange}{rgb}{0.8,0.2,0}
+
+%\definecolor{notsodarkgreen}{rgb}{0,0.7,0}
+
+%\definecolor{coloract}{rgb}{0,1,0}
+%\definecolor{colorinh}{rgb}{1,0,0}
+\colorlet{coloract}{darkgreen}
+\colorlet{colorinh}{red}
+%\colorlet{coloractgray}{lightgreen}
+%\colorlet{colorinhgray}{lightred}
+%\colorlet{colorinf}{darkgray}
+%\colorlet{coloractgray}{lightgreen}
+%\colorlet{colorinhgray}{lightred}
+
+%\colorlet{colorgray}{lightgray}
+
+
+\tikzstyle{grn}=[every node/.style={circle,draw=black,outer sep=2pt,minimum
+                size=15pt,text=black}, node distance=1.5cm]
+\tikzstyle{act}=[->,draw=black,thick,color=black]
+\tikzstyle{inh}=[>=|,-|,draw=black,thick, text=black,label]
+%\tikzstyle{inh}=[>=|,-|,draw=colorinh,thick, text=black,label]
+%\tikzstyle{act}=[->,>=triangle 60,draw=coloract,thick,color=coloract]
+%\tikzstyle{inhgray}=[>=|,-|,draw=colorinhgray,thick, text=black,label]
+%\tikzstyle{actgray}=[->,>=triangle 60,draw=coloractgray,thick,color=coloractgray]
+\tikzstyle{inf}=[->,draw=colorinf,thick,color=colorinf]
+%\tikzstyle{elabel}=[fill=none, above=-1pt, sloped,text=black, minimum size=10pt, outer sep=0, font=\scriptsize,draw=none]
+\tikzstyle{elabel}=[fill=none,text=black, above=-2pt,%sloped,
+minimum size=10pt, outer sep=0, font=\scriptsize, draw=none]
+%\tikzstyle{elabel}=[]
+\tikzstyle{sg}=[every node/.style={outer sep=2pt,minimum
+                size=15pt,text=black}, node distance=2cm]
+

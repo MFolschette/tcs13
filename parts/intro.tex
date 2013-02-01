@@ -1,0 +1,86 @@
+\section{Introduction}
+As regulatory phenomena play a crucial role in biological systems, they need to be studied accurately.
+Biological Regulatory Networks (BRNs) consist in sets of either positive or negative mutual effects between the components.
+With the purpose of analyzing these systems, they are often modeled as graphs which make it possible to determine the possible evolutions of all the interacting components of the system.
+Indeed, besides continuous models of physicists, often designed through systems of ordinary
+differential equations, a discrete modeling approach was initiated by René Thomas in 1973
+\cite{Thomas73}.
+
+In this approach, the different levels of a component, such as concentration or expression levels, are abstractly represented by (positive) integer values and transitions between these levels may be considered as instantaneous.
+Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states.
+Nevertheless, these dynamics can be precisely established only with regard to some discrete parameters,
+hereafter called ``Thomas' parameters'',
+which stand for kinds of ``focal points'', i.e. the evolutionary tendency from each state and depending on the set of the other currently interacting components.
+%resources in this very state, that is, the set of the other currently interacting components.
+%Hereafter, we refer to these discrete parameters as Thomas' parameters.
+
+Thomas' modeling has motivated numerous works around the link between the Interaction Graph (IG)
+(summarizing the global influences between components) and the possible dynamics (e.g.,
+\cite{RiCo07,RRT08}),
+model reduction (e.g., \cite{Naldi09}), formal checking of dynamics (e.g., \cite{Richard06,Naldi07}), 
+and the incorporation of time (e.g., \cite{Siebert06,Ahmad08}) and probability
+(e.g., \cite{Twardziok10-CMSB}) dimensions, to name but a few.
+While the formal checking of dynamical properties is often limited to small networks because of the
+state graph explosion, the main drawback of this framework is the difficulty to specify Thomas'
+parameters, especially for large networks.
+
+In order to address the formal checking of dynamical properties within very large BRNs, we recently
+introduced in \cite{PMR10-TCSB} a new formalism, named the \emph{``Process Hitting''} (PH), to model
+concurrent systems having components with a few qualitative levels.
+A PH describes, in an atomic manner, the possible evolutions of a process (representing one
+component at one level) triggered by the hit of at most one other process in the system.
+This framework can be seen as a special class of formalisms like Petri Nets or Communicating Finite
+State Machines, where the causality between actions is restricted.
+Thanks to the particular structure of interactions within a PH, very efficient static analysis
+methods have been developed to over- and under-approximate reachability properties making tractable
+the formal analysis of BRNs with hundreds of components \cite{PMR12-MSCS}.
+
+PH is suitable to model BRNs with different levels of abstraction in the specification of
+cooperations (associated influences) between components.
+This allows to model BRNs with a partial knowledge on precise evolution functions for components
+by capturing the largest (the most general) dynamics.
+
+The objectives of the work presented in this paper are the following.
+Firstly, we show that starting from one PH model, it is possible to find back the underlying IG.
+We perform an exhaustive search for the possible interactions on one component from all the
+others, consistently with the knowledge of the dynamics that these interactions lead to and that are
+expressed in PH.
+The second phase of our work concerns the Thomas' parameters inference.
+It consists in determining the nesting set (possibly too large) of the parameters which necessarily
+lead to the satisfaction of the known cooperating constraints.
+The resulting BRN dynamics is ensured to respect the PH dynamics, \ie no spurious transitions are
+made possible by the inference.
+Answer Set Programming (ASP) \cite{Baral03} turns out to be effective for these enumerative searches.
+
+The outcome of this work is twofold.
+The first benefit is that such an approach makes it possible to refine the construction of
+BRNs with a partial and progressively brought knowledge in PH, while being able to export such
+models in the Thomas' framework.
+This work thus strengthens the formal link between both modelings.
+The second feature of our method is that it can be applied on very large BRNs.
+
+Finally, it must be noticed that we are not interested in this paper in the derivation of one
+PH from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding out
+a set of BRNs from one PH.
+
+Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming. Both aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
+%These classes are built in order to infer properties common to some studied models.
+%In our approach, we intend to focus on the Thomas' parameters inference
+Our method is based on a model rather than on constraints, which allows to define some properties on the system structure (such as cooperations).
+Furthermore, we claim that we are able to deal with larger biological networks.
+
+\paragraph{Outline}
+\pref{sec:frameworks} recalls the PH and Thomas frameworks;
+\pref{sec:infer-IG} defines the IG inference from PH;
+\pref{sec:infer-K} details the enumeration of Thomas parametrizations compatible with a PH
+and discuss its implementation in ASP.
+\pref{sec:examples} illustrates the applicability of our method on simple examples
+and large biological models.
+
+\paragraph{Notations}
+$[i;j]$ is the set of integers $\{ i, i+1, \dots, j \}$;
+we note $[i_1;j_1] \leq_{[]} [i_2;j_2] \EQDEF (i_1\leq i_2\wedge j_1\leq j_2)$
+and $[i_1;j_1] <_{[]} [i_2;j_2] \EQDEF 
+%	[i_1;j_1] \leq_{[]} [i_2;j_2] \wedge (i_1\neq i_2 \vee j_1\neq j_2)$.
+(i_1<i_2 \wedge j_1\leq j_2) \vee (i_1\leq i_2\wedge j_1 < j_2)$.
+Given an integer $k$, $k<[i;j] \EQDEF k <i$ and $k>[i;j]\EQDEF k > j$.
