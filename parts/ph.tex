@@ -152,17 +152,17 @@ we thus model an over-approximation of the possible actions.
 
 \paragraph{Modeling cooperation}
 \rewrite{Detail the modeling of cooperations}
-As described in \cite{PMR10-TCSB}, the cooperation between processes to make another bounce can be
+As described in \cite{PMR10-TCSB}, the cooperation between several processes to make another process bounce can be
 expressed in PH by building a \emph{cooperative sort}.
 \pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
 make $a_1$ bounce to $a_2$:
 a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of the presence of
 processes $b_1$ and $c_1$).
-For the sake of clarity, the $bc$ processes are indexed using the sub-state they represent.
+For the sake of clarity, the processes of $bc$ are indexed using the sub-state they represent.
 Hence, $bc_{01}$ represents the sub-state $\state{b_0,c_1}$, and so on.
 Each process of sort $b$ and $c$ hit $bc$ to make it bounce to the process reflecting the status of the sorts $b$
 and $c$ (e.g., $\PHfrappe{b_1}{bc_{00}}{bc_{10}}$ and $\PHfrappe{b_1}{bc_{01}}{bc_{11}}$).
-Then, it is the process $bc_{11}$ which hits $a_1$ to make it bounce to $a_2$ instead of the
+Then, it is process $bc_{11}$ which hits $a_1$ to make it bounce to $a_2$ instead of
 independent hits from $b_1$ and $c_1$.
 
 \begin{figure}[p]
