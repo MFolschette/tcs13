@@ -52,16 +52,19 @@ $\exists a \xrightarrow{s', t'} b \in E \Rightarrow s = s' \wedge t = t'$.
 \end{definition}
 
 \begin{definition}[\new{Effective levels ($\levelsl$)}]\label{def:levels}
-Let $(\Gamma,E)$ be an IG and $a, b \in \Gamma$ two of its components:
-\begin{itemize}
+Let $(\Gamma,E)$ be an IG and $a, b \in \Gamma$ two of its components.
+If $\GRNedge{a}{s}{t}{b} \in E$, we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
+%%%
+%\begin{itemize}
 %  \item if $a \xrightarrow{t} b \in E_+$, $\levelsA{a}{b} \DEF [t; l_a]$ and
 %    $\levelsI{a}{b} \DEF [0; t-1]$;
 %  \item if $a \xrightarrow{t} b \in E_-$, $\levelsA{a}{b} \DEF [0; t-1]$ and
 %    $\levelsI{a}{b} \DEF [t; l_a]$;
 %  \item otherwise, $\levelsA{a}{b} \DEF \levelsI{a}{b} \DEF \emptyset$.
-  \item if $\GRNedge{a}{s}{t}{b} \in E$, $\levels{a}{b} \DEF [t; l_a]$;
-  \item otherwise, $\levels{a}{b} \DEF \emptyset$.
-\end{itemize}
+%%%
+%  \item if $\GRNedge{a}{s}{t}{b} \in E$, $\levels{a}{b} \DEF [t; l_a]$;
+%  \item otherwise, $\levels{a}{b} \DEF \emptyset$.
+%\end{itemize}
 \end{definition}
 
 Given this definition, we denote:

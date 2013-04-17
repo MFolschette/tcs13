@@ -15,7 +15,7 @@ which implies that the inferred IG does not contain any unsigned interactions, a
 regular IG $(\Gamma, E_+, E_-)$,
 and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behavior
 regarding $a$.
-\begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
+\begin{property}[\new{Well-formed PH for parameter inference}]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
 it is well-formed for IG inference, and
 the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
@@ -23,7 +23,7 @@ verifies $E_\pm=\emptyset$ and if the following property holds:
 \begin{align}
 \begin{split}
 \forall b\in \GRNreg{a} &,
-	\forall (i,j\in\levelsA{b}{a} \vee i,j\in\levelsI{b}{a}), \\
+	\forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
 & \qquad	\forall c, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
 & \qquad \qquad
 			\PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
@@ -33,50 +33,49 @@ verifies $E_\pm=\emptyset$ and if the following property holds:
 \end{align}
 \end{property}
 
-Let $K_{a,A,B}$ be the parameter we want to infer for a given component $a \in \Gamma$
+Let $K_{a,\omega}$ be the parameter we want to infer for a given component $a \in \Gamma$
 %and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
-and $A \subset \GRNreg{a}$ (resp. $B \subset \GRNreg{a}$) a set of its activators (resp. inhibitors).
+and $\omega \subset \GRNreg{a}$ a set of its regulators.
 This inference, as for the IG inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
-For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,A,B}$ in \pref{eq:param_context} that contains all processes representing the influence of the regulators in the configuration $A,B$.
+For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,\omega}$ in \pref{eq:param_context} that contains all processes representing the influence of the resources in the configuration modeled by $\omega$.
 The context of a cooperative sort $\upsilon$ that regulates $a$ is given in
 \pref{eq:param_context_coop} as the set of focal processes matching the current configuration.
-$C_{a,A,B}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
+$C_{a,\omega}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
 \label{eq:param_context}
 \forall b\in\Gamma,~
-C_{a,A,B}^b & \DEF \begin{cases}
-\levelsA{b}{a} & \text{if $b \in A$,}\\
-\levelsI{b}{a} & \text{if $b \in B$,}\\
-L_b		& \text{otherwise;}\\
+C_{a,\omega}^b & \DEF \begin{cases}
+  \levels{b}{a} & \text{if $b \in \omega$,}\\
+  \ulevels{b}{a} & \text{if $b \notin \omega$,}\\
+  L_b            & \text{otherwise;}\\
 \end{cases}
 \\
 \label{eq:param_context_coop}
 \forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
-C_{a,A,B}^\upsilon & \DEF \{
-\upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,A,B}^c \}
+C_{a,\omega}^\upsilon & \DEF \{
+\upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,\omega}^c \}
 \\
-C_{a,A,B} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,A,B}
+C_{a,\omega} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,\omega}
 \label{eq:K-ctx}
 \end{align}
 
-The parameter $K_{a,A,B}$ specifies to which values $a$ eventually evolves as long as the context
-$C_{a,A,B}$ holds, which is precisely the definition of the $\focals$ function
+The parameter $K_{a,\omega}$ specifies to which values $a$ eventually evolves as long as the context
+$C_{a,\omega}$ holds, which is precisely the definition of the $\focals$ function
 (\pref{def:focals} in \pref{ssec:focal}),
 where the focals reachability property can be derived from \pref{pro:wf-ph-K} and
 \pref{eq:param_context_coop}.
-Hence $K_{a,A,B} = \focals(a,C^a_{a,A,B},C_{a,A,B})$ if this latter is a non-empty interval
+Hence $K_{a,\omega} = \focals(a,C^a_{a,\omega},C_{a,\omega})$ if this latter is a non-empty interval
 (\pref{pps:param_K}).
 
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
-Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma,
-E_+, E_-)$ the inferred IG.
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
 %If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
-If $\focals(a,C^a_{a,A,B},C_{a,A,B})=[a_i;a_j]$ is a non-empty interval, 
-	then $K_{a,A,B} = [i;j]$.
+If $\focals(a,C^a_{a,\omega},C_{a,\omega})=[a_i;a_j]$ is a non-empty interval, 
+	then $K_{a,\omega} = [i;j]$.
 \end{proposition}
 
 \begin{example*}
@@ -110,13 +109,13 @@ one transition in the PH, proving the correctness of our inference.
 We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
 
 \begin{property}[Parameter validity]\label{pro:K-valid}
-A parameter $K_{a,A,B}$ is valid w.r.t. the PH iff the following equation is verified:
+A parameter $K_{a,\omega}$ is valid w.r.t. the PH iff the following equation is verified:
 \begin{align*}
-\forall a_i\in C^a_{a,A,B},
-		a_i \notin K_{a,A,B} \Longrightarrow (
-  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, & c_k \in C^c_{a,A,B} \\
- \wedge a_i < K_{a,A,B} \Rightarrow j > i 
- & \wedge  a_i > K_{a,A,B} \Rightarrow j <i )
+\forall a_i\in C^a_{a,\omega},
+		a_i \notin K_{a,\omega} \Longrightarrow (
+  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, & c_k \in C^c_{a,\omega} \\
+ \wedge a_i < K_{a,\omega} \Rightarrow j > i 
+ & \wedge  a_i > K_{a,\omega} \Rightarrow j <i )
 \end{align*}
 \end{property}
 		
@@ -125,30 +124,36 @@ Then, we use some additional biological constraints on Thomas' parameters given 
 \cite{BernotSemBRN}, that we sum up in the following three properties:
 
 \begin{property}[Extreme values assumption]
-Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
 \label{prop:param_enum_extreme}
 \[
-  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Rightarrow 0 \in K_{b,\emptyset,\GRNreg{b}} \wedge l_b \in K_{b,\GRNreg{b},\emptyset}
+  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Longrightarrow \exists \omega \subset \GRNreg{b}, 0 \in K_{b,\omega} \wedge \exists \omega' \subset \GRNreg{b}, l_b \in K_{b,\omega'}
 \]
 \end{property}
 
 \begin{property}[Activity assumption]
 \label{prop:param_enum_activity}
-Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
 \begin{align*}
-  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
-\\
-  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
+%  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
+%\\
+%  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
+  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists \omega \subset \GRNreg{b}, K_{b,\omega} \neq K_{b,\omega \cup \{ a \}}
 \end{align*}
 \end{property}
 
 \begin{property}[Monotonicity assumption]
 \label{prop:param_enum_monotonicity}
-Let $\IG = (\Gamma, E_+, E_-)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
-\[
-  \forall b \in \Gamma, \forall (A;B), (A';B') \in \GRNallres{b},
-  A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
-\]
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
+%\[
+%  \forall b \in \Gamma, \forall (A;B), (A';B') \in \GRNallres{b},
+%  A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
+%\]
+$\forall b \in \Gamma$,
+$\forall X^+ \subset \{ a \in \Gamma \mid \GRNedge{a}{+}{t}{b} \in E_+ \}$,
+$\forall X^- \subset \{ a \in \Gamma \mid \GRNedge{a}{-}{t}{b} \in E_- \}$,
+%A \subset A' \wedge B' \subset B \Rightarrow
+$K_{b,\omega \cup X^-} \leq_{[]} K_{b,\omega \cup X^+}$
 \end{property}
 
 \begin{comment}
@@ -170,6 +175,8 @@ inferred parameters} iff it is admissible and that all parameters that can be in
 \subsection{Answer Set Programming implementation concepts}
 
 \rewrite{This whole subsection may be completed, or turned into a new section}
+
+\todo{Rewrite implementation with the new semantics}
 
 \newcommand{\ti}[1]{\texttt{\textit{#1}}}
 \newcommand{\aspil}[1]{\texttt{#1}}
