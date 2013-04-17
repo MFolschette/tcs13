@@ -1,5 +1,7 @@
 % Macros spécifiques au Modèle de Thomas / aux RRB
 
+\newcommand{\sN}{\mathbb{N}}
+
 % Notations pour le modèle de Thomas (depuis thèse)
 \newcommand{\GRN}{\mathcal{GRN}}
 \newcommand{\IG}{\mathcal{G}}
@@ -9,10 +11,12 @@
 %\newcommand{\GRNallres}[1]{\mathsf{Res}_{#1}}
 \newcommand{\GRNallres}[1]{\textcolor{red}{\mathsf{Res}_{#1}}}
 \newcommand{\GRNget}[2]{\PHget{#1}{#2}}
-\newcommand{\GRNetat}[1]{\PHetat{#1}}
+\newcommand{\GRNstate}[1]{\PHetat{#1}}
+\newcommand{\GRNstates}{\mathcal{S}}
 \newcommand{\GRNedgef}[4]{#1 \xrightarrow{#2 #3} #4}
 \newcommand{\GRNedge}[4]{\GRNedgef{#1}{#2,}{#3}{#4}}
 \newcommand{\GRNtrans}[2]{#1 \rightarrow #2}
+\newcommand{\uns}{\pm}
 
 \def\levelsl{\mathsf{levels}}
 \def\levels#1#2{\levelsl(#1\rightarrow #2)}

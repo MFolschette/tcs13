@@ -1,8 +1,6 @@
 \subsection{Thomas' modeling}
 
 \todo{Find a new semantics that could tackle unsigned edges}
-\newcommand{\uns}{\pm}
-\newcommand{\sN}{\mathbb{N}}
 
 We concisely present Thomas' modeling of BRNs dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
@@ -54,9 +52,27 @@ $\exists a \xrightarrow{s', t'} b \in E \Rightarrow s = s' \wedge t = t'$.
 %and $\nexists a \xrightarrow{t'} b \in E_-\text{ (resp. $E_+$)}, t' \in \mathbb{N}$.
 \end{definition}
 
+Given this definition, we denote as a shortcut:
+$E_s = \{ \GRNedge{a}{s}{t}{b} \in E \}$
+for $s \in \{ +, -, \uns \}$.
+Furthermore, for all component $a \in \Gamma$, 
+we denote $\GRNreg{a}$ the set of its regulators as defined in \pref{eq:grn-regulators}.
+\[
+  \label{eq:grn-regulators}
+  \GRNreg{a} \DEF \{ b\in\Gamma\mid \exists \GRNedge{b}{s}{t}{a} \in E \}
+\]
+We allow any number of levels for the components, without considering the number of outgoing edges,
+as the number of processes in a PH sort is not constrained in any way.
+\rewrite{Detail}
+%$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
+%E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
+%of its positive (resp. negative) regulators; and
+%$\GRNreg{a} = E_+(a)\cup E_-(a)$ the set of its regulators.
+
 \begin{definition}[Effective levels ($\levelsl$)]\label{def:levels}
-Let $(\Gamma,E)$ be an IG and $a, b \in \Gamma$ two of its components.
-If $\GRNedge{a}{s}{t}{b} \in E$, we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
+%Let $(\Gamma,E)$ be an IG and $a, b \in \Gamma$ two of its components.
+Let $b \in \Gamma$ and $a \in \GRNreg{a}$;
+we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
 %%%
 %\begin{itemize}
 %  \item if $a \xrightarrow{t} b \in E_+$, $\levelsA{a}{b} \DEF [t; l_a]$ and
@@ -70,27 +86,20 @@ If $\GRNedge{a}{s}{t}{b} \in E$, we define: $\levels{a}{b} \DEF [t; l_a]$ and $\
 %\end{itemize}
 \end{definition}
 
-Given this definition, we denote:
-$E_s = \{ \GRNedge{a}{s}{t}{b} \in E \}$
-for $s \in \{ +, -, \uns \}$.
-Furthermore,
-for all component $a \in \Gamma$, 
-$\GRNreg{a} \DEF \{ b\in\Gamma\mid \exists \GRNedge{b}{s}{t}{a} \in E \}$
-is the set of its regulators.
-We allow any number of levels for the components, without considering the number of outgoing edges,
-as the number of processes in a PH sort is not constrained in any way.
-%$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
-%E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
-%of its positive (resp. negative) regulators; and
-%$\GRNreg{a} = E_+(a)\cup E_-(a)$ the set of its regulators.
-
 \begin{example*}
 \pref{fig:runningBRN}(left) represents an Interaction Graph $(\Gamma,E)$ with
-$\Gamma = \{a, b, c\}$,
-$E_+ = \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}\}$,
-$E_- = \{\GRNedgef{a}{-}{2}{b}\}$ and
-$E_\uns = \emptyset$;
-hence $\GRNreg{a} = \{b, c\}$.
+$\Gamma = \{a, b, c\}$ and
+\begin{align*}
+  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}\} &
+  E_\uns &= \emptyset \\
+  E_- &= \{\GRNedgef{a}{-}{2}{b}\}
+\end{align*}
+Hence:
+\begin{align*}
+  \GRNreg{a} &= \{ b, c \} &
+  \GRNreg{b} &= \{ a \} \\
+  \GRNreg{c} &= \emptyset
+\end{align*}
 %This IG can represent the same behavior as the PH given in \pref{fig:runningPH-2}.
 \end{example*}
 
@@ -117,10 +126,10 @@ hence $\GRNreg{a} = \{b, c\}$.
 \begin{minipage}{0.6\linewidth}
 \centering
 \begin{align*}
-K_{a,\{b,c\},\emptyset} &= [2 ; 2] & K_{b,\{a\},\emptyset} &= [0 ; 1] \\
-K_{a,\{b\},\{c\}} &= [1 ; 1] & K_{b,\emptyset,\{a\}} &= [0 ; 0] \\
-K_{a,\{c\},\{b\}} &= [1 ; 1] &&\\
-K_{a,\emptyset,\{b,c\}} &= [0 ; 0] & K_{c,\emptyset,\emptyset} &= [0 ; 1]
+K_{a,\{b,c\}} &= [2 ; 2] & K_{b,\emptyset} &= [0 ; 1] \\
+K_{a,\{b\}} &= [1 ; 1] & K_{b,\{a\}} &= [0 ; 0] \\
+K_{a,\{c\}} &= [1 ; 1] &&\\
+K_{a,\emptyset} &= [0 ; 0] & K_{c,\emptyset} &= [0 ; 1]
 \end{align*}
 \end{minipage}
 \caption{\label{fig:runningBRN}
@@ -137,8 +146,9 @@ Example parametrization of the left IG.
 }
 \end{figure}
 
-A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\prod_{a \in \Gamma} [0;l_a]$.
+A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\GRNstates \DEF \prod_{a \in \Gamma} [0;l_a]$.
 $\GRNget{s}{a}$ refers to the level of component $a$ in $s$.
+\rewrite{Functional definition of a state? (More rigorous)}
 The specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
 focal level interval towards which the component will evolve in each configuration of its regulators
 (\pref{def:param}).
@@ -149,14 +159,16 @@ referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
 \new{No more $A,B$ but sets $\omega$ of resources instead. Definitions of $K$ were adapted.}
 
 \begin{definition}[Resources $\GRNres{a}{s}$]\label{def:resources}
-For a given state $s$ of a BRN, we define the set of \emph{resources} of a component $a$ in $s$ as $\GRNres{a}{s}$, where:
+For a given component $a \in \Gamma$ and a state $s \in \GRNstates$,
+the set of regulators of $a$ whose level in $s$ is above the required threshold to regulate $a$
+is called the set of \emph{resources} of $a$ in $s$ and is noted $\GRNres{a}{s}$:
 %\begin{align*}
 %  A &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsA{b}{a}\} \\
 %  B &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsI{b}{a}\}
 %\end{align*}
 $$\GRNres{a}{s} = \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}$$
 %We also denote: $\GRNallres{a} = \{(A;B) \mid \exists s \in \textstyle\prod_{a \in \Gamma} [0;l_a], \GRNres{a}{s} = A,B\}$
-We also denote: $\GRNallres{a} = \{ \omega \subset \GRNreg{a} \}$
+%We also denote: $\GRNallres{a} = \{ \omega \subset \GRNreg{a} \}$
 \end{definition}
 
 \begin{definition}[Discrete parameter $K_{a,\omega}$ and Parametrization $K$]\label{def:param}
@@ -180,12 +192,13 @@ At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thom
 From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one level towards $K_{a,\GRNres{a}{s}}$,
 as stated by the definition of the transition relation $\GRNtrans{s}{s'}$.
 
+\new{Use a transition relation instead of an indeterministic function.}
+
 \begin{definition}[Asynchronous dynamics]\label{def:dynamics}
-The dynamics of a BRN using Thomas' parameters is defined by the transition relation $\GRNtrans{}{} \in \prod_{a \in \Gamma} [0;l_a] \times \prod_{a \in \Gamma} [0;l_a]$:
-$\forall s, s' \in \prod_{a \in \Gamma} [0;l_a]$,
+The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{} \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
-\GRNtrans{s}{s'} &\Leftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
-  & \qquad \wedge \forall b \in \Gamma, b \neq a \Rightarrow \GRNget{s}{b} = \GRNget{s'}{b}
+  \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
+    & \qquad \wedge \forall b \in \Gamma, b \neq a \Rightarrow \GRNget{s}{b} = \GRNget{s'}{b}
 \end{align*}
 with: $f^a(s) = 
   \begin{cases}
@@ -214,12 +227,12 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 While the use of intervals as parameter values does not add expressivity in boolean
 networks, it allows to specify a larger range of dynamics in the general case (w.r.t. the above
 definitions).
-Indeed, assume that $K_{a,A,B} = [i ; i+2]$;
-we aim at obtaining three different parameters $K_{a,A_1,B_1} = i$,  $K_{a,A_2,B_2} = i+1$,
-$K_{a,A_3,B_3} = i+2$.
+Indeed, assume that $K_{a,\omega} = [i ; i+2]$;
+we aim at obtaining three different parameters $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
 The only possible modification in resources is to add $a$ as a self-regulator.
-However, because resources have a boolean definition (a component is either an activator or an inhibitor of
-$a$), it is not possible to differentiate the 3 values.
+However, because resources have a boolean definition,
+%(a component is either an activator or an inhibitor of $a$),
+it is not possible to differentiate the 3 values.
 We also remark that the use of intervals makes optional some explicit auto-activations in the IG
 (as for $b$ in \pref{fig:runningBRN}, for instance).
 \rewrite{Detail the reason of using interval parameters}
@@ -227,10 +240,10 @@ We also remark that the use of intervals makes optional some explicit auto-activ
 \begin{example*}
 In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
 transitions are possible given the semantics defined in \pref{def:dynamics}:
-$\GRNetat{a_0, b_1, c_1} \rightarrow \GRNetat{a_1, b_1, c_1} \rightarrow \GRNetat{a_2, b_1, c_1} \rightarrow
-\GRNetat{a_2, b_0, c_1} \rightarrow \GRNetat{a_1, b_0, c_1}$,
+$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNstate{a_2, b_1, c_1} \rightarrow
+\GRNstate{a_2, b_0, c_1} \rightarrow \GRNstate{a_1, b_0, c_1}$,
 ending in a steady state,
-where $a_i$ is the component $a$ at level $i$.
-As $K_{b,\{a\},\emptyset} = [0 ; 1]$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
+where $a_i$ denotes the component $a$ at level $i$.
+As $K_{b,\emptyset} = [0 ; 1]$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
 \end{example*}
 
