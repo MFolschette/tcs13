@@ -15,7 +15,10 @@ which implies that the inferred IG does not contain any unsigned interactions, a
 regular IG $(\Gamma, E_+, E_-)$,
 and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behavior
 regarding $a$.
-\begin{property}[\new{Well-formed PH for parameter inference}]\label{pro:wf-ph-K}
+
+\new{Changed $\levelsA{a}{b}$ and $\levelsI{a}{b}$ into $\levels{a}{b}$ in \pref{eq:wf-levels} and \pref{eq:param_context}.}
+
+\begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
 it is well-formed for IG inference, and
 the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
@@ -107,6 +110,8 @@ of the value of the parameter in the matching context.
 Thus, assuming \pref{pro:wf-ph-K} holds, any transition in the inferred BRN corresponds to at least
 one transition in the PH, proving the correctness of our inference.
 We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
+
+\new{Update all assumptions.}
 
 \begin{property}[Parameter validity]\label{pro:K-valid}
 A parameter $K_{a,\omega}$ is valid w.r.t. the PH iff the following equation is verified:

@@ -30,7 +30,10 @@ We call $\levels{a}{b}$ the levels of $a$ above the threshold of $\GRNedge{a}{s}
 $l_a$ denotes the maximum level of $a$.
 %For the sake of simplicity and to establish a parallel with PH, if $a$ represents a component, we call $a_i$ its $i^\text{th}$ expression level.
 
-\begin{definition}[\new{Interaction Graph}]
+\new{Added unsigned edges ($\uns$) that stand for an unknown king of regulation.
+The definition of $\levels{a}{b}$ now gives the levels for which $a$ regulates $b$ (i.e. $a > t$), independently from the regulation sign.}
+
+\begin{definition}[Interaction Graph]
 \label{def:ig}
 %An \emph{Interaction Graph} (IG) is a quadruplet $(\Gamma, E_+, E_-, E_\uns)$ where $\Gamma$ is a finite number of \emph{components},
 %and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [1; l_a]\}$
@@ -51,7 +54,7 @@ $\exists a \xrightarrow{s', t'} b \in E \Rightarrow s = s' \wedge t = t'$.
 %and $\nexists a \xrightarrow{t'} b \in E_-\text{ (resp. $E_+$)}, t' \in \mathbb{N}$.
 \end{definition}
 
-\begin{definition}[\new{Effective levels ($\levelsl$)}]\label{def:levels}
+\begin{definition}[Effective levels ($\levelsl$)]\label{def:levels}
 Let $(\Gamma,E)$ be an IG and $a, b \in \Gamma$ two of its components.
 If $\GRNedge{a}{s}{t}{b} \in E$, we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
 %%%
@@ -143,6 +146,8 @@ Indeed, for each possible state of a BRN, all regulators of a component $a$ can 
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
 
+\new{No more $A,B$ but sets $\omega$ of resources instead. Definitions of $K$ were adapted.}
+
 \begin{definition}[Resources $\GRNres{a}{s}$]\label{def:resources}
 For a given state $s$ of a BRN, we define the set of \emph{resources} of a component $a$ in $s$ as $\GRNres{a}{s}$, where:
 %\begin{align*}
@@ -175,8 +180,8 @@ At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thom
 From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one level towards $K_{a,\GRNres{a}{s}}$,
 as stated by the definition of the transition relation $\GRNtrans{s}{s'}$.
 
-\begin{definition}[\new{Asynchronous dynamics}]\label{def:dynamics}
-The dynamics of a BRN using Thomas' parameters is defined by the transition relation $\GRN{}{} \in \prod_{a \in \Gamma} [0;l_a] \times \prod_{a \in \Gamma} [0;l_a]$:
+\begin{definition}[Asynchronous dynamics]\label{def:dynamics}
+The dynamics of a BRN using Thomas' parameters is defined by the transition relation $\GRNtrans{}{} \in \prod_{a \in \Gamma} [0;l_a] \times \prod_{a \in \Gamma} [0;l_a]$:
 $\forall s, s' \in \prod_{a \in \Gamma} [0;l_a]$,
 \begin{align*}
 \GRNtrans{s}{s'} &\Leftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
