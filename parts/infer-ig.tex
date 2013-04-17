@@ -353,13 +353,14 @@ sign. If an influence is both positive and negative, we infer an unsigned edge. 
 threshold of each edge is the minimum threshold for which the influence has been found. As unsigned
 edges represent ambiguous interactions, no threshold is inferred.
 \begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
-We infer $\IG = (\Gamma,E_+,E_-,E_\pm)$ from \pref{pps:inference-edges} as follows:
+We infer $\IG = (\Gamma,E)$ from \pref{pps:inference-edges} as follows:
 \begin{align*}
-E_+ &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
+E_+ &= \{ \GRNedge{a}{+}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
-E_- &= \{a \xrightarrow{t} b \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
+E_- &= \{ \GRNedge{a}{-}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
   \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
-E_\pm &= \{a \rightarrow b \mid \exists a \xrightarrow{t} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t'} b \in \hat{E}_-\} \\
+E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t''} b \in \hat{E}_-
+  \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_- \cup \hat{E}_+\}\} \\
 \end{align*}
 \end{proposition}
 
