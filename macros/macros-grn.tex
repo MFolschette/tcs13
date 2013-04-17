@@ -6,13 +6,20 @@
 %\def\IG{\mathrm{IG}}
 \newcommand{\GRNreg}[1]{\Gamma^{-1}(#1)}
 \newcommand{\GRNres}[2]{\mathsf{Res}_{#1}(#2)}
-\newcommand{\GRNallres}[1]{\mathsf{Res}_{#1}}
+%\newcommand{\GRNallres}[1]{\mathsf{Res}_{#1}}
+\newcommand{\GRNallres}[1]{\textcolor{red}{\mathsf{Res}_{#1}}}
 \newcommand{\GRNget}[2]{\PHget{#1}{#2}}
 \newcommand{\GRNetat}[1]{\PHetat{#1}}
+\newcommand{\GRNedgef}[4]{#1 \xrightarrow{#2 #3} #4}
+\newcommand{\GRNedge}[4]{\GRNedgef{#1}{#2,}{#3}{#4}}
+\newcommand{\GRNtrans}[2]{#1 \rightarrow #2}
 
-\def\levels{\mathsf{levels}}
-\def\levelsA#1#2{\levels_+(#1\rightarrow #2)}
-\def\levelsI#1#2{\levels_-(#1\rightarrow #2)}
+\def\levelsl{\mathsf{levels}}
+\def\levels#1#2{\levelsl(#1\rightarrow #2)}
+%\def\levelsA#1#2{\levels_+(#1\rightarrow #2)}
+%\def\levelsI#1#2{\levels_-(#1\rightarrow #2)}
+\def\levelsA#1#2{\textcolor{red}{\levelsl_+(#1\rightarrow #2)}}
+\def\levelsI#1#2{\textcolor{red}{\levelsl_-(#1\rightarrow #2)}}
 %\newcommand{\PHres}{\mathsf{Res}}
 
 \newcommand{\Kinconnu}{\emptyset}
