@@ -9,11 +9,12 @@ set of inferred parameters, the PH dynamics and some biological constraints on p
 
 \todo{Try to address the inference of parameters despite unsigned edges}
 
-This subsection presents some results related to the inference of independent discrete parameters from a given PH. These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
+This subsection presents some results related to the inference of independent discrete parameters from a given PH.
+These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
 In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
 which implies that the inferred IG does not contain any unsigned interactions, and thus can be seen as the
-regular IG $(\Gamma, E_+, E_-)$,
-and that any processes in $\levelsA{b}{a}$ (resp. $\levelsI{b}{a}$) share the same behavior
+regular IG $(\Gamma, E)$,
+and that any processes in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior
 regarding $a$.
 
 \new{Changed $\levelsA{a}{b}$ and $\levelsI{a}{b}$ into $\levels{a}{b}$ in \pref{eq:wf-levels} and \pref{eq:param_context}.}
@@ -83,9 +84,9 @@ If $\focals(a,C^a_{a,\omega},C_{a,\omega})=[a_i;a_j]$ is a non-empty interval,
 
 \begin{example*}
 Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
-$K_{b,\{a\},\emptyset} = [0 ; 1]$ and
-$K_{a,\{b,c\},\emptyset} = [2 ; 2]$,
-while $K_{a,\{b\},\{c\}}$ can not be inferred.
+$K_{b,\emptyset} = [0 ; 1]$ and
+$K_{a,\{b,c\}} = [2 ; 2]$,
+while $K_{a,\{b\}}$ can not be inferred.
 For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
 \end{example*}
 
