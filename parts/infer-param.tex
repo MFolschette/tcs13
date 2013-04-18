@@ -22,13 +22,13 @@ regarding $a$.
 \begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
 it is well-formed for IG inference, and
-the IG $(\Gamma, E_+, E_-, E_\pm)$ inferred by \pref{pps:inference-IG}
-verifies $E_\pm=\emptyset$ and if the following property holds:
+the IG $(\Gamma, E)$ inferred by \pref{pps:inference-IG}
+verifies the following property:
 \begin{align}
 \begin{split}
 \forall b\in \GRNreg{a} &,
 	\forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
-& \qquad	\forall c, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
+& \qquad \forall c \in \Gamma, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
 & \qquad \qquad
 			\PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
 				\PHfrappe{b_j}{c_k}{c_l}\in\PHa
