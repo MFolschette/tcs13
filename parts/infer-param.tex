@@ -14,8 +14,6 @@ which implies that the inferred IG does not contain any unsigned interactions, a
 regular IG $(\Gamma, E)$,
 and that any processes in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior
 regarding $a$.
-%
-%\new{Changed $\levelsA{a}{b}$ and $\levelsI{a}{b}$ into $\levels{a}{b}$ in \pref{eq:wf-levels} and \pref{eq:param_context}.}
 
 \begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
@@ -23,20 +21,18 @@ it is well-formed for IG inference, and
 the IG $(\Gamma, E)$ inferred by \pref{pps:inference-IG}
 verifies the following property:
 \begin{align*}
-\begin{split}
-\forall a \in \Gamma, \forall b\in \GRNreg{a}&,
-	\forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
-& \quad \forall c \in \Gamma, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
-& \qquad
-			\PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
-				\PHfrappe{b_j}{c_k}{c_l}\in\PHa
-\end{split}
-%\label{eq:wf-levels}
+  \begin{split}
+  \forall a \in \Gamma, \forall b\in \GRNreg{a}&,
+          \forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
+  & \quad \forall c \in \Gamma, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
+  & \qquad
+                          \PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
+                                  \PHfrappe{b_j}{c_k}{c_l}\in\PHa
+  \end{split}
 \end{align*}
 \end{property}
 
 Let $K_{a,\omega}$ be the parameter we want to infer for a given component $a \in \Gamma$
-%and $A,B \in \GRNallres{a}$ a configuration of resources of $a$ (activators and inhibitors).
 and $\omega \subset \GRNreg{a}$ a set of its regulators.
 This inference, as for the IG inference, relies on the search of focal processes of the component for the given configuration of its regulators.
 
@@ -45,21 +41,21 @@ The context of a cooperative sort $\upsilon$ that regulates $a$ is given in
 \pref{eq:param_context_coop} as the set of focal processes matching the current configuration.
 $C_{a,\omega}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
 \begin{align}
-\label{eq:param_context}
-\forall b\in\Gamma,~
-C_{a,\omega}^b & \DEF \begin{cases}
-  \levels{b}{a} & \text{if $b \in \omega$,}\\
-  \ulevels{b}{a} & \text{if $b \notin \omega$,}\\
-  L_b            & \text{otherwise;}\\
-\end{cases}
-\\
-\label{eq:param_context_coop}
-\forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
-C_{a,\omega}^\upsilon & \DEF \{
-\upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,\omega}^c \}
-\\
-C_{a,\omega} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,\omega}
-\label{eq:K-ctx}
+  \label{eq:param_context}
+  \forall b\in\Gamma,~
+  C_{a,\omega}^b & \DEF \begin{cases}
+    \levels{b}{a} & \text{if $b \in \omega$,}\\
+    \ulevels{b}{a} & \text{if $b \notin \omega$,}\\
+    L_b            & \text{otherwise;}\\
+  \end{cases}
+  \\
+  \label{eq:param_context_coop}
+  \forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
+  C_{a,\omega}^\upsilon & \DEF \{
+  \upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,\omega}^c \}
+  \\
+  C_{a,\omega} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,\omega}
+  \label{eq:K-ctx}
 \end{align}
 
 The parameter $K_{a,\omega}$ specifies to which values $a$ eventually evolves as long as the context
@@ -75,9 +71,7 @@ Hence $K_{a,\omega} = \focals(a,C^a_{a,\omega},C_{a,\omega})$ if this latter is 
 Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
-%If $\focals(a,C_{a,A,B})$ is a non-empty interval, then $K_{a,A,B} = \focals(a, C_{a,A,B})$.
-If $\focals(a,C^a_{a,\omega},C_{a,\omega})=[a_i;a_j]$ is a non-empty interval, 
-	then $K_{a,\omega} = [i;j]$.
+If $\focals(a,C^a_{a,\omega},C_{a,\omega})=[a_i;a_j]$ is a non-empty interval, then $K_{a,\omega} = [i;j]$.
 \end{proposition}
 
 \begin{example*}
@@ -109,71 +103,46 @@ of the value of the parameter in the matching context.
 Thus, assuming \pref{pro:wf-ph-K} holds, any transition in the inferred BRN corresponds to at least
 one transition in the PH, proving the correctness of our inference.
 We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
-%
-%\new{Update all assumptions.}
 
 \begin{property}[Parameter validity]\label{pro:K-valid}
-A parameter $K_{a,\omega}$ is valid w.r.t. the PH iff the following equation is verified:
+A parameter $K_{a,\omega}$ is valid w.r.t. the PH if and only if the following equation is verified:
 \begin{align*}
-\forall a_i\in C^a_{a,\omega},
-		a_i \notin K_{a,\omega} \Longrightarrow (
-  \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, & c_k \in C^c_{a,\omega} \\
- \wedge a_i < K_{a,\omega} \Rightarrow j > i 
- & \wedge  a_i > K_{a,\omega} \Rightarrow j <i )
+  \forall a_i\in C^a_{a,\omega}, a_i \notin K_{a,\omega} \Longrightarrow
+    (& \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, c_k \in C^c_{a,\omega} \\
+     & \wedge a_i < K_{a,\omega} \Rightarrow j > i \wedge  a_i > K_{a,\omega} \Rightarrow j <i )
 \end{align*}
 \end{property}
-		
 
 Then, we use some additional biological constraints on Thomas' parameters given in
 \cite{BernotSemBRN}, that we sum up in the following three properties:
 
 \begin{property}[Extreme values assumption]
-Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} iff:
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} if and only if:
 \label{prop:param_enum_extreme}
-\[
+\begin{align*}
   \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Longrightarrow \exists \omega \subset \GRNreg{b}, 0 \in K_{b,\omega} \wedge \exists \omega' \subset \GRNreg{b}, l_b \in K_{b,\omega'}
-\]
+\end{align*}
 \end{property}
 
 \begin{property}[Activity assumption]
 \label{prop:param_enum_activity}
-Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} iff:
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{activity assumption} if and only if:
 \begin{align*}
-%  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A,B} <_{[]} K_{b,A \cup \{b\},B \setminus \{b\}}
-%\\
-%  \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists (A;B) \in \GRNallres{a}, K_{b,A \setminus \{b\},B \cup \{b\}} <_{[]} K_{b,A,B}
   \forall b \in \Gamma, \forall a \in \GRNreg{b}, \exists \omega \subset \GRNreg{b}, K_{b,\omega} \neq K_{b,\omega \cup \{ a \}}
 \end{align*}
 \end{property}
 
 \begin{property}[Monotonicity assumption]
 \label{prop:param_enum_monotonicity}
-Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} iff:
-%\[
-%  \forall b \in \Gamma, \forall (A;B), (A';B') \in \GRNallres{b},
-%  A \subset A' \wedge B' \subset B \Rightarrow K_{b,A,B} \leq_{[]} K_{b,A',B'}
-%\]
-$\forall b \in \Gamma$,
-$\forall X^+ \subset \{ a \in \Gamma \mid \GRNedge{a}{+}{t}{b} \in E_+ \}$,
-$\forall X^- \subset \{ a \in \Gamma \mid \GRNedge{a}{-}{t}{b} \in E_- \}$,
-%A \subset A' \wedge B' \subset B \Rightarrow
-$K_{b,\omega \cup X^-} \leq_{[]} K_{b,\omega \cup X^+}$
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{monotonicity assumption} if and only if:
+\begin{align*}
+  \forall b \in \Gamma,
+  \forall A^+ \subset \{ a \in \Gamma \mid \GRNedge{a}{+}{t}{b} \in E_+ \}&,
+  \forall A^- \subset \{ a \in \Gamma \mid \GRNedge{a}{-}{t}{b} \in E_- \},\\
+  K_{b,\omega \cup A^-} & \leq_{[]} K_{b,\omega \cup A^+}
+\end{align*}
 \end{property}
 
-\begin{comment}
-\begin{definition}[Admissible parametrization \& Admissible parametrization with respect to inferred parameters]
-\label{def:param_enum_inf}
-Let $\PH = (\PHs, \PHl, \PHh)$ be a PH so that IG inference is possible, and $\IG = (\Gamma, E_+,
-E_-)$ the inferred IG.
-A parametrization $K$ on $\IG$ is said to be \emph{admissible} iff it respects
-the extreme values assumption, the activity assumption and the monotonicity assumption.
-A parametrization $K$ on $\IG$ is said to be \emph{admissible with respect to the
-inferred parameters} iff it is admissible and that all parameters that can be inferred regarding
-\pref{pps:param_K} are equal to their inferred value.
-\end{definition}
-
-\todo{utilité de “Admissible parametrization” seul ?}
-\end{comment}
 
 
 \subsection{Answer Set Programming implementation concepts}

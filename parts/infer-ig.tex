@@ -83,20 +83,6 @@ However, in the scope of this paper, the particular contexts used with $\focals$
 Notably, the rest of this section uses only \emph{strict} contexts (\pref{def:strict-ctx}) which
 allow at most one hitter per sort in the bounce-wise sequences (and thus are present in $s$).
 
-\begin{comment}
-\begin{property}[$\focals$ reachability]\label{pro:focals-reach}
-$\focals(a,S_a,\ctx)$ is reachable if and only if 
-$\forall s\in L(\ctx\cup S_a)$,
-if $\exists h\in \PHa(S_a,\ctx)$ with $\PHtarget(h)\in s$,
-there exists a (possibly empty) sequence of actions
-$h^1,\dots,h^n \in \PHa(\ctx\cup S_a)$
-	such that $h^1,\dots,h^n,h$ are successively playable in $s$;
-where $\PHa(\ctx) \DEF \{ \PHfrappe{b_i}{c_j}{c_k}\in\PHa \mid c\neq a \wedge
-			b\in \PHsort(\ctx) \Rightarrow b_i\in \ctx \wedge c\in\PHsort(\ctx) \Rightarrow
-			c_i\in\ctx \}$.
-\end{property}
-\end{comment}
-
 \begin{definition}[Strict context for $S_a$]\label{def:strict-ctx}
 A context (set of processes) $\ctx$ is strict for $S_a\subseteq L_a$ if and only if
 $\{b_i,b_j\} \subset \ctx \wedge b\neq a \Rightarrow i=j$.
@@ -207,8 +193,6 @@ with $\Gamma = \{a,b,c\}$.
 
 
 \subsection{Interaction Inference}\label{ssec:infer-IG}
-
-%\todo{Try to use projections in order to perform the IG inference}
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
 ($\PHs \setminus \Gamma$) that will not appear in the IG. 
@@ -363,8 +347,6 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
   & \qquad\qquad\qquad \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_- \cup \hat{E}_+\}\}
 \end{align*}
 \end{proposition}
-%
-%\new{A threshold is inferred on unsigned edges that are now valid answers.}
 
 
 
