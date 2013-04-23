@@ -35,7 +35,7 @@ A \emph{Process Hitting} is a triple $(\PHs,\PHl,\PHa)$:
 \item $\PHl \DEF \prod_{a\in\PHs} \PHl_a$ is the set of states with $\PHl_a = \{a_0,\dots,a_{l_a}\}$
 the finite set of \emph{processes} of sort $a\in\Sigma$ and $l_a$ a positive integer with
 	$a\neq b\Rightarrow \forall(a_i,b_j)\in\PHl_a\times\PHl_b,a_i\neq b_j$;
-\item $\PHa \DEF \{ \PHfrappe{a_i}{b_j}{b_k}, \dots \mid
+\item $\PHa \DEF \{ \PHfrappe{a_i}{b_j}{b_k}, \ldots \mid
 					(a,b)\in\PHs^2 \wedge (a_i,b_j,b_k)\in \PHl_a\times\PHl_b\times\PHl_b$ \\
 	\hspace*{2cm} $\wedge b_j\neq b_k \wedge a=b\Rightarrow a_i=b_j\}$
 			is the finite set of \emph{actions}.
@@ -132,7 +132,7 @@ process ticked $0$ in the box $a$).
 An action (for instance $\PHfrappe{b_1}{a_1}{a_2}$) is represented by a pair of
 directed arcs, having the hit part ($b_1$ to $a_1$) in plain line and the bounce
 part ($a_1$ to $a_2$) in dotted line.
-Actions involving $b_1$ or $c_1$ are in thick lines.
+Here, actions involving $b_1$ or $c_1$ are in thick lines.
 %The current state is represented by the grayed processes:
 %$\state{a_0,b_1,c_0,d_0}$.
 }

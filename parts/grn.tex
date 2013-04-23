@@ -1,7 +1,5 @@
 \subsection{Thomas' modeling}
 
-\todo{Find a new semantics that could tackle unsigned edges}
-
 We concisely present Thomas' modeling of BRNs dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
 In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t. the presented
@@ -27,33 +25,31 @@ The uniqueness of these regulations makes the following sections simpler.
 We call $\levels{a}{b}$ the levels of $a$ above the threshold of $\GRNedge{a}{s}{t}{b}$;
 $l_a$ denotes the maximum level of $a$.
 %For the sake of simplicity and to establish a parallel with PH, if $a$ represents a component, we call $a_i$ its $i^\text{th}$ expression level.
-
-\new{Added unsigned edges ($\uns$) that stand for an unknown king of regulation.
-The definition of $\levels{a}{b}$ now gives the levels for which $a$ regulates $b$ (i.e. $a > t$), independently from the regulation sign.}
+\rewrite{Rewrite + reference + add some glue}
+%\new{Added unsigned edges ($\uns$) that stand for an unknown king of regulation.
+%The definition of $\levels{a}{b}$ now gives the levels for which $a$ regulates $b$ (i.e. $a > t$), independently from the regulation sign.}
 
 \begin{definition}[Interaction Graph]
 \label{def:ig}
 %An \emph{Interaction Graph} (IG) is a quadruplet $(\Gamma, E_+, E_-, E_\uns)$ where $\Gamma$ is a finite number of \emph{components},
 %and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [1; l_a]\}$
 %is the set of positive (resp. negative) \emph{regulations} between two nodes, labeled with a \emph{threshold}.
-An \emph{Interaction Graph} (IG) is a quadruplet $(\Gamma, E)$ where $\Gamma$ is a finite number of \emph{components},
-and $E \subset \{ \GRNedge{a}{s}{t}{b} %\in \Gamma \times S \times \sN \times \Gamma 
-\mid a, b \in \Gamma \wedge s \in \{ +, -, \uns \} \wedge t \in [1; l_a]\}$
+An \emph{Interaction Graph} (IG) is a couple $(\Gamma, E)$ where $\Gamma$ is the finite set of \emph{components},
+and $E$
 %and $E_+$ (resp. $E_-$) $\subset \{a \xrightarrow{t} b \mid a, b \in \Gamma \wedge t \in [1; l_a]\}$
-is the set of 
+is the finite set of 
 %positive (resp. negative)
-\emph{regulations} between two nodes, labeled with a \emph{sign} and a \emph{threshold}.
-
+\emph{regulations} between two nodes, labeled with a \emph{sign} and a \emph{threshold}:
+$$E \DEF \{ \GRNedge{a}{s}{t}{b}, \ldots \mid a, b \in \Gamma \wedge s \in \{ +, -, \uns \} \wedge t \in [1; l_a]\}$$
 A regulation from $a$ to $b$ is uniquely referenced:
-$\forall \GRNedge{a}{s}{t}{b} \in E$, 
-$\exists a \xrightarrow{s', t'} b \in E \Rightarrow s = s' \wedge t = t'$.
+$$\forall \GRNedge{a}{s}{t}{b} \in E, \forall \GRNedge{a}{s'}{t'}{b} \in E, s = s' \wedge t = t' \enspace.$$
 %if $a \xrightarrow{t} b \in E_+$ (resp. $E_-$),
 %$\nexists a \xrightarrow{t'} b \in E_+ \text{ (resp. $E_-$)}, t' \neq t$
 %and $\nexists a \xrightarrow{t'} b \in E_-\text{ (resp. $E_+$)}, t' \in \mathbb{N}$.
 \end{definition}
 
 Given this definition, we denote as a shortcut:
-$E_s = \{ \GRNedge{a}{s}{t}{b} \in E \}$
+$E_s \DEF \{ \GRNedge{a}{s}{t}{b} \in E \}$
 for $s \in \{ +, -, \uns \}$.
 Furthermore, for all component $a \in \Gamma$, 
 we denote $\GRNreg{a}$ the set of its regulators as defined in \pref{eq:grn-regulators}.
@@ -61,9 +57,15 @@ we denote $\GRNreg{a}$ the set of its regulators as defined in \pref{eq:grn-regu
   \label{eq:grn-regulators}
   \GRNreg{a} \DEF \{ b\in\Gamma\mid \exists \GRNedge{b}{s}{t}{a} \in E \}
 \]
-We allow any number of levels for the components, without considering the number of outgoing edges,
+The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$, \ie the number of components that $a$ regulates.
+Indeed, each discrete expression level in $[0 ; l_a]$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
+Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
+on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
+However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
+In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
 as the number of processes in a PH sort is not constrained in any way.
-\rewrite{Detail}
+
+
 %$E_+(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in
 %E_+\}$ (resp. $E_-(a) = \{b \in \Gamma \mid \exists b \xrightarrow{t} a \in E_-\}$) denotes the set
 %of its positive (resp. negative) regulators; and
@@ -88,7 +90,7 @@ we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
 
 \begin{example*}
 \pref{fig:runningBRN}(left) represents an Interaction Graph $(\Gamma,E)$ with
-$\Gamma = \{a, b, c\}$ and
+$\Gamma = \{a, b, c\}$ and:
 \begin{align*}
   E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}\} &
   E_\uns &= \emptyset \\
@@ -137,8 +139,7 @@ K_{a,\emptyset} &= [0 ; 0] & K_{c,\emptyset} &= [0 ; 1]
 IG example.
 %Components are represented by nodes labeled with a name and possible expression levels.
 Regulations are represented by the edges labeled with their sign and threshold.
-For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $b \xrightarrow{1} a \in
-E_+$.
+For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $\GRNedgef{b}{+}{1}{a}$.
 %and means that if the level of expression of $b$ is equal to (i.e. above) 1, then $b$ activates $a$,
 %otherwise, $b$ inhibits $a$.
 (right)
@@ -155,10 +156,10 @@ focal level interval towards which the component will evolve in each configurati
 Indeed, for each possible state of a BRN, all regulators of a component $a$ can be divided into
 \emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
+%
+%\new{No more $A,B$ but sets $\omega$ of resources instead. Definitions of $K$ were adapted.}
 
-\new{No more $A,B$ but sets $\omega$ of resources instead. Definitions of $K$ were adapted.}
-
-\begin{definition}[Resources $\GRNres{a}{s}$]\label{def:resources}
+\begin{definition}[Resources ($\GRNreslabel$)]\label{def:resources}
 For a given component $a \in \Gamma$ and a state $s \in \GRNstates$,
 the set of regulators of $a$ whose level in $s$ is above the required threshold to regulate $a$
 is called the set of \emph{resources} of $a$ in $s$ and is noted $\GRNres{a}{s}$:
@@ -166,7 +167,7 @@ is called the set of \emph{resources} of $a$ in $s$ and is noted $\GRNres{a}{s}$
 %  A &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsA{b}{a}\} \\
 %  B &= \{b \in \Gamma \mid \GRNget{s}{b} \in \levelsI{b}{a}\}
 %\end{align*}
-$$\GRNres{a}{s} = \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}$$
+$$\GRNres{a}{s} \DEF \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}$$
 %We also denote: $\GRNallres{a} = \{(A;B) \mid \exists s \in \textstyle\prod_{a \in \Gamma} [0;l_a], \GRNres{a}{s} = A,B\}$
 %We also denote: $\GRNallres{a} = \{ \omega \subset \GRNreg{a} \}$
 \end{definition}
@@ -191,10 +192,10 @@ The complete map $K$ of discrete parameters for $\IG$ is called a \emph{parametr
 At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
 From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one level towards $K_{a,\GRNres{a}{s}}$,
 as stated by the definition of the transition relation $\GRNtrans{s}{s'}$.
+%
+%\new{Use a transition relation instead of an indeterministic function.}
 
-\new{Use a transition relation instead of an indeterministic function.}
-
-\begin{definition}[Asynchronous dynamics]\label{def:dynamics}
+\begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
 The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{} \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
   \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
@@ -224,18 +225,18 @@ The state that succeeds to $s$ is given by the indeterministic function $f(s)$:
 \end{comment}
 \end{definition}
 
-While the use of intervals as parameter values does not add expressivity in boolean
-networks, it allows to specify a larger range of dynamics in the general case (w.r.t. the above
-definitions).
+While the use of intervals as parameter values does not add expressivity in boolean networks,
+it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t. the above definitions).
 Indeed, assume that $K_{a,\omega} = [i ; i+2]$;
-we aim at obtaining three different parameters $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
-The only possible modification in resources is to add $a$ as a self-regulator.
-However, because resources have a boolean definition,
+we aim at obtaining the same dynamics with three different integer parameters instead: $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
+The only possible modification in the resources of $a$ is to add a self-regulation $\GRNedge{a}{s}{t}{a}$.
+However, because resources have a boolean definition
+(each component can be only below or above the threshold related to its regulation on $a$),
 %(a component is either an activator or an inhibitor of $a$),
-it is not possible to differentiate the 3 values.
-We also remark that the use of intervals makes optional some explicit auto-activations in the IG
+it is not possible to differentiate the 3 sets of resources $\omega_1$, $\omega_2$ and $\omega_3$
+by relying only on the regulation of $a$ on itself.
+Finally, with the same reasoning, we also remark that the use of intervals makes optional some explicit auto-activations in the IG
 (as for $b$ in \pref{fig:runningBRN}, for instance).
-\rewrite{Detail the reason of using interval parameters}
 
 \begin{example*}
 In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
