@@ -78,9 +78,9 @@ and discuss its implementation in ASP.
 and large biological models.
 
 \paragraph{Notations}
-$[i;j]$ is the set of integers $\{ i, i+1, \dots, j \}$;
-we note $[i_1;j_1] \leq_{[]} [i_2;j_2] \EQDEF (i_1\leq i_2\wedge j_1\leq j_2)$
-and $[i_1;j_1] <_{[]} [i_2;j_2] \EQDEF 
+$\segm{i}{j}$ is the set of integers $\{ i, i+1, \dots, j \}$.
+We note: $$\segm{i_1}{j_1} \leqsegm \segm{i_2}{j_2} \EQDEF (i_1\leq i_2\wedge j_1\leq j_2) \enspace,$$
+%and $$[i_1;j_1] \ltsegm [i_2;j_2] \EQDEF 
 %	[i_1;j_1] \leq_{[]} [i_2;j_2] \wedge (i_1\neq i_2 \vee j_1\neq j_2)$.
-(i_1<i_2 \wedge j_1\leq j_2) \vee (i_1\leq i_2\wedge j_1 < j_2)$.
-Given an integer $k$, $k<[i;j] \EQDEF k <i$ and $k>[i;j]\EQDEF k > j$.
+%(i_1<i_2 \wedge j_1\leq j_2) \vee (i_1\leq i_2\wedge j_1 < j_2)$$.
+and, given an integer $k$: $k < \segm{i}{j} \EQDEF k < i$ and $k > \segm{i}{j} \EQDEF k > j$.

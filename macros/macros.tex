@@ -74,5 +74,8 @@
 \def\EQDEF{\stackrel{\Delta}\Leftrightarrow}
 \def\SUBSETDEF{\stackrel{\Delta}\subset}
 
-\def\intervalless{<_{[]}}
-
+\newcommand{\segmllabel}{\llbracket}
+\newcommand{\segmrlabel}{\rrbracket}
+\newcommand{\segm}[2]{\segmllabel #1 ; #2 \segmrlabel}
+\newcommand{\leqsegm}{\leq_{\segmllabel\segmrlabel}}
+\newcommand{\ltsegm}{<_{\llbracket\rrbracket}}

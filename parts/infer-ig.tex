@@ -56,7 +56,7 @@ are given by:
 We note $\PHl(\ctx)$ the set of states $s\in L$ such that $\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$,
 where $\PHsort(\ctx)$ is the set of sorts with processes in $\ctx$.
 We say a sequence of actions $h^1,\dots,h^n$ is \emph{bounce-wise} if and only if
-$\forall m\in[1;n-1], \PHbounce(h^m)=\PHtarget(h^{m+1})$.
+$\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$.
 From \pref{def:focals}, it derives that:
 \begin{enumerate}
 \item if $\focals(a,S_a,\ctx)=\emptyset$, there exists a 
@@ -203,9 +203,9 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 \begin{align}
 \begin{split}
 \forall a \in \PHs, \PHpredec{a} &\DEF \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists
-(c^k)_{k \in [0;n]} \in \PHs^{n+1}, \\
+(c^k)_{k \in \segm{0}{n}} \in \PHs^{n+1}, \\
                                    & \quad \quad c^0 = b \wedge c^n = a \\
-                                   & \quad \quad \wedge \forall k \in \llbracket 0 ; n-1 \rrbracket,
+                                   & \quad \quad \wedge \forall k \in \segm{0}{n-1},
 								   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
 \end{split}
 \label{eq:ph_predec}
@@ -223,7 +223,8 @@ The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $
 relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
 $\upsilon$ are defined in $\sigma$.
 When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
-the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval}.
+the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval},
+where $\uplus$ stands for a union of states (which are sets of processes).
 Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
 always terminates.
 \begin{align}

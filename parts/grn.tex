@@ -27,7 +27,7 @@ $l_a$ denotes the maximum level of $a$.
 \label{def:ig}
 An \emph{Interaction Graph} (IG) is a couple $\IG = (\Gamma, E)$ with $\Gamma$ the finite set of \emph{components},
 and $E$ the finite set of \emph{regulations} between two nodes, labeled with a \emph{sign} and a \emph{threshold}:
-$$E \DEF \{ \GRNedge{a}{s}{t}{b}, \ldots \mid a, b \in \Gamma \wedge s \in \{ +, -, \uns \} \wedge t \in [1; l_a]\} \enspace,$$
+$$E \DEF \{ \GRNedge{a}{s}{t}{b}, \ldots \mid a, b \in \Gamma \wedge s \in \{ +, -, \uns \} \wedge t \in \segm{1}{l_a}\} \enspace,$$
 where a regulation from $a$ to $b$ is uniquely referenced:
 $$\forall \GRNedge{a}{s}{t}{b} \in E, \forall \GRNedge{a}{s'}{t'}{b} \in E, s = s' \wedge t = t' \enspace.$$
 \end{definition}
@@ -40,7 +40,7 @@ Furthermore, for all component $a \in \Gamma$, we denote $\GRNreg{a}$ the set of
   \GRNreg{a} \DEF \{ b\in\Gamma\mid \exists \GRNedge{b}{s}{t}{a} \in E \}
 \end{align}
 The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$, \ie the number of components that $a$ regulates.
-Indeed, each discrete expression level in $[0 ; l_a]$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
+Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
 Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
 on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
 However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
@@ -49,7 +49,7 @@ as the number of processes in a PH sort is not constrained in any way.
 
 \begin{definition}[Effective levels ($\levelsl$)]\label{def:levels}
 Let $b \in \Gamma$ and $a \in \GRNreg{a}$;
-we define: $\levels{a}{b} \DEF [t; l_a]$ and $\ulevels{a}{b} \DEF [0; t-1]$.
+we define: $\levels{a}{b} \DEF \segm{t}{l_a}$ and $\ulevels{a}{b} \DEF \segm{0}{t-1}$.
 \end{definition}
 
 \begin{example*}
@@ -91,10 +91,10 @@ Hence:
 \begin{minipage}{0.6\linewidth}
 \centering
 \begin{align*}
-K_{a,\emptyset} &= [0 ; 0] & K_{b,\emptyset} &= [0 ; 1] \\
-K_{a,\{b\}} &= [1 ; 1] & K_{b,\{a\}} &= [0 ; 0] \\
-K_{a,\{c\}} &= [1 ; 1] &&\\
-K_{a,\{b,c\}} &= [2 ; 2] & K_{c,\emptyset} &= [0 ; 1]
+K_{a,\emptyset} &= \segm{0}{0} & K_{b,\emptyset} &= \segm{0}{1} \\
+K_{a,\{b\}} &= \segm{1}{1} & K_{b,\{a\}} &= \segm{0}{0} \\
+K_{a,\{c\}} &= \segm{1}{1} &&\\
+K_{a,\{b,c\}} &= \segm{2}{2} & K_{c,\emptyset} &= \segm{0}{1}
 \end{align*}
 \end{minipage}
 \caption{\label{fig:runningBRN}
@@ -110,7 +110,7 @@ Example parametrization on the left IG.
 }
 \end{figure}
 
-A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\GRNstates \DEF \prod_{a \in \Gamma} [0;l_a]$.
+A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\GRNstates \DEF \prod_{a \in \Gamma} \segm{0}{l_a}$.
 $\GRNget{s}{a}$ refers to the level of component $a$ in $s$.
 \rewrite{Functional definition of a state? (More rigorous)}
 The specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
@@ -129,7 +129,7 @@ $$\GRNres{a}{s} \DEF \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}
 
 \begin{definition}[Parameter $K_{a,\omega}$ and Parametrization $K$]\label{def:param}
 For a given component $a \in \Gamma$, and $\omega \subset \GRNreg{a}$ a set of regulators of $a$,
-the \emph{parameter} $K_{a,\omega} = [i; j]$, with $0 \leq i \leq j \leq l_a$, is a non-empty interval towards which $a$ will tend
+the \emph{parameter} $K_{a,\omega} = \segm{i}{j}$, with $0 \leq i \leq j \leq l_a$, is a non-empty interval towards which $a$ will tend
 in the states where its resources are exactly the regulators in $\omega$.
 The complete map $K$ of parameters on $\IG$ is called a \emph{parametrization} on $\IG$.
 \end{definition}
@@ -157,7 +157,7 @@ with: $f^a(s) =
 
 While the use of intervals as parameter values instead of simple integers does not add expressivity in boolean networks,
 it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t. the above definitions).
-Indeed, assume that $K_{a,\omega} = [i ; i+2]$;
+Indeed, assume that $K_{a,\omega} = \segm{i}{i+2}$;
 we aim at obtaining the same dynamics with three different integer parameters instead: $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
 The only possible modification in the resources of $a$ is to add a self-regulation $\GRNedge{a}{s}{t}{a}$.
 However, because resources have a boolean definition
@@ -174,6 +174,6 @@ $\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNs
 \GRNstate{a_2, b_0, c_1} \rightarrow \GRNstate{a_1, b_0, c_1}$,
 ending in a steady state,
 where $a_i$ denotes the component $a$ at level $i$.
-As $K_{b,\emptyset} = [0 ; 1]$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
+As $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
 \end{example*}
 

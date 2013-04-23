@@ -71,15 +71,15 @@ Hence $K_{a,\omega} = \focals(a,C^a_{a,\omega},C_{a,\omega})$ if this latter is 
 Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
-If $\focals(a,C^a_{a,\omega},C_{a,\omega})=[a_i;a_j]$ is a non-empty interval, then $K_{a,\omega} = [i;j]$.
+If $\focals(a,C^a_{a,\omega},C_{a,\omega})=\segm{a_i}{a_j}$ is a non-empty interval, then $K_{a,\omega} = \segm{i}{j}$.
 \end{proposition}
 
 \begin{example*}
 Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
-$K_{b,\emptyset} = [0 ; 1]$ and
-$K_{a,\{b,c\}} = [2 ; 2]$,
+$K_{b,\emptyset} = \segm{0}{1}$ and
+$K_{a,\{b,c\}} = \segm{2}{2}$,
 while $K_{a,\{b\}}$ can not be inferred.
-For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $[1;1]$.
+For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $\segm{1}{1}$.
 \end{example*}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
@@ -139,7 +139,7 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
   \forall b \in \Gamma,
   \forall A^+ \subset \{ a \in \Gamma \mid \GRNedge{a}{+}{t}{b} \in E_+ \}&,
   \forall A^- \subset \{ a \in \Gamma \mid \GRNedge{a}{-}{t}{b} \in E_- \},\\
-  K_{b,\omega \cup A^-} & \leq_{[]} K_{b,\omega \cup A^+}
+  K_{b,\omega \cup A^-} & \leqsegm K_{b,\omega \cup A^+}
 \end{align*}
 \end{property}
 
@@ -202,11 +202,11 @@ An integrity constraint is a rule with no head, that makes an answer set unsatis
 Hence, if we suppose that:
 \begin{itemize}
   \item the \aspil{less\_active(\ti{a}, \ti{p}, \ti{q})} atom means that $K^\ti{p}_{\ti{a},A,B}$ stands for a configuration with less activating regulators than $K^\ti{q}_{\ti{a},A',B'}$ (\ie $A \subset A'$),
-  \item the \aspil{param\_inf(\ti{a}, \ti{p}, \ti{q})} atom means: $K^\ti{p}_{\ti{a},A,B} \leq_{[]} K^\ti{q}_{\ti{a},A',B'}$,
+  \item the \aspil{param\_inf(\ti{a}, \ti{p}, \ti{q})} atom means: $K^\ti{p}_{\ti{a},A,B} \leqsegm K^\ti{q}_{\ti{a},A',B'}$,
 \end{itemize}
 the monotonicity assumption is formulated as the following integrity constraint:
 \asp{:- less\_active(X, P, Q), not param\_inf(X, P, Q).}
-which removes all parametrization results where parameters $K^\aspil{P}_{\aspil{X},A,B}$ and $K^\aspil{Q}_{\aspil{X},A',B'}$ exist such that $A \subset A'$ and $K^\aspil{Q}_{\aspil{X},A',B'} <_{[]} K^\aspil{P}_{\aspil{X},A,B}$, thus violating the monotonicity assumption.
+which removes all parametrization results where parameters $K^\aspil{P}_{\aspil{X},A,B}$ and $K^\aspil{Q}_{\aspil{X},A',B'}$ exist such that $A \subset A'$ and $K^\aspil{Q}_{\aspil{X},A',B'} \ltsegm K^\aspil{P}_{\aspil{X},A,B}$, thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 This subsection succinctly described how we write ASP programs to represent a model and solve all steps of Thomas' modeling inference.
