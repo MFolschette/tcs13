@@ -2,7 +2,7 @@
 
 We concisely present Thomas' modeling of BRNs dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
-In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t. the presented
+In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
 inference),
 we propose the notion of unsigned edge modeling an interaction whose nature (activation or inhibition) is undefined,
 and we extend the classical parametrization formalism by setting parameters to intervals of values instead of single values.
@@ -14,14 +14,16 @@ mutual influences and the conditions of these influences.
 The \emph{parametrization} then specifies the levels towards which tends a component when a given
 configuration of its regulators applies.
 
-The IG is composed of nodes that represent components, and edges labeled with a threshold that stand
-for either positive or negative regulations (\pref{def:ig}).
-For such a regulation to take place, the expression level of its head component has to be higher than its threshold; otherwise, the opposite influence is expressed.
-The uniqueness of these regulations makes the following sections simpler.
-We call $\levels{a}{b}$ the levels of $a$ above the threshold of $\GRNedge{a}{s}{t}{b}$;
-$l_a$ denotes the maximum level of $a$.
-\rewrite{Discuss unsigned edges}
-\rewrite{Rewrite + reference + add some glue}
+The IG is composed of nodes that represent components,
+and edges labeled with a sign and a threshold that stand for regulations between these components (\pref{def:ig}).
+The activity, concentration rate or presence of each component in a given state of the system is modeled by a discrete value called \emph{expression level}.
+The maximum level of a component $a$ is denoted $l_a$.
+The sign of an edge denotes the kind of regulation it models: it can be positive ($+$), negative ($-$) or unsigned ($\uns$),
+the latter meaning that the nature (activation or inhibition) of the regulation is unknown.
+For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
+otherwise, the opposite influence is expressed.
+The uniqueness of each regulation is forced, in order to make the following sections simpler.
+The purpose of unsigned edges is discussed at the end of the current section.
 
 \begin{definition}[Interaction Graph]
 \label{def:ig}
@@ -34,22 +36,19 @@ $$\forall \GRNedge{a}{s}{t}{b} \in E, \forall \GRNedge{a}{s'}{t'}{b} \in E, s = 
 
 Given this definition, we denote as a shortcut:
 $E_s \DEF \{ \GRNedge{a}{s}{t}{b} \in E \}$ for $s \in \{ +, -, \uns \}$.
-Furthermore, for all component $a \in \Gamma$, we denote $\GRNreg{a}$ the set of its regulators as defined in \pref{eq:grn-regulators}.
+Furthermore, for all component $b \in \Gamma$, we denote $\GRNreg{b}$ the set of its regulators as defined in \pref{eq:grn-regulators}.
 \begin{align}
 \label{eq:grn-regulators}
-  \GRNreg{a} \DEF \{ b\in\Gamma\mid \exists \GRNedge{b}{s}{t}{a} \in E \}
+  \GRNreg{b} \DEF \{ b\in\Gamma\mid \exists \GRNedge{a}{s}{t}{b} \in E \}
 \end{align}
-The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$, \ie the number of components that $a$ regulates.
-Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
-Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
-on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
-However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
-In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
-as the number of processes in a PH sort is not constrained in any way.
+Then, for all component $a \in \GRNreg{b}$ regulating $b$,
+we denote $\levels{a}{b}$ (resp.~$\ulevels{a}{b}$) the levels of $a$ above (resp.~below) the threshold $t$ of the (unique) edge $\GRNedge{a}{s}{t}{b}$ (\pref{def:levels}).
+If the expression level of $a$ belongs to the interval $\levels{a}{b}$, then $a$ is expected to have the influence corresponding to the sign $s$ on $b$;
+if its expression level belongs to $\ulevels{a}{b}$, the opposite influence is expected.
 
 \begin{definition}[Effective levels ($\levelsl$)]\label{def:levels}
-Let $b \in \Gamma$ and $a \in \GRNreg{a}$;
-we define: $\levels{a}{b} \DEF \segm{t}{l_a}$ and $\ulevels{a}{b} \DEF \segm{0}{t-1}$.
+Let $b \in \Gamma$ and $a \in \GRNreg{a}$; we define:
+$$\levels{a}{b} \DEF \segm{t}{l_a} \quad \text{and} \quad \ulevels{a}{b} \DEF \segm{0}{t-1} \enspace.$$
 \end{definition}
 
 \begin{example*}
@@ -65,6 +64,10 @@ Hence:
   \GRNreg{a} &= \{ b, c \} &
   \GRNreg{b} &= \{ a \} \\
   \GRNreg{c} &= \emptyset
+\end{align*}
+We also have especially:
+\begin{align*}
+  \levels{a}{b} &= \segm{2}{2} & \ulevels{a}{b} &= \segm{0}{1}
 \end{align*}
 \end{example*}
 
@@ -103,7 +106,7 @@ IG example.
 Components are represented by nodes labeled with a name
 and regulations by edges labeled with their sign and threshold.
 For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $\GRNedgef{b}{+}{1}{a}$.
-This means that if the level of expression of $b$ is equal to (\ie above) 1, then $b$ activates $a$;
+This means that if the expression level of $b$ is equal to (\ie above) 1, then $b$ activates $a$;
 otherwise, $b$ inhibits $a$.
 (right)
 Example parametrization on the left IG.
@@ -133,6 +136,7 @@ the \emph{parameter} $K_{a,\omega} = \segm{i}{j}$, with $0 \leq i \leq j \leq l_
 in the states where its resources are exactly the regulators in $\omega$.
 The complete map $K$ of parameters on $\IG$ is called a \emph{parametrization} on $\IG$.
 \end{definition}
+The purpose of interval parameters is discussed at the end of this section.
 
 \begin{example*}
 \pref{fig:runningBRN}(right) gives a Parametrization on the IG of \pref{fig:runningBRN}(left).
@@ -155,7 +159,40 @@ with: $f^a(s) =
   \end{cases}$
 \end{definition}
 
-While the use of intervals as parameter values instead of simple integers does not add expressivity in boolean networks,
+\begin{example*}
+In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
+transitions are possible given the semantics defined in \pref{def:dynamics}:
+$$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNstate{a_2, b_1, c_1} \rightarrow
+\GRNstate{a_2, b_0, c_1} \rightarrow \GRNstate{a_1, b_0, c_1} \enspace,$$
+where $a_i$ denotes the component $a$ at level $i$.
+This sequence of states ends in a steady state: no evolution is possible in $\GRNstate{a_1, b_0, c_1}$.
+Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
+\end{example*}
+
+
+
+\paragraph{Discussion on maximum level restrictions}
+The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$ in the IG, \ie the number of components that $a$ regulates.
+Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
+Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
+on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
+However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
+In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
+as the number of processes in a PH sort is not constrained in any way.
+
+\paragraph{Discussion on unsigned edges}
+Unsigned edges allow to model regulations whom trend (activation or inhibition) is unknown.
+It has to be noted that using unsigned edges in addition to the regular positive and negative ones does not add expressivity to the framework.
+Indeed, signs have no impact on the parametrization (\pref{def:param}) or the dynamics (\pref{def:dynamics}).
+They do have an impact later in this paper, when admissible parametrizations are enumerated (\pref{ssec:admissible-K}).
+However, signs in an IG are useful to understand the trend of a regulation.
+PH actions are very atomistic and the inference of the underlying BRN proposed in \pref{sec:infer-IG}
+allows to find the global trends of all regulations between components,
+which may turn out to be difficult to perform by hand.
+As signs have no direct influence on the semantics, unsigned edges car prove convenient to model an IG with partial knowledge on some regulations.
+
+\paragraph{Discussion on interval parameters}
+While the use of intervals as parameter values ($K_{a,\omega} = \segm{i}{j}$) instead of simple integers ($K_{a,\omega} = i$) does not add expressivity in boolean networks,
 it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t. the above definitions).
 Indeed, assume that $K_{a,\omega} = \segm{i}{i+2}$;
 we aim at obtaining the same dynamics with three different integer parameters instead: $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
@@ -166,14 +203,3 @@ it is not possible to differentiate the 3 sets of resources $\omega_1$, $\omega_
 by relying only on the regulation of $a$ on itself.
 Finally, with the same reasoning, we also remark that the use of intervals makes optional some explicit auto-activations in the IG
 (as for $b$ in \pref{fig:runningBRN}, for instance).
-
-\begin{example*}
-In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
-transitions are possible given the semantics defined in \pref{def:dynamics}:
-$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNstate{a_2, b_1, c_1} \rightarrow
-\GRNstate{a_2, b_0, c_1} \rightarrow \GRNstate{a_1, b_0, c_1}$,
-ending in a steady state,
-where $a_i$ denotes the component $a$ at level $i$.
-As $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
-\end{example*}
-
