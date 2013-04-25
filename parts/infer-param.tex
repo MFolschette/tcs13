@@ -155,58 +155,80 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
 \newcommand{\aspil}[1]{\texttt{#1}}
 \newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
 
+\newcommand{\atom}{\mathbf}
+\newcommand{\la}{\leftarrow}
+\newcommand{\var}[1]{#1}
+\newcommand{\nota}{\neg}
+
 Answer Set Programming (ASP) \cite{Baral03} has been chosen to address the enumeration of all admissible parametrizations.
 The motivations are following:
 \begin{itemize}
   \item ASP efficiently tackles the inherent complexity of the models we use, thus allowing a fast execution of the formal tools defined in this paper,
   \item it is convenient to enumerate a large set of possible answers,
-  \item it allows us to easily constrain the answers according to some properties.
+  \item it allows to easily constrain the answers according to some properties.
 \end{itemize}
 We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
 
-All information describing the studied model (PH and inferred IG \& parameters) are expressed in ASP using facts.
-For functional purposes, we assign a unique label to each couple $A,B$ of activators and inhibitors of a given component, and in the following we note $K^p_{a,A,B}$ the parameter of component $a$ whose regulators $A,B$ are assigned to the label $p$.
-Then, to state the existence of a parameter $K^\ti{p}_{\ti{a},A,B}$, we use an atom named \aspil{param\_label} in the following fact:
-\asp{param\_label(\ti{a}, \ti{p}).}
+ASP is a logic programming paradigm based on a set of rules.
+A rule takes the form of:
+$$head \la body.$$
+where $head$ is an atom and $body$ is a series of atoms or negations of atoms.
+Solving an ASP program means finding an answer set, \ie a minimal set of atoms that fulfills all the rules.
+Several answer sets can be a solution to the same ASP program and a solver can be directed to enumerate them all.
+
+A rule with no $body$ part is called a fact, and its $head$ atom has to be present in all answer sets.
+For instance, all information describing the studied model (PH and inferred IG \& parameters) are expressed in ASP using facts.
+For functional purposes, we assign a unique label to every possible set of resources $\omega$ of a given component,
+and in the following we note $K^p_{a,\omega}$ the parameter of component $a$ whose set of resources $\omega$ is assigned to the label $p$.
+Then, to state the existence of a parameter $K^p_{a,\omega}$, an atom named $\atom{param\_label}$ is used in the following fact:
+$$\atom{param\_label}(a, p).$$
 
 Defining a set in ASP is equivalent to defining the rule for belonging to this set.
-For example, we define an atom \aspil{param\_act} that describes the set of active regulators of a given a parameter.
+For example, we define an atom $param\_act$ that describes the set of active regulators of a given a parameter.
 %of component \ti{a} and label \ti{p} (\ie the set $A$ of a parameter $K^\ti{p}_{\ti{a},A,B}$).
-Describing the activators of $K^\ti{p}_{\ti{a},\{\ti{b},\ti{c}\},\{\ti{d}\}}$ gives:
-\asp{param\_act(\ti{a}, \ti{p}, \ti{b}).
-\item[] param\_act(\ti{a}, \ti{p}, \ti{c}).}
-The absence of such a fact involving \ti{d} with label \ti{p} indicates that \ti{d} is an inhibitor in the configuration of regulators related to this parameter.
+Describing the activators of $K^p_{a,\{b,c\}}$ gives:
+\begin{align*}
+  \atom{param\_act}(a, p, b).&&
+  \atom{param\_act}(a, p, c).
+\end{align*}
+The absence of such a fact involving another potential regulator $d$ of $a$ with label $p$ indicates that $d$ is not in the set of resources related to this parameter.
+\rewrite{Find another example.}
 
 Rules allow more detailed declarations than facts as they have a body (right-hand part below) containing constraints and allowing to use variables, while facts only have a head (left-hand part).
 For instance, in order to define the set of expression levels of a component, we declare:
-\asp{component\_levels(X, 0..M) :- component(X, M).}
-where the \aspil{component(X, M)} atom stands for the existence of a component \aspil{X} with a maximum level \aspil{M}.
-Considering this declaration, any possible answer for the atom \aspil{component\_levels} will be found by binding all possible values of its two terms with all existing \aspil{component} facts: the existence of an answer \aspil{component\_levels(\ti{a}, \ti{k})} will depend on the existence of a term \ti{a}, which is bound with \aspil{X}, and an integer~\ti{k}, constrained by: $0 \leq \ti{k} \leq \aspil{M}$.
+$$\atom{component\_levels}(\var{X}, 0..\var{M}) \la \atom{component}(\var{X}, \var{M}).$$
+where the atom $\atom{component}(X, M)$ stands for the existence of a component $X$ with a maximum level $M$.
+Considering this declaration, any possible answer for the atom $\atom{component\_levels}$ will be found by binding all possible values of its two terms with all existing $\atom{component}$ facts:
+the existence of an answer $\atom{component\_levels}(a, k)$ will depend on the existence of a term $a$, which is bound with $\var{X}$, and an integer $k$, constrained by: $0 \leq k \leq \var{M}$.
 
 Cardinalities are convenient to enumerate all possible parametrizations by creating multiple answer sets.
 A cardinality (denoted hereafter with curly brackets) gives any number of possible answers for some atoms between a lower and upper bounds.
 For example,
-\asp{1 \{ param(X, P, I) : component\_levels(X, I) \} :-
-\item[] ~~~~~~param\_label(X, P), not infered\_param(X, P).}
-where \aspil{param(X, P, I)} stands for: $\aspil{I} \in K^\aspil{P}_{\aspil{X},A,B}$,
-means that any parameter of component \aspil{X} and label \aspil{P} must contain at least one level value (\aspil{I}) in the possible expression levels of \aspil{X}.
-Indeed, the lower bound is 1, forcing at least one element in the parameter, but no upper bound is specified, allowing up to any number of answers.
-The body (right-hand side) of the rule also checks for the existence of a parameter of \aspil{X} with label \aspil{P}, and constrains that the parametrization inference was not conclusive for the considered parameter (\aspil{not} stands for negation by failure: \aspil{not L} becomes true if \aspil{L} is not true).
-Such a constraint gives multiple results as any set of \aspil{param} atoms satisfying the cardinality will lead to a new global set of answers.
-In this way, we enumerate all possible parametrizations which respects the results of parameters
-inference, but completely disregarding the notion of admissible parametrizations given in
-\pref{ssec:admissible-K}.
+\begin{align*}
+  & 1\ \{ \atom{param}(\var{X}, \var{P}, \var{I}) : \atom{component\_levels}(\var{X}, \var{I}) \} \la \\
+  & \qquad\qquad \atom{param\_label}(\var{X}, \var{P}), \nota \atom{infered\_param}(\var{X}, \var{P}).
+\end{align*}
+where $\atom{param}(\var{X}, \var{P}, \var{I})$ stands for: $\var{I} \in K^\var{P}_{\var{X},\omega}$,
+means that any parameter of component $\var{X}$ and label $\var{P}$ must contain at least one level value ($\var{I}$) in the possible expression levels of $\var{X}$.
+Indeed, the lower bound is $1$, forcing at least one element in the parameter, but no upper bound is specified, allowing up to any number of answers.
+The body (right-hand side) of the rule also checks for the existence of a parameter of $\var{X}$ with label $\var{P}$,
+and constrains that the parametrization inference was not conclusive for the considered parameter (“$\nota$” stands for negation by failure: $\nota \atom{L}$ becomes true if $\atom{L}$ is not true).
+Such a constraint gives multiple results as any set of $\atom{param}$ atoms satisfying the cardinality will lead to a new global set of answers.
+In this way, we enumerate all possible parametrizations which respects the results of parameters inference,
+but completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K}.
 
 We rely on integrity constraints to filter only admissible parametrizations.
 An integrity constraint is a rule with no head, that makes an answer set unsatisfiable if its body turns out to be true.
 Hence, if we suppose that:
 \begin{itemize}
-  \item the \aspil{less\_active(\ti{a}, \ti{p}, \ti{q})} atom means that $K^\ti{p}_{\ti{a},A,B}$ stands for a configuration with less activating regulators than $K^\ti{q}_{\ti{a},A',B'}$ (\ie $A \subset A'$),
-  \item the \aspil{param\_inf(\ti{a}, \ti{p}, \ti{q})} atom means: $K^\ti{p}_{\ti{a},A,B} \leqsegm K^\ti{q}_{\ti{a},A',B'}$,
+  \item the $\atom{less\_active}(a, p, q)$ atom means that $K^p_{a,\omega}$ stands for a configuration with less activating regulators than $K^q_{a,\omega'}$, % (\ie $A \subset A'$),
+  \item the $\atom{param\_inf}(a, p, q)$ atom means: $K^p_{a,\omega} \leqsegm K^q_{a,\omega'}$,
 \end{itemize}
-the monotonicity assumption is formulated as the following integrity constraint:
-\asp{:- less\_active(X, P, Q), not param\_inf(X, P, Q).}
-which removes all parametrization results where parameters $K^\aspil{P}_{\aspil{X},A,B}$ and $K^\aspil{Q}_{\aspil{X},A',B'}$ exist such that $A \subset A'$ and $K^\aspil{Q}_{\aspil{X},A',B'} \ltsegm K^\aspil{P}_{\aspil{X},A,B}$, thus violating the monotonicity assumption.
+then the monotonicity assumption (\pref{pro:param_enum_monotonicity}) is formulated as the following integrity constraint:
+$$\la \atom{less\_active}(\var{X}, \var{P}, \var{Q}), \nota \atom{param\_inf}(\var{X}, \var{P}, \var{Q}).$$
+which removes all parametrization results where parameters $K^\var{P}_{\var{X},\omega}$ and $K^\var{Q}_{\var{X},\omega'}$ exist such that $\var{X}$ is less activated by $\omega$ than $\omega'$ %$A \subset A'$
+but $K^\var{Q}_{\var{X},\omega'} \ltsegm K^\var{P}_{\var{X},\omega}$,
+thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 This subsection succinctly described how we write ASP programs to represent a model and solve all steps of Thomas' modeling inference.
