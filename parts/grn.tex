@@ -52,8 +52,9 @@ $$\levels{a}{b} \DEF \segm{t}{l_a} \quad \text{and} \quad \ulevels{a}{b} \DEF \s
 \end{definition}
 
 \begin{example*}
-\pref{fig:runningBRN}(left) represents an Interaction Graph $(\Gamma,E)$ with
-$\Gamma = \{a, b, c\}$ and:
+\pref{fig:runningBRN}(left) represents an Interaction Graph $(\Gamma,E)$ where
+$\Gamma = \{a, b, c\}$, with $l_a = 2$ and $l_b = l_c = 1$,
+and:
 \begin{align*}
   E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}\} &
   E_\uns &= \emptyset \\
@@ -69,6 +70,7 @@ We also have especially:
 \begin{align*}
   \levels{a}{b} &= \segm{2}{2} & \ulevels{a}{b} &= \segm{0}{1}
 \end{align*}
+\todo{Find an example with an unsigned edge?}
 \end{example*}
 
 \begin{figure}[t]
@@ -110,6 +112,7 @@ This means that if the expression level of $b$ is equal to (\ie above) 1, then $
 otherwise, $b$ inhibits $a$.
 (right)
 Example parametrization on the left IG.
+\todo{Find an example with an unsigned edge?}
 }
 \end{figure}
 
@@ -143,11 +146,12 @@ The purpose of interval parameters is discussed at the end of this section.
 \end{example*}
 
 At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
-From a given state $s$, a transition to another state $s'$ is possible provided that only one component $a$ will evolve of one level towards $K_{a,\GRNres{a}{s}}$,
+From a given state $s$, a transition to another state $s'$ is possible provided that exactly one component $a$ evolves of one level towards $K_{a,\GRNres{a}{s}}$,
 as stated by the definition of the transition relation $\GRNtrans{s}{s'}$.
+However, $a$ cannot evolve if its expression level already belongs to $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
-The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{} \in \GRNstates \times \GRNstates$ defined by:
+The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
   \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
     & \qquad\quad \wedge \forall b \in \Gamma, b \neq a \Rightarrow \GRNget{s}{b} = \GRNget{s'}{b}
@@ -179,6 +183,8 @@ on the contrary, reducing the maximum level requires that several thresholds on 
 However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
 In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
 as the number of processes in a PH sort is not constrained in any way.
+For instance, in the example of \pref{fig:runningBRN}, it would be more relevant to have $l_a = 1$, as $a$ has only one outgoing edge;
+however, the value $l_a = 2$ makes the example more interesting.
 
 \paragraph{Discussion on unsigned edges}
 Unsigned edges allow to model regulations whom trend (activation or inhibition) is unknown.
@@ -189,7 +195,7 @@ However, signs in an IG are useful to understand the trend of a regulation.
 PH actions are very atomistic and the inference of the underlying BRN proposed in \pref{sec:infer-IG}
 allows to find the global trends of all regulations between components,
 which may turn out to be difficult to perform by hand.
-As signs have no direct influence on the semantics, unsigned edges car prove convenient to model an IG with partial knowledge on some regulations.
+As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
 \paragraph{Discussion on interval parameters}
 While the use of intervals as parameter values ($K_{a,\omega} = \segm{i}{j}$) instead of simple integers ($K_{a,\omega} = i$) does not add expressivity in boolean networks,
