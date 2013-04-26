@@ -51,7 +51,7 @@ Let $b \in \Gamma$ and $a \in \GRNreg{a}$; we define:
 $$\levels{a}{b} \DEF \segm{t}{l_a} \quad \text{and} \quad \ulevels{a}{b} \DEF \segm{0}{t-1} \enspace.$$
 \end{definition}
 
-\begin{example*}
+\begin{example}
 \pref{fig:runningBRN}(left) represents an Interaction Graph $(\Gamma,E)$ where
 $\Gamma = \{a, b, c\}$, with $l_a = 2$ and $l_b = l_c = 1$,
 and:
@@ -71,7 +71,7 @@ We also have especially:
   \levels{a}{b} &= \segm{2}{2} & \ulevels{a}{b} &= \segm{0}{1}
 \end{align*}
 \todo{Find an example with an unsigned edge?}
-\end{example*}
+\end{example}
 
 \begin{figure}[t]
 \begin{minipage}{0.4\linewidth}
@@ -141,9 +141,9 @@ The complete map $K$ of parameters on $\IG$ is called a \emph{parametrization} o
 \end{definition}
 The purpose of interval parameters is discussed at the end of this section.
 
-\begin{example*}
+\begin{example}
 \pref{fig:runningBRN}(right) gives a Parametrization on the IG of \pref{fig:runningBRN}(left).
-\end{example*}
+\end{example}
 
 At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
 From a given state $s$, a transition to another state $s'$ is possible provided that exactly one component $a$ evolves of one level towards $K_{a,\GRNres{a}{s}}$,
@@ -163,7 +163,7 @@ with: $f^a(s) =
   \end{cases}$
 \end{definition}
 
-\begin{example*}
+\begin{example}
 In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
 transitions are possible given the semantics defined in \pref{def:dynamics}:
 $$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNstate{a_2, b_1, c_1} \rightarrow
@@ -171,7 +171,7 @@ $$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRN
 where $a_i$ denotes the component $a$ at level $i$.
 This sequence of states ends in a steady state: no evolution is possible in $\GRNstate{a_1, b_0, c_1}$.
 Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
-\end{example*}
+\end{example}
 
 
 

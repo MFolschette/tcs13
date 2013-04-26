@@ -60,7 +60,7 @@ $\forall c\in\PHs, c\neq b, \PHget{(s\play h)}{c} = \PHget{s}{c}$.
 For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHa$ is abbreviated as
 $(s\play h\play h')$.
 
-\begin{example*}
+\begin{example}
 \pref{fig:runningPH-1} represents a PH $(\PHs,\PHl,\PHa)$ with
 $\PHs = \{a,b,c\}$,
 $\PHl_a = \{a_0,a_1,a_2\}$,
@@ -148,7 +148,7 @@ decrease) when $b$ ($c$) is present (resp. absent).
 It is worth noticing that the activation of $a$ by $b$ ($c$) is independent from $c$ ($b$).
 This may express a lack of knowledge on the cooperation between these two regulators:
 we thus model an over-approximation of the possible actions.
-\end{example*}
+\end{example}
 
 \paragraph{Modeling cooperation}
 \rewrite{Detail the modeling of cooperations?}
@@ -299,14 +299,14 @@ past sub-state of the presence of the cooperative processes.
 The resulting behavior is then an over-approximation
 of the realization of an instantaneous cooperation.
 
-\begin{example*}
+\begin{example}
 The PH in \pref{fig:runningPH-2} results from the refinement of the PH in \pref{fig:runningPH-1}
 where several cooperations have been specified.
 In particular, the bounce to $a_2$ is the result of a cooperation between $b_1$ and $c_1$; and the
 bounce to $a_0$ of a cooperation between $b_0$ and $c_0$.
 Hence, this PH expresses a BRN where $a$ requires both $b$ and $c$ active to reach its
 highest level, and $a$ does not become inactive unless both $b$ and $c$ are inactive.
-\end{example*}
+\end{example}
 
 \rewrite{Explain the efficiency of PH for reachability?}
 

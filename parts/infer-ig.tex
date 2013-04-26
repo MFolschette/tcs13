@@ -94,7 +94,7 @@ if it is non-empty, it is ensured that any state in $\PHl(\ctx\cup S_a)$ converg
 number of steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
 $L_a\setminus S_a$.
 
-\begin{example*}
+\begin{example}
 In the PH of \pref{fig:runningPH-1}, we obtain:
 \begin{align*}
 \focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
@@ -105,7 +105,7 @@ In the PH of \pref{fig:runningPH-1}, we obtain:
 &
 \focals(a,\{a_1\},\{b_1,c_0\}) &= \{ a_0, a_2 \}
 \end{align*}
-\end{example*}
+\end{example}
 
 \subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
 
@@ -181,7 +181,7 @@ sorts having no action hitting them belong to $\Gamma$
 \end{itemize}
 \end{property}
 
-\begin{example*}
+\begin{example}
 In the PH of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as defined in \pref{pro:wf-cooperative-sort}, because:
 \begin{align*}
 \focals(bc, \PHl_{bc}, \{b_0, c_0\} \cup \PHl_{bc}) = \{bc_{00}\} && \focals(bc, \PHl_{bc}, \{b_0, c_1\} \cup \PHl_{bc}) = \{bc_{01}\} \\
@@ -189,7 +189,7 @@ In the PH of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as d
 \end{align*}
 Hence, both \pref{fig:runningPH-1} and \pref{fig:runningPH-2} are well-formed PH for IG inference
 with $\Gamma = \{a,b,c\}$.
-\end{example*}
+\end{example}
 
 
 \subsection{Interaction Inference}\label{ssec:infer-IG}
@@ -351,9 +351,9 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 
 
 
-\begin{example*}
+\begin{example}
 The IG inference from the PH of \pref{fig:runningPH-2} gives
 $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
 $\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runningBRN}.
 No self-influence are inferred ($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
-\end{example*}
+\end{example}

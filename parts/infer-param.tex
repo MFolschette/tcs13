@@ -74,13 +74,22 @@ $a$.
 If $\focals(a,C^a_{a,\omega},C_{a,\omega})=\segm{a_i}{a_j}$ is a non-empty interval, then $K_{a,\omega} = \segm{i}{j}$.
 \end{proposition}
 
-\begin{example*}
+\begin{example}
+\label{ex:infer-param-runningPH-1}
 Applied to the PH in \pref{fig:runningPH-1}, we obtain, for instance, 
 $K_{b,\emptyset} = \segm{0}{1}$ and
 $K_{a,\{b,c\}} = \segm{2}{2}$,
-while $K_{a,\{b\}}$ can not be inferred.
-For the PH in \pref{fig:runningPH-2}, this latter is evaluated to $\segm{1}{1}$.
-\end{example*}
+while $K_{a,\{b\}}$ and $K_{a,\{c\}}$ can not be inferred.
+\end{example}
+
+\begin{example}
+For the PH in \pref{fig:runningPH-2}, we obtain
+$K_{b,\emptyset} = \segm{0}{1}$,
+$K_{a,\{b,c\}} = \segm{2}{2}$,
+$K_{a,\{b\}} = \segm{1}{1}$,
+and $K_{a,\{c\}} = \segm{1}{1}$.
+For this PH, all parameters can be inferred, and the obtained parametrization is the one of \pref{fig:runningBRN}(right).
+\end{example}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
@@ -160,6 +169,9 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
 \newcommand{\var}[1]{#1}
 \newcommand{\nota}{\neg}
 
+\newcommand{\paramlabel}{\atom{param\_label}}
+\newcommand{\paramres}{\atom{param\_resource}}
+
 Answer Set Programming (ASP) \cite{Baral03} has been chosen to address the enumeration of all admissible parametrizations.
 The motivations are following:
 \begin{itemize}
@@ -171,28 +183,51 @@ We now synthesize some key points to better make the reader understand our ASP i
 
 ASP is a logic programming paradigm based on a set of rules.
 A rule takes the form of:
-$$head \la body.$$
-where $head$ is an atom and $body$ is a series of atoms or negations of atoms.
-Solving an ASP program means finding an answer set, \ie a minimal set of atoms that fulfills all the rules.
-Several answer sets can be a solution to the same ASP program and a solver can be directed to enumerate them all.
+$$\underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.$$
+where the $head$ is an atom ($\atom{H}$) and the $body$ is a series of atoms ($\atom{A}_i$) and negations of atoms ($\nota \atom{B}_i$).
+Such a rule states that if all atoms $\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n$ are true
+and all atoms $\atom{B}_1, \atom{B}_2, \dots, \atom{B}_m$ are not true (negation by failure), then $\atom{H}$ has to be true.
+Solving an ASP program means finding an \emph{answer set}, which is a minimal set of true atoms that respects all the rules.
+Several answer sets can be solution to the same ASP program and the solver can be directed to enumerate them all.
+\todo{Distinguish atoms and predicates.}
 
-A rule with no $body$ part is called a fact, and its $head$ atom has to be present in all answer sets.
+A rule with no $body$ part is called a fact, and its $head$ atom has to belong to all answer sets.
 For instance, all information describing the studied model (PH and inferred IG \& parameters) are expressed in ASP using facts.
+In particular, the existence of a parameter (whether its value has been inferred or not) is stated by the atom $\paramlabel$.
 For functional purposes, we assign a unique label to every possible set of resources $\omega$ of a given component,
 and in the following we note $K^p_{a,\omega}$ the parameter of component $a$ whose set of resources $\omega$ is assigned to the label $p$.
-Then, to state the existence of a parameter $K^p_{a,\omega}$, an atom named $\atom{param\_label}$ is used in the following fact:
-$$\atom{param\_label}(a, p).$$
-
-Defining a set in ASP is equivalent to defining the rule for belonging to this set.
-For example, we define an atom $param\_act$ that describes the set of active regulators of a given a parameter.
-%of component \ti{a} and label \ti{p} (\ie the set $A$ of a parameter $K^\ti{p}_{\ti{a},A,B}$).
-Describing the activators of $K^p_{a,\{b,c\}}$ gives:
+In other words, $\paramlabel(a, p)$ states that a parameter $K^p_{a,\omega}$ exists.
+Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 7 parameters, and to state the existence of each of them, the following facts are used:
 \begin{align*}
-  \atom{param\_act}(a, p, b).&&
-  \atom{param\_act}(a, p, c).
+  &\paramlabel(a,1).
+  &\paramlabel(b,1).\\
+  &\paramlabel(a,2).
+  &\paramlabel(b,2).\\
+  &\paramlabel(a,3).\\
+  &\paramlabel(a,4).
+  &\paramlabel(c,1).
 \end{align*}
-The absence of such a fact involving another potential regulator $d$ of $a$ with label $p$ indicates that $d$ is not in the set of resources related to this parameter.
-\rewrite{Find another example.}
+
+A set (such as sets of resources $\omega$) can be defined in ASP with a series of atoms. \rewrite{Find a more precise sentence.}
+For example, for a given parameter $K^p_{a,\omega}$, expressing $x \in \omega$ is done by the atom: $\paramres(a, p, x)$.
+Then, the sets of resources of \pref{ex:infer-param-runningPH-1} is defined by:
+$$\begin{array}{>{\hspace{.8em}}l|>{\phantom{\raisebox{.6em}{xx}}}l}
+  \hspace{-.8em}\text{Parameter} & \text{Corresponding ASP fact} \\
+\hline
+  K^0_{a,\emptyset} & \\
+  K^1_{a,\{b\}} & \paramres(a,1,b). \\
+  K^2_{a,\{c\}} & \paramres(a,2,c). \\
+  K^3_{a,\{b,c\}} & \paramres(a,3,b). \quad \paramres(a,3,c). \phantom{\raisebox{-.8em}{xx}} \\ \hline
+  K^0_{b,\emptyset} & \\
+  K^1_{b,\{a\}} & \paramres(b,1,a). \phantom{\raisebox{-1em}{xx}} \\ \hline
+  K^0_{c,\emptyset} &
+\end{array}$$
+The absence of an atom $\paramres(a,1,c)$, for example, states that $c$ is not a resource for the parameter $K^1_{a,\{b\}}$ (indeed, $c \notin \{b\}$).
+
+
+
+\todo{Continue refactoring.}
+\rewrite{Explain variables}
 
 Rules allow more detailed declarations than facts as they have a body (right-hand part below) containing constraints and allowing to use variables, while facts only have a head (left-hand part).
 For instance, in order to define the set of expression levels of a component, we declare:
@@ -206,7 +241,7 @@ A cardinality (denoted hereafter with curly brackets) gives any number of possib
 For example,
 \begin{align*}
   & 1\ \{ \atom{param}(\var{X}, \var{P}, \var{I}) : \atom{component\_levels}(\var{X}, \var{I}) \} \la \\
-  & \qquad\qquad \atom{param\_label}(\var{X}, \var{P}), \nota \atom{infered\_param}(\var{X}, \var{P}).
+  & \qquad\qquad \paramlabel(\var{X}, \var{P}), \nota \atom{infered\_param}(\var{X}, \var{P}).
 \end{align*}
 where $\atom{param}(\var{X}, \var{P}, \var{I})$ stands for: $\var{I} \in K^\var{P}_{\var{X},\omega}$,
 means that any parameter of component $\var{X}$ and label $\var{P}$ must contain at least one level value ($\var{I}$) in the possible expression levels of $\var{X}$.
