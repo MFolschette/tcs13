@@ -171,6 +171,8 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
 
 \newcommand{\paramlabel}{\atom{param\_label}}
 \newcommand{\paramres}{\atom{param\_resource}}
+\newcommand{\component}{\atom{component}}
+\newcommand{\componentlevels}{\atom{component\_levels}}
 
 Answer Set Programming (ASP) \cite{Baral03} has been chosen to address the enumeration of all admissible parametrizations.
 The motivations are following:
@@ -183,7 +185,7 @@ We now synthesize some key points to better make the reader understand our ASP i
 
 ASP is a logic programming paradigm based on a set of rules.
 A rule takes the form of:
-$$\underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.$$
+  $$\underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.$$
 where the $head$ is an atom ($\atom{H}$) and the $body$ is a series of atoms ($\atom{A}_i$) and negations of atoms ($\nota \atom{B}_i$).
 Such a rule states that if all atoms $\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n$ are true
 and all atoms $\atom{B}_1, \atom{B}_2, \dots, \atom{B}_m$ are not true (negation by failure), then $\atom{H}$ has to be true.
@@ -191,8 +193,71 @@ Solving an ASP program means finding an \emph{answer set}, which is a minimal se
 Several answer sets can be solution to the same ASP program and the solver can be directed to enumerate them all.
 \todo{Distinguish atoms and predicates.}
 
+\rewrite{Facts : component}
+
+\rewrite{Rules + variables : component\_levels}
+
+\rewrite{Cardinalities : énumération de param + param\_label et infered\_param}
+
 A rule with no $body$ part is called a fact, and its $head$ atom has to belong to all answer sets.
-For instance, all information describing the studied model (PH and inferred IG \& parameters) are expressed in ASP using facts.
+For instance, the information describing the studied model (PH and inferred IG \& parameters) are expressed in ASP using facts.
+In particular, the predicate $\component$ allows to define all components belonging to the inferred IG.
+Thus, an atom $\component(a, m)$ states that $a$ is a component of the IG and $l_a = m$.
+Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 3 components, and to state the existence of each of them, the following facts are used:
+\begin{align*}
+  &\component(a, 2).
+  &\component(c, 1). \\
+  &\component(b, 1).
+\end{align*}
+
+To define the sets of possible expression levels of each component (\ie the set $\segm{0}{l_a}$ for each $a \in \Gamma$),
+one can use atoms of the form $\componentlevels(a, k)$ to state that $k \in \segm{0}{l_a}$.
+Variables are then useful in order to enumerate each possible $k$ for all component $a$.
+A variable starts with a capital letter, and during the solving,
+any rule containing variables will be duplicated in order to replace each variable by all the possible values it could represent.
+\rewrite{Reformulate}
+For example, the following rule, which contains three variables ($\var{A}$, $\var{K}$ and $\var{M}$), enumerates all possible expression levels of all components in the system:
+\begin{align*}
+  \componentlevels(A, K) \la \component(\var{A}, \var{M}), 0 \leq K \leq M.
+\end{align*}
+The “$\leq$” notation stand for a shortcut in ASP which has the same meaning as the mathematical operator.
+Regarding \pref{ex:infer-param-runningPH-1}, the previous rule will make the following set of atoms belong to all answer sets:
+\begin{align*}
+  &\{&\componentlevels(b, 0)
+  &&\componentlevels(b, 1) \\
+  &&\componentlevels(c, 0)
+  &&\componentlevels(c, 1) \\
+  &&\componentlevels(a, 0)
+  &&\componentlevels(a, 1) \\
+  &&\componentlevels(a, 2) &&&&\}
+\end{align*}
+
+Cardinality rules are convenient to enumerate all possible parametrizations by creating multiple answer sets.
+The head of a cardinality rule specifies a set of atoms $H$ and two integers $min$ and $max$, and is denoted:
+\begin{align*}
+  min\ \{\ H\ \}\ max \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
+\end{align*}
+Given such a rule, every answer $S$ sets have to verify:
+\begin{align*}
+  min \leq |S \cap H| \leq max
+\end{align*}
+In other words, all answer sets contain a subset of $H$ whose cardinality goes from $min$ to $max$.
+The set of atoms $H = \{ \atom{H}_1, \atom{H}_2, \dots, \atom{H}_p \}$ is often defined as: $H = \atom{P} : \atom{Q}$,
+which is a shorthand for “all atoms of the form $\atom{P}$ for which $\atom{Q}$ is true”.
+\rewrite{Reformulate}
+
+Given a set of atoms, it creates as many answer sets as there are possible 
+constrains gives any number of possible answers for some atoms between a lower and upper bounds.
+For example,
+\begin{align*}
+  & 1\ \{ \atom{param}(\var{X}, \var{P}, \var{I}) : \atom{component\_levels}(\var{X}, \var{I}) \} \la \\
+  & \qquad\qquad\qquad \paramlabel(\var{X}, \var{P}), \nota \atom{infered\_param}(\var{X}, \var{P}).
+\end{align*}
+
+
+
+---------------
+
 In particular, the existence of a parameter (whether its value has been inferred or not) is stated by the atom $\paramlabel$.
 For functional purposes, we assign a unique label to every possible set of resources $\omega$ of a given component,
 and in the following we note $K^p_{a,\omega}$ the parameter of component $a$ whose set of resources $\omega$ is assigned to the label $p$.
