@@ -1,10 +1,10 @@
 \subsection{Thomas' modeling}
 
-We concisely present Thomas' modeling of BRNs dynamics, merely inspired by
+We concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
 In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
 inference),
-we propose the notion of unsigned edge modeling an interaction whose nature (activation or inhibition) is undefined,
+we propose the notion of unsigned edge modeling an interaction whose nature (activation or inhibition) is undetermined,
 and we extend the classical parametrization formalism by setting parameters to intervals of values instead of single values.
 We briefly discuss these additions.
 
@@ -14,14 +14,16 @@ mutual influences and the conditions of these influences.
 The \emph{parametrization} then specifies the levels towards which tends a component when a given
 configuration of its regulators applies.
 
-The IG is composed of nodes that represent components,
-and edges labeled with a sign and a threshold that stand for regulations between these components (\pref{def:ig}).
-The activity, concentration rate or presence of each component in a given state of the system is modeled by a discrete value called \emph{expression level}.
-The maximum level of a component $a$ is denoted $l_a$.
+The IG is composed of nodes ($a$, $b$, $c$, …) that represent components,
+and edges ($\GRNedge{a}{s}{t}{b}$, …) labeled with a sign ($s$) and a threshold ($t$) that stand for regulations between these components (\pref{def:ig}).
+The activity, concentration rate or presence of each component in a given state of the system is modeled by an abstract discrete value called \emph{expression level}.
+The maximum expression level of a component $a$ is denoted $l_a$.
 The sign of an edge denotes the kind of regulation it models: it can be positive ($+$), negative ($-$) or unsigned ($\uns$),
-the latter meaning that the nature (activation or inhibition) of the regulation is unknown.
-For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
-otherwise, the opposite influence is expressed.
+the latter meaning that the nature of the regulation can not be reduced to a simple activation or inhibition.
+Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influences the evolution of $b$ in a certain way when its expression level is above or equal to the threshold $t$;
+when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
+%For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
+%otherwise, the opposite influence is expressed.
 The uniqueness of each regulation is forced, in order to make the following sections simpler.
 The purpose of unsigned edges is discussed at the end of the current section.
 
@@ -41,13 +43,16 @@ Furthermore, for all component $b \in \Gamma$, we denote $\GRNreg{b}$ the set of
 \label{eq:grn-regulators}
   \GRNreg{b} \DEF \{ b\in\Gamma\mid \exists \GRNedge{a}{s}{t}{b} \in E \}
 \end{align}
-Then, for all component $a \in \GRNreg{b}$ regulating $b$,
-we denote $\levels{a}{b}$ (resp.~$\ulevels{a}{b}$) the levels of $a$ above (resp.~below) the threshold $t$ of the (unique) edge $\GRNedge{a}{s}{t}{b}$ (\pref{def:levels}).
-If the expression level of $a$ belongs to the interval $\levels{a}{b}$, then $a$ is expected to have the influence corresponding to the sign $s$ on $b$;
-if its expression level belongs to $\ulevels{a}{b}$, the opposite influence is expected.
+Then, for all component $a$ regulating $b$,
+\ie if $\GRNedge{a}{s}{t}{b} \in E$,
+we denote $\levels{a}{b}$ (resp.~$\ulevels{a}{b}$) the interval of expression levels of $a$ above (resp.~below) the threshold $t$ (\pref{def:levels}).
+For all expression levels of $a$ that belong to $\levels{a}{b}$, $a$ is expected to have the influence corresponding to the sign $s$ on $b$;
+for all expression levels belonging to $\ulevels{a}{b}$, the opposite influence is expected.
+This definition holds because of the uniqueness of the edge $\GRNedge{a}{s}{t}{b}$.
 
 \begin{definition}[Effective levels ($\levelsl$)]\label{def:levels}
-Let $b \in \Gamma$ and $a \in \GRNreg{a}$; we define:
+If $\GRNedge{a}{s}{t}{b} \in E$, we define:
+%Let $b \in \Gamma$ and $a \in \GRNreg{a}$; we define:
 $$\levels{a}{b} \DEF \segm{t}{l_a} \quad \text{and} \quad \ulevels{a}{b} \DEF \segm{0}{t-1} \enspace.$$
 \end{definition}
 
@@ -118,13 +123,17 @@ Example parametrization on the left IG.
 
 A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\GRNstates \DEF \prod_{a \in \Gamma} \segm{0}{l_a}$.
 $\GRNget{s}{a}$ refers to the level of component $a$ in $s$.
-\rewrite{Functional definition of a state? (More rigorous)}
-The specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
-focal level interval towards which the component will evolve in each configuration of its regulators
-(\pref{def:param}).
-Indeed, for each possible state of a BRN, all regulators of a component $a$ can be divided into
-\emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
-referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
+%\rewrite{Functional definition of a state? (More rigorous)}
+For each possible state, the set of \emph{resources} of a given component
+is the set of regulators of this component whose expression level is above the threshold of the regulation (\pref{def:resources}).
+In other words, in every state $s$, a regulator $b$ of a component $a$
+is either a resource (if $\GRNget{s}{b} \in \levels{b}{a}$)
+or not a resource (if $\GRNget{s}{b} \in \ulevels{b}{a}$).
+%For each possible state, all regulators of a component $a$ can be divided into
+%\emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
+%referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
+Relying on this observation, the specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
+focal level interval towards which the component will evolve in every configuration of the resources (\pref{def:param}).
 
 \begin{definition}[Resources ($\GRNreslabel$)]\label{def:resources}
 For a given component $a \in \Gamma$ and a state $s \in \GRNstates$,
@@ -135,20 +144,19 @@ $$\GRNres{a}{s} \DEF \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}
 
 \begin{definition}[Parameter $K_{a,\omega}$ and Parametrization $K$]\label{def:param}
 For a given component $a \in \Gamma$, and $\omega \subset \GRNreg{a}$ a set of regulators of $a$,
-the \emph{parameter} $K_{a,\omega} = \segm{i}{j}$, with $0 \leq i \leq j \leq l_a$, is a non-empty interval towards which $a$ will tend
-in the states where its resources are exactly the regulators in $\omega$.
+the \emph{parameter} $K_{a,\omega} = \segm{i}{j}$ is a non-empty interval with with $0 \leq i \leq j \leq l_a$.
 The complete map $K$ of parameters on $\IG$ is called a \emph{parametrization} on $\IG$.
 \end{definition}
-The purpose of interval parameters is discussed at the end of this section.
-
-\begin{example}
-\pref{fig:runningBRN}(right) gives a Parametrization on the IG of \pref{fig:runningBRN}(left).
-\end{example}
-
-At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
-From a given state $s$, a transition to another state $s'$ is possible provided that exactly one component $a$ evolves of one level towards $K_{a,\GRNres{a}{s}}$,
-as stated by the definition of the transition relation $\GRNtrans{s}{s'}$.
-However, $a$ cannot evolve if its expression level already belongs to $K_{a,\GRNres{a}{s}}$.
+An IG and a parametrization make up a complete BRN.
+The purpose of intervals as parameters is discussed at the end of this section.
+Regarding the dynamics, an interval parameter $K_{a,\omega}$ is the set of values towards which $a$ will tend
+in the states where its resources are exactly the regulators in $\omega$.
+%as defined in the asynchronous dynamics of \pref{def:dynamics}.
+%At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
+Indeed, from a given state $s$, a transition to another state $s'$ is possible provided that
+exactly one component $a$ evolves of one expression level towards the closest value of the interval $K_{a,\GRNres{a}{s}}$,
+as stated by the definition of the transition relation $\GRNtrans{s}{s'}$ (\pref{def:dynamics}).
+However, $a$ cannot evolve if its expression level already belongs to the interval $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
 The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
@@ -162,10 +170,11 @@ with: $f^a(s) =
     -1 & \text{if } \GRNget{s}{a} > K_{a, \GRNres{a}{s}} \\
   \end{cases}$
 \end{definition}
+The notations “$<$” and “$>$” comparing an integer and an interval were defined at the end of \pref{sec:intro}.
 
 \begin{example}
-In the BRN that consists of the IG and parametrization of \pref{fig:runningBRN}, the following
-transitions are possible given the semantics defined in \pref{def:dynamics}:
+\pref{fig:runningBRN}(right) gives a Parametrization on the IG of \pref{fig:runningBRN}(left).
+In this BRN, the following transitions are possible given the semantics defined in \pref{def:dynamics}:
 $$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRNstate{a_2, b_1, c_1} \rightarrow
 \GRNstate{a_2, b_0, c_1} \rightarrow \GRNstate{a_1, b_0, c_1} \enspace,$$
 where $a_i$ denotes the component $a$ at level $i$.
@@ -187,19 +196,26 @@ For instance, in the example of \pref{fig:runningBRN}, it would be more relevant
 however, the value $l_a = 2$ makes the example more interesting.
 
 \paragraph{Discussion on unsigned edges}
-Unsigned edges allow to model regulations whom trend (activation or inhibition) is unknown.
+Unsigned edges allow to model regulations whose trend is more complex than a simple activation or inhibition.
 It has to be noted that using unsigned edges in addition to the regular positive and negative ones does not add expressivity to the framework.
 Indeed, signs have no impact on the parametrization (\pref{def:param}) or the dynamics (\pref{def:dynamics}).
 They do have an impact later in this paper, when admissible parametrizations are enumerated (\pref{ssec:admissible-K}).
 However, signs in an IG are useful to understand the trend of a regulation.
 PH actions are very atomistic and the inference of the underlying BRN proposed in \pref{sec:infer-IG}
-allows to find the global trends of all regulations between components,
+allows to find the global trends of regulations between components,
 which may turn out to be difficult to perform by hand.
 As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
 \paragraph{Discussion on interval parameters}
 While the use of intervals as parameter values ($K_{a,\omega} = \segm{i}{j}$) instead of simple integers ($K_{a,\omega} = i$) does not add expressivity in boolean networks,
-it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t. the above definitions).
+it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t.~the above definitions).
+Indeed, it is not always possible to create the same dynamics of a BRN with interval parameters by using only integer parameters.
+Consider for example an interval parameter with three values: $K_{a,\omega} = \segm{i}{i+2}$,
+and let $s$ be its corresponding state: $\GRNres{a}{s} = \omega$.
+From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ can not evolve in $s$; therefore, $a$ has three steady-states ($i$, $i+1$ and $i+2$).
+This behavior can not be reproduced with integer intervals, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
+At most two steady-states can be modeled by using a self-regulation $\GRNedge{a}{s}{t}{a}$, allowing to distinguish two cases ($\GRNget{s}{a} < t$ and $\GRNget{s}{a} \geq t$), which is not enough.
+\begin{comment}
 Indeed, assume that $K_{a,\omega} = \segm{i}{i+2}$;
 we aim at obtaining the same dynamics with three different integer parameters instead: $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
 The only possible modification in the resources of $a$ is to add a self-regulation $\GRNedge{a}{s}{t}{a}$.
@@ -207,5 +223,6 @@ However, because resources have a boolean definition
 (each component can be only below or above the threshold related to its regulation on $a$),
 it is not possible to differentiate the 3 sets of resources $\omega_1$, $\omega_2$ and $\omega_3$
 by relying only on the regulation of $a$ on itself.
+\end{comment}
 Finally, with the same reasoning, we also remark that the use of intervals makes optional some explicit auto-activations in the IG
 (as for $b$ in \pref{fig:runningBRN}, for instance).
