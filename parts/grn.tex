@@ -192,8 +192,9 @@ on the contrary, reducing the maximum level requires that several thresholds on 
 However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
 In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
 as the number of processes in a PH sort is not constrained in any way.
-For instance, in the example of \pref{fig:runningBRN}, it would be more relevant to have $l_a = 1$, as $a$ has only one outgoing edge;
-however, the value $l_a = 2$ makes the example more interesting.
+For instance, in the example of \pref{fig:runningBRN},
+it would be more relevant to have $l_a = 1$ and $\GRNedgef{a}{-}{1}{b} \in E$, as $a$ has only one outgoing edge,
+but the value $l_a = 2$ makes the example more interesting, therefore $\GRNedgef{a}{-}{2}{b} \in E$ can be arbitrarily chosen.
 
 \paragraph{Discussion on unsigned edges}
 Unsigned edges allow to model regulations whose trend is more complex than a simple activation or inhibition.
