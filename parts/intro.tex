@@ -45,12 +45,19 @@ Firstly, we show that starting from one PH model, it is possible to find back th
 We perform an exhaustive search for the possible interactions on one component from all the
 others, consistently with the knowledge of the dynamics that these interactions lead to and that are
 expressed in PH.
-The second phase of our work concerns the Thomas' parameters inference.
+The second phase of our work concerns the inference of Thomas' parameters.
 It consists in determining the nesting set (possibly too large) of the parameters which necessarily
 lead to the satisfaction of the known cooperating constraints.
 The resulting BRN dynamics is ensured to respect the PH dynamics, \ie no spurious transitions are
 made possible by the inference.
 Answer Set Programming (ASP) \cite{Baral03} turns out to be effective for these enumerative searches.
+
+%A major contribution from [CMSB] is the use of unsigned edges to model a wider class of models.
+While the work presented in~\cite{FPIMR12-CMSB} could not handle regulations that were not strictly activations or inhibitions,
+the results presented in this paper allow to study a wider class of models by using interactions of a new type: \emph{unsigned} regulations.
+The benefit is that inferring an unsigned edge does not prevent the second phase of the inference,
+and the method is thus conclusive on all boolean models.
+\rewrite{Should we cite [CMSB]?}
 
 The outcome of this work is twofold.
 The first benefit is that such an approach makes it possible to refine the construction of
@@ -63,13 +70,12 @@ Finally, it must be noticed that we are not interested in this paper in the deri
 PH from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding out
 a set of BRNs from one PH.
 
-Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming. Both aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
+Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming.
+Both aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
 %These classes are built in order to infer properties common to some studied models.
 %In our approach, we intend to focus on the Thomas' parameters inference
 Our method is based on a model rather than on constraints, which allows to define some properties on the system structure (such as cooperations).
 Furthermore, we claim that we are able to deal with larger biological networks.
-
-\todo{Emphasis on the new contribution since CMSB.}
 
 \paragraph{Outline}
 \pref{sec:frameworks} recalls the PH and Thomas frameworks;
