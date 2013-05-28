@@ -208,22 +208,19 @@ which may turn out to be difficult to perform by hand.
 As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
 \paragraph{Discussion on interval parameters}
-While the use of intervals as parameter values ($K_{a,\omega} = \segm{i}{j}$) instead of simple integers ($K_{a,\omega} = i$) does not add expressivity in boolean networks,
-it allows to specify a larger range of dynamics in the general case of multivalued networks (w.r.t.~the above definitions).
-Indeed, it is not always possible to create the same dynamics of a BRN with interval parameters by using only integer parameters.
-Consider for example an interval parameter with three values: $K_{a,\omega} = \segm{i}{i+2}$,
-and let $s$ be its corresponding state: $\GRNres{a}{s} = \omega$.
-From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ can not evolve in $s$; therefore, $a$ has three steady-states ($i$, $i+1$ and $i+2$).
-This behavior can not be reproduced with integer intervals, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
+Whereas most of the literature use single value parameters (e.g., $K_{a,\omega} = i$), we introduce
+in this paper intervals as parameter values (e.g., $K_{a,\omega} = \segm{i}{j}$) for specifying
+the discrete functions for components.
+These interval parameters are mainly introduced for convenience, and it is worth noticing that they
+do not add extra expressivity for modelling multivalued networks.
+Although, interval parameters are more expressive that single value parameters for multivalued networks.
+First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, necessarily there exists
+a positive edge from $a$ to $a$ in the interaction graph.
+\todo{be sure to have introduced the inteference of IG from discrete maps}
+Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and
+let $s$ be a state such that $\GRNres{a}{s} = \omega$.
+From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ can not evolve in $s$;
+therefore, $a$ has three (local) fixed points ($i$, $i+1$ and $i+2$).
+This behavior can not be reproduced with single value parameters, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
 At most two steady-states can be modeled by using a self-regulation $\GRNedge{a}{s}{t}{a}$, allowing to distinguish two cases ($\GRNget{s}{a} < t$ and $\GRNget{s}{a} \geq t$), which is not enough.
-\begin{comment}
-Indeed, assume that $K_{a,\omega} = \segm{i}{i+2}$;
-we aim at obtaining the same dynamics with three different integer parameters instead: $K_{a,\omega_1} = i$,  $K_{a,\omega_2} = i+1$, $K_{a,\omega_3} = i+2$.
-The only possible modification in the resources of $a$ is to add a self-regulation $\GRNedge{a}{s}{t}{a}$.
-However, because resources have a boolean definition
-(each component can be only below or above the threshold related to its regulation on $a$),
-it is not possible to differentiate the 3 sets of resources $\omega_1$, $\omega_2$ and $\omega_3$
-by relying only on the regulation of $a$ on itself.
-\end{comment}
-Finally, with the same reasoning, we also remark that the use of intervals makes optional some explicit auto-activations in the IG
-(as for $b$ in \pref{fig:runningBRN}, for instance).
+
