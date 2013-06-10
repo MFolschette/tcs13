@@ -1,0 +1,272 @@
+\section{Answer Set Programming implementation concepts}
+
+\rewrite{Check and correctly glue this section}
+
+\newcommand{\ti}[1]{\texttt{\textit{#1}}}
+\newcommand{\aspil}[1]{\texttt{#1}}
+\newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
+
+%\newcommand{\atom}{\mathbf}
+\newcommand{\atom}[1]{#1}
+%\newcommand{\predicate}{\mathbf}
+\newcommand{\predicate}[1]{#1}
+\newcommand{\la}{\leftarrow}
+\newcommand{\var}[1]{#1}
+\newcommand{\nota}{\neg}
+
+\newcommand{\paramlabel}{\predicate{param\_label}}
+\newcommand{\paramres}{\predicate{param\_resource}}
+\newcommand{\component}{\predicate{component}}
+\newcommand{\componentlevels}{\predicate{component\_levels}}
+\newcommand{\param}{\predicate{param}}
+\newcommand{\inferedparam}{\predicate{infered\_param}}
+\newcommand{\lessactive}{\predicate{less\_active}}
+\newcommand{\paraminf}{\predicate{param\_inf}}
+
+
+
+Answer Set Programming (ASP) is a logic programming paradigm \cite{Baral03},
+which has been chosen to address the enumeration of all admissible parametrizations.
+The motivations are following:
+\begin{itemize}
+  \item ASP efficiently tackles the inherent complexity of the models used, thus allowing a fast execution of the formal tools defined in this paper,
+  \item ASP is convenient to enumerate a large set of possible answers,
+  \item and it allows to easily constrain the answers according to some properties.
+\end{itemize}
+We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
+
+\subsection{Simple rules}\label{sssec:simple_rules}
+ASP is based on a set of rules of of the form:
+\begin{align*}
+  \underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.
+\end{align*}
+where the $body$ is a series of atoms ($\atom{A}_i$) and negations of atoms ($\nota \atom{B}_i$).
+In the case of \emph{simple rules} (as opposed to the \emph{cardinality rules} of \pref{sssec:cardinality_rules}), the $head$ is also an atom ($\atom{H}$).
+Such a rule states that if all atoms $\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n$ are true
+and all atoms $\atom{B}_1, \atom{B}_2, \dots, \atom{B}_m$ are not true (negation by failure), then $\atom{H}$ has to be true.
+Solving an ASP program means finding an \emph{answer set}, that is a minimal set of true atoms that respect all the rules.
+Several answer sets can be solution to the same ASP program and the solver can be directed to enumerate them all.
+
+An atom is composed of a predicate and a series of arguments (possibly empty).
+For example, the following atom:
+\begin{align*}
+  \predicate{p}(x_1, x_2, \dots, x_r)
+\end{align*}
+is composed of the predicate $\predicate{p}$ and $r$ arguments: $x_1, x_2, \dots, x_r$.
+Each argument can be either an value or a variable,
+a value being a representation of a piece of data (component name, expression level, …)
+and a variable can is used to represent any existing value which respects the rules.
+In this paper, a variable is always denoted by a single capital letter (e.g.~$\var{A}$, $\var{P}$, …)
+while values are either numerical or consist of a single lowercase letter (e.g.~$a$, $b$, $c$, $1$, $2$, …).
+
+A rule with no $body$ part is called a fact, and its $head$ atom has to belong to all answer sets.
+For instance, the information describing the studied model (the original PH model and the inferred IG and parameters) are expressed in ASP using facts.
+In particular, the predicate $\component$ allows to define all components belonging to the inferred IG.
+Thus, an atom $\component(a, m)$ states that $a$ is a component of the IG and that $l_a = m$.
+
+\begin{example}
+Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 3 components, and to state the existence of each of them, the following facts are used:
+\begin{align*}
+  &\component(a, 2). \\
+  &\component(b, 1). \\
+  &\component(c, 1).
+\end{align*}
+These three atoms are built with the predicate $\component$.
+Furthermore, $a$, $b$, $c$, $1$ and $2$ are values.
+\end{example}
+
+To describe the sets of all expression levels of each component (\ie the set $\segm{0}{l_a}$ for each $a \in \Gamma$),
+one can use atoms of the form $\componentlevels(a, k)$ to state that $k \in \segm{0}{l_a}$.
+Variables here come in handy to enumerate each possible value $k$ for each component $a$:
+during the solving, any rule containing variables is duplicated in order to replace each variable by all the possible values it could represent.
+The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ and $\var{M}$) and enumerates the set of possible expression levels of each component in the system:
+\begin{align*}
+  \componentlevels(A, K) \la \component(\var{A}, \var{M}), 0 \leq K \leq M.
+\end{align*}
+where the notation “$\leq$” stands for a shortcut in ASP which has the same meaning as the mathematical operator.
+
+\begin{example}
+Regarding \pref{ex:infer-param-runningPH-1}, the previous rule will make the following set of atoms belong to every answer set:
+\begin{align*}
+  &\{&\componentlevels(b, 0)
+  &&\componentlevels(b, 1) \\
+  &&\componentlevels(c, 0)
+  &&\componentlevels(c, 1) \\
+  &&\componentlevels(a, 0)
+  &&\componentlevels(a, 1) \\
+  &&\componentlevels(a, 2) &&&&\}
+\end{align*}
+\end{example}
+
+\subsection{Cardinality rules}
+\label{sssec:cardinality_rules}
+As an extension of simple rules, \emph{cardinality rules} turn out to be convenient to enumerate a set of answer sets.
+The head of a cardinality rule specifies a set of atoms $H$ and two integers $min$ and $max$, and is denoted:
+\begin{align*}
+  min\ \{\ H\ \}\ max \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
+\end{align*}
+Given such a rule, as many answer sets as possible are created, so that each answer $S$ set verifies:
+\begin{align*}
+  min \leq |S \cap H| \leq max
+\end{align*}
+and every atom $\atom{H}_i \in S \cap H$ respects the simple rule:
+\begin{align*}
+  \atom{H}_i \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
+\end{align*}
+In other words, all answer sets contain a subset of $H$ whose cardinality goes from $min$ to $max$.
+The set of atoms $H = \{ \atom{H}_1, \atom{H}_2, \dots, \atom{H}_p \}$ is often defined as: $H = \atom{P} : \atom{Q}$,
+which is a shorthand for “the set of atoms of the form $\atom{P}$ for which $\atom{Q}$ is true”.
+\rewrite{Reformulate?}
+
+Cardinality rules turn out to be convenient to enumerate all possible parametrizations by creating multiple answer sets.
+For functional purposes, a unique label is assigned to every possible set of resources of a given component.
+Thus, we denote $\omega_p$ the set of resources of a given component $a$ labeled by $p$,
+and naturally, $K_{a,\omega_p}$ is the related parameter.
+%and in the following we note $K_{a,\omega_p}$ the parameter of component $a$ whose set of resources $\omega$ is assigned to the label $p$.
+We note that labeling the sets of resources of a component is obviously equivalent to labeling its parameters.
+Then, suppose that:
+\begin{itemize}
+  \item $\paramlabel(a, p)$ states that $p$ is a valid label for a set of resources of component $a$ (and therefore $K_{a,\omega_p}$ is a valid parameter);
+  \item $\param(a, p, i)$ states that: $i \in K_{a, \omega_p}$;
+  \item $\inferedparam(a, p)$ states that the parameter inference of $K_{a, \omega_p}$ was conclusive (\pref{pps:param_K}).
+\end{itemize}
+It is thereby possible to enumerate the possible values of all parameters for which \pref{pps:param_K} was not conclusive, with the following cardinality rule:
+\begin{align*}
+  & 1\ \{\ \param(\var{A}, \var{P}, \var{I}) : \componentlevels(\var{A}, \var{I})\ \}\ \infty\ \la \\
+  & \qquad\qquad\qquad \paramlabel(\var{A}, \var{P}), \nota \inferedparam(\var{A}, \var{P}).
+\end{align*}
+Indeed, this rule applies to any possible parameter $\var{P}$ of any component $\var{A}$ ($\paramlabel$) whose value is still unknown ($\nota \inferedparam$),
+and states that any expression level $\var{I}$ of this component ($\componentlevels$) can belong to the value of the parameter ($\param$).
+Furthermore, the lower bound is $1$, which forces each enumerated parameter to contain at least one value,
+but no upper bound is specified ($\infty$) for the size of each parameter (which is bounded by the number of possible expression levels of each gene).
+%each parameter contains at least $1$ value, as stated by the lower bound, and has no upper bound ($\infty$) but the number of expression levels of its component.
+In other worlds, this cardinality rule creates as many answer sets as there are \emph{candidate} parametrizations
+so that if $K_{a, \omega_p}$ could not be inferred by \pref{pps:param_K}, then
+$K_{a, \omega_p} \subset \segm{0}{l_a} \wedge K_{a, \omega_p} \neq \emptyset$
+(thus completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K} or the fact that parameters have to be intervals).
+
+
+%so that
+%inferred parameters with \pref{pps:param_K} keep their value and
+%parameters that could not be inferred take any possible value amongst the expression levels of the related component: $K_{a, \omega_p} \subset \segm{0}{l_a} \wedge K_{a, \omega_p} \neq \emptyset$.
+
+\subsection{Constraints}\label{sssec:constraints}
+%Finally, constraints can be used to filter answer sets that model parametrizations which are impossible or do not respect the assumptions of \pref{ssec:admissible-K}.
+Finally, a constraint is a rule with no $head$ part:
+\begin{align*}
+  \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
+\end{align*}
+A constraint is satisfied only if its $body$ is not satisfied,
+which thus allows to invalidate answer sets containing some unwanted combinations of atoms.
+In the scope of parameters enumeration, for example, constraints are especially useful to filter parametrizations
+that contain non-interval parameters or that do not respect the assumptions of \pref{ssec:admissible-K}.
+Indeed, suppose that:
+\begin{itemize}
+  \item $\lessactive(a, p, q)$ states that $\omega_p$ is a set of resources of $a$ with (loosely) less activators and more inhibitors than $\omega_q$;
+  \item $\paraminf(a, p, q)$ states that: $K_{a,\omega_p} \leqsegm K_{a,\omega_q}$.
+\end{itemize}
+Then, the monotonicity assumption (\pref{pro:param_enum_monotonicity}) is formulated as the following constraint:
+\begin{align*}
+  \la \lessactive(\var{A}, \var{P}, \var{Q}), \nota \paraminf(\var{A}, \var{P}, \var{Q}).
+\end{align*}
+Indeed, this constraint removes all parametrization results where parameters $K_{\var{A},\omega_\var{P}}$ and $K_{\var{Z},\omega_\var{Q}}$ exist
+such that $\var{A}$ is less activated by the set of resources $\omega_\var{P}$ than $\omega_\var{Q}$,
+but $K_{\var{A},\omega_\var{Q}} \ltsegm K_{\var{A},\omega_\var{P}}$,
+thus violating the monotonicity assumption.
+Of course, other assumptions can be formulated in the same way.
+
+\begin{example}
+In the scope of \pref{ex:infer-param-runningPH-1}, $K_{a,\{b\}}$ and $K_{a,\{c\}}$ could not be inferred by \pref{pps:param_K}.
+The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values
+(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
+\begin{align*}
+  (K_{a,\{b\}} ; K_{a,\{c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
+\end{align*}
+We note that $(\segm{1}{1} ; \segm{1}{1})$ belongs to the enumerated set of admissible parametrizations.
+Therefore, this enumeration allows, from the model in \pref{fig:runningPH-1}, to find the behavior of the model completed with a cooperative sort described in \pref{fig:runningPH-2}.
+\end{example}
+
+
+
+\begin{comment}
+---------------
+
+In particular, the existence of a parameter (whether its value has been inferred or not) is stated by the atom $\paramlabel$.
+For functional purposes, we assign a unique label to every possible set of resources $\omega$ of a given component,
+and in the following we note $K^p_{a,\omega}$ the parameter of component $a$ whose set of resources $\omega$ is assigned to the label $p$.
+In other words, $\paramlabel(a, p)$ states that a parameter $K^p_{a,\omega}$ exists.
+Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 7 parameters, and to state the existence of each of them, the following facts are used:
+\begin{align*}
+  &\paramlabel(a,1).
+  &\paramlabel(b,1).\\
+  &\paramlabel(a,2).
+  &\paramlabel(b,2).\\
+  &\paramlabel(a,3).\\
+  &\paramlabel(a,4).
+  &\paramlabel(c,1).
+\end{align*}
+
+A set (such as sets of resources $\omega$) can be defined in ASP with a series of atoms. \rewrite{Find a more precise sentence.}
+For example, for a given parameter $K^p_{a,\omega}$, expressing $x \in \omega$ is done by the atom: $\paramres(a, p, x)$.
+Then, the sets of resources of \pref{ex:infer-param-runningPH-1} is defined by:
+$$\begin{array}{>{\hspace{.8em}}l|>{\phantom{\raisebox{.6em}{xx}}}l}
+  \hspace{-.8em}\text{Parameter} & \text{Corresponding ASP fact} \\
+\hline
+  K^0_{a,\emptyset} & \\
+  K^1_{a,\{b\}} & \paramres(a,1,b). \\
+  K^2_{a,\{c\}} & \paramres(a,2,c). \\
+  K^3_{a,\{b,c\}} & \paramres(a,3,b). \quad \paramres(a,3,c). \phantom{\raisebox{-.8em}{xx}} \\ \hline
+  K^0_{b,\emptyset} & \\
+  K^1_{b,\{a\}} & \paramres(b,1,a). \phantom{\raisebox{-1em}{xx}} \\ \hline
+  K^0_{c,\emptyset} &
+\end{array}$$
+The absence of an atom $\paramres(a,1,c)$, for example, states that $c$ is not a resource for the parameter $K^1_{a,\{b\}}$ (indeed, $c \notin \{b\}$).
+
+
+
+\todo{Continue refactoring.}
+\rewrite{Explain variables}
+
+Rules allow more detailed declarations than facts as they have a body (right-hand part below) containing constraints and allowing to use variables, while facts only have a head (left-hand part).
+For instance, in order to define the set of expression levels of a component, we declare:
+$$\atom{component\_levels}(\var{X}, 0..\var{M}) \la \atom{component}(\var{X}, \var{M}).$$
+where the atom $\atom{component}(X, M)$ stands for the existence of a component $X$ with a maximum level $M$.
+Considering this declaration, any possible answer for the atom $\atom{component\_levels}$ will be found by binding all possible values of its two terms with all existing $\atom{component}$ facts:
+the existence of an answer $\atom{component\_levels}(a, k)$ will depend on the existence of a term $a$, which is bound with $\var{X}$, and an integer $k$, constrained by: $0 \leq k \leq \var{M}$.
+
+Cardinalities are convenient to enumerate all possible parametrizations by creating multiple answer sets.
+A cardinality (denoted hereafter with curly brackets) gives any number of possible answers for some atoms between a lower and upper bounds.
+For example,
+\begin{align*}
+  & 1\ \{ \atom{param}(\var{X}, \var{P}, \var{I}) : \atom{component\_levels}(\var{X}, \var{I}) \} \la \\
+  & \qquad\qquad \paramlabel(\var{X}, \var{P}), \nota \atom{infered\_param}(\var{X}, \var{P}).
+\end{align*}
+where $\atom{param}(\var{X}, \var{P}, \var{I})$ stands for: $\var{I} \in K^\var{P}_{\var{X},\omega}$,
+means that any parameter of component $\var{X}$ and label $\var{P}$ must contain at least one level value ($\var{I}$) in the possible expression levels of $\var{X}$.
+Indeed, the lower bound is $1$, forcing at least one element in the parameter, but no upper bound is specified, allowing up to any number of answers.
+The body (right-hand side) of the rule also checks for the existence of a parameter of $\var{X}$ with label $\var{P}$,
+and constrains that the parametrization inference was not conclusive for the considered parameter (“$\nota$” stands for negation by failure: $\nota \atom{L}$ becomes true if $\atom{L}$ is not true).
+Such a constraint gives multiple results as any set of $\atom{param}$ atoms satisfying the cardinality will lead to a new global set of answers.
+In this way, we enumerate all possible parametrizations which respects the results of parameters inference,
+but completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K}.
+
+We rely on integrity constraints to filter only admissible parametrizations.
+An integrity constraint is a rule with no head, that makes an answer set unsatisfiable if its body turns out to be true.
+Hence, if we suppose that:
+\begin{itemize}
+  \item the $\atom{less\_active}(a, p, q)$ atom means that $K^p_{a,\omega}$ stands for a configuration with less activating regulators than $K^q_{a,\omega'}$, % (\ie $A \subset A'$),
+  \item the $\atom{param\_inf}(a, p, q)$ atom means: $K^p_{a,\omega} \leqsegm K^q_{a,\omega'}$,
+\end{itemize}
+then the monotonicity assumption (\pref{pro:param_enum_monotonicity}) is formulated as the following integrity constraint:
+$$\la \atom{less\_active}(\var{X}, \var{P}, \var{Q}), \nota \atom{param\_inf}(\var{X}, \var{P}, \var{Q}).$$
+which removes all parametrization results where parameters $K^\var{P}_{\var{X},\omega}$ and $K^\var{Q}_{\var{X},\omega'}$ exist such that $\var{X}$ is less activated by $\omega$ than $\omega'$ %$A \subset A'$
+but $K^\var{Q}_{\var{X},\omega'} \ltsegm K^\var{P}_{\var{X},\omega}$,
+thus violating the monotonicity assumption.
+Of course, other assumptions can be formulated in the same way.
+\end{comment}
+
+
+
+This subsection succinctly described how ASP programs come in handy to represent a model and solve all steps of Thomas' modeling inference.
+It finds a particularly interesting application in the enumeration of parameters: all possible parametrizations are generated in separate answer sets, and integrity constraints are formulated to remove those that do not fit the assumptions of admissible parametrizations,
+thus reducing the number of interesting parametrizations to be considered in the end.
