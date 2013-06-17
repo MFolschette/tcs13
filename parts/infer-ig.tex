@@ -9,9 +9,13 @@ This section first introduces the notion of focal processes within a PH
 (\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
 in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
 Finally, the rules for inferring the interactions between components from a PH are
-described in \pref{ssec:infer-IG}.
+described in two complementary subsections with a different perspective in the inference.
+\pref{ssec:infer-IG-structure} proposes an inference based on the structure of the original PH model
+while \pref{ssec:infer-IG-dynamics} uses a dynamics point of view to infer the Interaction Graph.
 We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
+
+
 
 \subsection{Focal Processes}\label{ssec:focal}
 
@@ -107,6 +111,8 @@ In the PH of \pref{fig:runningPH-1}, we obtain:
 \end{align*}
 \end{example}
 
+
+
 \subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
 
 The inference of an IG from a PH assumes that the PH defines two types of sorts:
@@ -192,9 +198,8 @@ with $\Gamma = \{a,b,c\}$.
 \end{example}
 
 
-\subsection{Interaction Inference}\label{ssec:infer-IG}
 
-\todo{replace $\gamma(b\rightarrow a)$ by $X(a)$}
+\subsection{Structure-based Interaction Inference}\label{ssec:infer-IG-structure}
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
 ($\PHs \setminus \Gamma$) that will not appear in the IG. 
@@ -208,7 +213,7 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 (c^k)_{k \in \segm{0}{n}} \in \PHs^{n+1}, \\
                                    & \quad \quad c^0 = b \wedge c^n = a \\
                                    & \quad \quad \wedge \forall k \in \segm{0}{n-1},
-								   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
+                   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
 \end{split}
 \label{eq:ph_predec}
 \\
@@ -231,26 +236,36 @@ Because there is no cycle between cooperative sorts, this recursive evaluation o
 always terminates.
 \begin{align}
 \forall g\subset \Gamma,
-	\ctx_g(\sigma) & \DEF \{ \sigma[b] \mid b\in g \} \cup \{ \upsilon(\sigma) \mid
+  \ctx_g(\sigma) & \DEF \{ \sigma[b] \mid b\in g \} \cup \{ \upsilon(\sigma) \mid
 \upsilon\in\PHdirectpredec{a} \setminus \Gamma \wedge g\cap \PHpredecgene{\upsilon} \neq \emptyset \}
 \label{eq:ctx-sigma}
 \\
 \upsilon(\sigma) & \DEF
 \upsilon(\sigma \uplus \state{\upsilon'(\sigma) \mid 
-	\upsilon'\in\PHdirectpredec{\upsilon} \wedge
-	\upsilon'\in\PHs\setminus\Gamma })
+  \upsilon'\in\PHdirectpredec{\upsilon} \wedge
+  \upsilon'\in\PHs\setminus\Gamma })
 \label{eq:cooperative-eval}
 \end{align}
 
+This first inference mainly focuses on the presence of actions betweens two sorts to conclude on the presence of a regulation.
 We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
 the level of $b$ makes possible the increase (decrease) of the level of $a$.
-This is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
+To do so, the sets of components cooperating together to hit $a$, called groups of influence of $a$, are studied.
+Such groups are given by the set $X(a)$ that is the set of connected components in the graph linking two regulators
+$b$ and $c$ of $a$ if they use a common cooperative sort to have an influence on $a$ (\pref{eq:influence-groups}).
+\begin{equation}
+X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
+        \exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
+        \{b,c\} \subset \PHpredecgene{\upsilon} \}) \right)
+\label{eq:influence-groups}
+\end{equation}
 
-This reasoning can be straightforwardly applied to a PH when inferring the influence of $b$ on $a$
-when $b\neq a$ (\pref{eq:edges-inference-b}).
-Let us define $\gamma(b\rightarrow a)$ as the set of components cooperating with $b$ to hit $a$,
-including $b$ and $a$ (\pref{eq:cooperating-with-b}).
-Given a configuration $\sigma\in\prod_{c\in\gamma(b\rightarrow a)} L_c$, 
+This reasoning can then be straightforwardly applied when $b \neq a$ (\pref{eq:edges-inference-b}).
+Indeed, to study the influence of any component $b$ on $a$, it is sufficient to study the (unique) group of influence
+$g \in X(a)$ which $b$ belongs to. %, that is, the (unique) set in $X_a$ containing $b$, denoted $X_a(b)$.
+%The reasoning mentioned in the previous paragraph can then be straightforwardly applied when $b \neq a$ (\pref{eq:edges-inference-b}),
+%by considering this 
+Indeed, given a configuration $\sigma\in\prod_{c\in g \cup \{ a \}} L_c$, 
 $\focals(a,\{a_i\},\ctx_b(\sigma))$ gives the bounces that a given process $a_i$ can make in the
 context $\ctx_b(\sigma)$.
 We note $\sigma\{b_i\}$ the configuration $\sigma$ where the process of sort $b$ has been replaced
@@ -259,21 +274,10 @@ If there exists $b_i,b_{i+1}\in L_b$ such that one bounce in
 $\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\}))$
 has a lower (resp. higher) level that one bounce in
 $\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\}))$, then
-$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $l=i+1$.
-\begin{equation}
-\gamma(b\rightarrow a)  \DEF \{ a, b \} \cup \{ c \in \Gamma \mid 
-			\exists \upsilon\in\PHs\setminus\Gamma,
-				\upsilon\in\PHpredec{a} \wedge \{b,c\}\subset\PHpredec{\upsilon} \}
-\label{eq:cooperating-with-b}
-\end{equation}
+$b$ as positive (resp. negative) influence on $a$ with a maximum threshold $t=i+1$.
 
-
-Then, we infer that $a$ has a self-influence if its current level can have an impact on its own
-evolution at a given configuration $\sigma$.
-We consider here a configuration $\sigma$ of a group $g$ of sorts having a cooperation on $a$.
-This set of sort groups is given by $X(a)$ (\pref{eq:influence-groups}) which returns the set of
-connected components (noted $\mathcal C$) of the graph linking two regulators $b,c$ of $a$ if there
-is a cooperative sort hitting $a$ regulated by both of them.
+Finally, we infer that $a$ has a self-influence if its current level can have an impact on its own
+evolution in a given configuration $\sigma$ of any group of influence on $a$.
 Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx_g(\sigma\{a_i\}))$ and
 $a_k\in\focals(a,\{a_{i+1}\},\ctx_g(\sigma\{a_{i+1}\}))$.
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
@@ -283,17 +287,10 @@ We note that some aspects of this inference are arbitrary and may impact the num
 infer in the next section.
 In particular, in some cases, the use of intervals for Thomas' parameters drops the requirement of
 inferring a self-activation.
-%Future work may propose alternative definitions of self-influences inference in order to range over
-%different parametrization configurations.
-\begin{equation}
-X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
-				\exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
-					\{b,c\} \subset \PHpredecgene{\upsilon} \}) \right)
-\label{eq:influence-groups}
-\end{equation}
+
 
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
-with a threshold $l$.
+with a threshold $t$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
 We do not consider the cases where a component has no visible influence on another.
 \begin{proposition}[Edges inference]\label{pps:inference-edges}
@@ -301,33 +298,34 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
 $a\in\Gamma$ by:
 \begin{align}
 \begin{split}
-\forall b\in\PHpredecgene{a}, b\neq a, \\
-b\xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
- \exists \sigma\in\textstyle\prod_{c\in\gamma(b\rightarrow a)} L_c, \exists b_i,b_{i+1}\in \PHl_b,\\
+\forall b\in\PHpredecgene{a}, b &\neq a, \\
+b\xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
+  \exists g \in X(a), b \in g, 
+  \exists \sigma\in\textstyle\prod_{c\in g \cup \{ a \}} L_c, \exists b_i,b_{i+1}\in \PHl_b,\\
 & \qquad\qquad
         \exists a_{j}\in\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\})), \\
 & \qquad\qquad
         \exists a_{k}\in\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\})), \\
 & \qquad\qquad\qquad
-                        s = \f{sign}(k - j) \wedge l = i+1
+                        s = \f{sign}(k - j) \wedge t = i+1
 \end{split}
 \label{eq:edges-inference-b}
 \\
 \begin{split}
-a \xrightarrow l a \in \hat{E}_s & \Longleftrightarrow
-\exists g \in X(a), \sigma \in L_a\times \textstyle\prod_{b\in g} L_b,
-			\exists a_i,a_{i+1}\in \PHl_a, \\
+a \xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
+\exists g \in X(a), \sigma \in \textstyle\prod_{b\in g \cup \{ a \}} L_b,
+      \exists a_i,a_{i+1}\in \PHl_a, \\
 & \qquad\qquad
         \exists a_{j}\in\focals(a, \{a_i\}, \ctx_g(\sigma\{a_i\})), \\
 & \qquad\qquad
         \exists a_{k}\in\focals(a, \{a_{i+1}\},  \ctx_g(\sigma\{a_{i+1}\})), \\
 & \qquad\qquad\quad
-			k \neq j+1
-				\wedge s = \f{sign}(k - j) \wedge l = i+1
+      k \neq j+1
+        \wedge s = \f{sign}(k - j) \wedge t = i+1
 \end{split}
 \label{eq:edges-inference-a}
 \end{align}
-where $s \in \{ +, - \}$, $\bar s = + \EQDEF s = -$, $\bar s = - \EQDEF s = +$,
+where $s \in \{ +, - \}$,
 $\f{sign}(n) = + \EQDEF n > 0$,
 $\f{sign}(n) = - \EQDEF n < 0$,
 and $\f{sign}(0) \DEF 0$.
@@ -337,10 +335,10 @@ We are now able to infer the edges of the final IG by considering positive and n
 (\pref{pps:inference-IG}).
 We infer a positive (resp. negative) edge if there exists a corresponding influence with the same
 sign. If an influence is both positive and negative, we infer an unsigned edge. In the end, the
-threshold of each edge is the minimum threshold for which the influence has been found. As unsigned
-edges represent ambiguous interactions, no threshold is inferred.
+threshold of each edge is the minimum threshold for which an influence has been found.
+%As unsigned edges represent ambiguous interactions, no threshold is inferred.
 \begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
-We infer $\IG = (\Gamma,E)$ from \pref{pps:inference-edges} as follows:
+We infer $\IG = (\Gamma,E)$ using \pref{pps:inference-edges} as follows:
 \begin{align*}
 E_+ &= \{ \GRNedge{a}{+}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
@@ -357,7 +355,8 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 The IG inference from the PH of \pref{fig:runningPH-2} gives
 $\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
 $\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runningBRN}.
-No self-influence are inferred ($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
+No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
+\rewrite{Check this example}
 \end{example}
 
 
@@ -365,3 +364,37 @@ No self-influence are inferred ($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $
 \todo{Add a new subsection about the alternative inference (cf.~A.~Richard)}
 
 \todo{Insist on the absence of non-functional edges in the inferred IG (contrary to biologists' IGs)}
+
+
+
+\subsection{Dynamics-based Interaction Inference}\label{ssec:infer-IG-dynamics}
+
+This second inference is complementary to the one presented in the previous subsection.
+It is based on an approach considering the global dynamics of a component rather than independent dynamics of each regulator;
+in that, it is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
+Contrary to the previously presented method, we focus on a configuration (or: sub-state) $\sigma$
+on the whole set $\reg{a}$ of predecessors of a component $a$ (rather than on a subset of cooperating regulators).
+
+\rewriteil{$B_a(\sigma)$ = Ensemble des processus vers lesquels on bondit}
+
+\begin{align}
+\begin{split}\label{eq:edges-inference-richard-pos}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\\
+  b\xrightarrow{t+1} a \in \hat{E}_+ \Longleftrightarrow\ &
+    \exists a_j \in B_a(\sigma\{b_{t}\}), \exists a_k \in B_a(\sigma\{b_{t+1}\}),\\
+    &\qquad a_j \leq \PHget{\sigma}{a} < a_k \warnul{\vee a_j < \PHget{\sigma}{a} \leq a_k \quad^*}
+\end{split}\\
+\begin{split}\label{eq:edges-inference-richard-neg}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\\
+  b\xrightarrow{t+1} a \in \hat{E}_- \Longleftrightarrow\ &
+    \exists a_j \in B_a(\sigma\{b_{t}\}), \exists a_k \in B_a(\sigma\{b_{t+1}\}),\\
+    &\qquad a_j > \PHget{\sigma}{a} \geq a_k \warnul{\vee a_j \geq \PHget{\sigma}{a} > a_k \quad^*}
+\end{split}
+\end{align}
+
+\todo{\underline{$^*$Garder les conditions larges ?}}
+
+
+
+
+
