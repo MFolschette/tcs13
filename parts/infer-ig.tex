@@ -277,7 +277,7 @@ $\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_{i+1}\}))$, then
 $b$ as positive (resp. negative) influence on $a$ with a maximum threshold $t=i+1$.
 
 Finally, we infer that $a$ has a self-influence if its current level can have an impact on its own
-evolution in a given configuration $\sigma$ of any group of influence on $a$.
+evolution in a given configuration $\sigma$ of any group of influence on $a$ (\pref{eq:edges-inference-a}).
 Given $a_i,a_{i+1}\in L_a$, we pick $a_j\in\focals(a,\{a_i\},\ctx_g(\sigma\{a_i\}))$ and
 $a_k\in\focals(a,\{a_{i+1}\},\ctx_g(\sigma\{a_{i+1}\}))$.
 If $k=j+1$, we can not conclude as there is no difference in the evolution of both levels.
@@ -293,7 +293,7 @@ inferring a self-activation.
 with a threshold $t$.
 These influences are split into positive and negative ones, and represent possible edges in the final IG.
 We do not consider the cases where a component has no visible influence on another.
-\begin{proposition}[Edges inference]\label{pps:inference-edges}
+\begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any
 $a\in\Gamma$ by:
 \begin{align}
@@ -301,7 +301,7 @@ $a\in\Gamma$ by:
 \forall b\in\PHpredecgene{a}, b &\neq a, \\
 b\xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
   \exists g \in X(a), b \in g, 
-  \exists \sigma\in\textstyle\prod_{c\in g \cup \{ a \}} L_c, \exists b_i,b_{i+1}\in \PHl_b,\\
+  \exists \sigma\in\textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \exists b_i,b_{i+1}\in \PHl_b,\\
 & \qquad\qquad
         \exists a_{j}\in\focals(a, \{\sigma[a]\}, \ctx_b(\sigma\{b_i\})), \\
 & \qquad\qquad
@@ -313,7 +313,7 @@ b\xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
 \\
 \begin{split}
 a \xrightarrow t a \in \hat{E}_s & \Longleftrightarrow
-\exists g \in X(a), \sigma \in \textstyle\prod_{b\in g \cup \{ a \}} L_b,
+\exists g \in X(a), \sigma \in \textstyle\prod_{b\in g \cup \{ a \}} \PHl_b,
       \exists a_i,a_{i+1}\in \PHl_a, \\
 & \qquad\qquad
         \exists a_{j}\in\focals(a, \{a_i\}, \ctx_g(\sigma\{a_i\})), \\
@@ -361,8 +361,6 @@ No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and
 
 
 
-\todo{Add a new subsection about the alternative inference (cf.~A.~Richard)}
-
 \todo{Insist on the absence of non-functional edges in the inferred IG (contrary to biologists' IGs)}
 
 
@@ -370,31 +368,81 @@ No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and
 \subsection{Dynamics-based Interaction Inference}\label{ssec:infer-IG-dynamics}
 
 This second inference is complementary to the one presented in the previous subsection.
-It is based on an approach considering the global dynamics of a component rather than independent dynamics of each regulator;
-in that, it is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
+It is based on an approach considering the global dynamics of a component rather than independent dynamics of each regulator,
+%in that, it is analogous to standard IG inferences from discrete maps \cite{RiCo07}.
+and is inspired from the definition of Interaction Graph built from a Transition Graph as described in~\cite{Richard2010378}.
 Contrary to the previously presented method, we focus on a configuration (or: sub-state) $\sigma$
 on the whole set $\reg{a}$ of predecessors of a component $a$ (rather than on a subset of cooperating regulators).
 
-\rewriteil{$B_a(\sigma)$ = Ensemble des processus vers lesquels on bondit}
-
+For a given configuration $\sigma$ of a component $a$ and its regulators,
+$\irB_a(\sigma)$ is the set of processes towards which $a$ can bounce (\pref{eq:possible-bounces}).
+This set is defined using the set $\irF_a(\sigma)$ of action hitting $\PHget{\sigma}{a}$ in $\sigma$ (\pref{eq:possible-actions})
+and the set of processes $\ctx$ hitting any process of $a$ (\pref{eq:ctx-sigma}).
+If $a$ cannot be hit by any action in $\sigma$, then $\irB_a(\sigma) = \{ \PHget{\sigma}{a} \}$.
+%
 \begin{align}
-\begin{split}\label{eq:edges-inference-richard-pos}
-  \forall b\in\PHpredecgene{a}, \qquad\qquad\\
-  b\xrightarrow{t+1} a \in \hat{E}_+ \Longleftrightarrow\ &
-    \exists a_j \in B_a(\sigma\{b_{t}\}), \exists a_k \in B_a(\sigma\{b_{t+1}\}),\\
-    &\qquad a_j \leq \PHget{\sigma}{a} < a_k \warnul{\vee a_j < \PHget{\sigma}{a} \leq a_k \quad^*}
-\end{split}\\
-\begin{split}\label{eq:edges-inference-richard-neg}
-  \forall b\in\PHpredecgene{a}, \qquad\qquad\\
-  b\xrightarrow{t+1} a \in \hat{E}_- \Longleftrightarrow\ &
-    \exists a_j \in B_a(\sigma\{b_{t}\}), \exists a_k \in B_a(\sigma\{b_{t+1}\}),\\
-    &\qquad a_j > \PHget{\sigma}{a} \geq a_k \warnul{\vee a_j \geq \PHget{\sigma}{a} > a_k \quad^*}
+\begin{split}\label{eq:possible-actions}
+  \forall \sigma &\in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c, \sigma' = \ctx_{\reg{a}}(\sigma),\\
+  & \irF_a(\sigma) \DEF \{ a_k \in \PHl_a \mid \exists b \in \PHs, \exists \PHfrappe{b_i}{a_j}{a_k} \in \PHa,\\
+  & \qquad\qquad\qquad\qquad\qquad \PHget{\sigma'}{b} = b_i \wedge \PHget{\sigma'}{a} = a_j \}\\
+\end{split}
+\end{align}
+%
+\begin{align}
+\begin{split}\label{eq:possible-bounces}
+  \forall \sigma &\in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c,
+%    \sigma' = \ctx_{\reg{a}}(\sigma),\\
+  \irB_a(\sigma) \DEF 
+  \begin{cases}
+    \irF_a(\sigma)
+      & \text{ if } \irF_a(\sigma) \neq \emptyset\\
+    \{ \PHget{\sigma}{a} \}
+      & \text{ if } \irF_a(\sigma) = \emptyset
+  \end{cases}
 \end{split}
 \end{align}
 
-\todo{\underline{$^*$Garder les conditions larges ?}}
+The main idea of the inference detailed in \pref{pps:inference-edges-dynamics} is close to the one of \pref{ssec:infer-IG-structure}:
+the presence of a positive (negative) influence of a component $b$ on $a$ denotes the fact that
+there exists a state in which increasing the level of $b$ tends to make the future level of $a$ rise (drop) (\pref{eq:edges-inference-richard-pos} \& \eqref{eq:edges-inference-richard-neg}).
+the main difference lies in the fact that this inference focuses on local evolutions (the possibility for $a$ to bounce away from its original state)
+rather than global evolutions (by considering focal processes denoting the overall influence).
+Therefore, an influence is inferred if the possible bounces of $a$ in $\sigma$ depend on the level of $b$.
+%
+\begin{proposition}[Influences inference]\label{pps:inference-edges-dynamics}
+We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any $a\in\Gamma$ by:
+\begin{align}
+\begin{split}\label{eq:edges-inference-richard-pos}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\quad\\
+  b\xrightarrow{t+1} a \in \hat{E}_+ \Longleftrightarrow\ &
+    \exists \sigma \in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c, \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}),\\
+    &\qquad a_j \leq \PHget{\sigma}{a} < a_k \warnul{\vee a_j < \PHget{\sigma}{a} \leq a_k \quad^*}
+\end{split}\\
+\begin{split}\label{eq:edges-inference-richard-neg}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\quad\\
+  b\xrightarrow{t+1} a \in \hat{E}_- \Longleftrightarrow\ &
+    \exists \sigma \in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c, \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}),\\
+    &\qquad a_j > \PHget{\sigma}{a} \geq a_k \warnul{\vee a_j \geq \PHget{\sigma}{a} > a_k \quad^*}
+\end{split}
+\end{align}
+\end{proposition}
+%
+\todo{\underline{$^*$Keep these large conditions?}}
 
+Finally it is possible to infer the final IG by using the same reasoning as \pref{pps:inference-IG}:
+a positive (negative) edge in inferred if there exist positives (negative) influences only, otherwise an unsigned edge in inferred.
+We point out that the main use of this alternative inference is the fact that the conditions used to infer each influence
+in \pref{eq:edges-inference-richard-pos} \& \eqref{eq:edges-inference-richard-neg}
+allows to apply some results about the links between the structure of an IG and the dynamics of the model.
+These results consist mainly in Thomas' conjectures, that focus on the presence of positive and negative circuits in the IG, and state that:
+\begin{itemize}
+  \item the presence of a positive circuit in the IG is a necessary condition for several fixed points,
+  \item the presence of a negative circuit in the IG is a necessary condition for sustained oscillations.
+\end{itemize}
+The sign of a circuit is defined by the number of negative edges it contains;
+given the nature of unsigned edges, the presence of such an edge in a circuit would count for the presence of both a positive and negative circuit.
+These conjectures have been demonstrated in~\cite{Richard2010378} \towrite{Other references! (multi-stationarity \& boolean models)}.
 
-
-
-
+\todo{Example}
