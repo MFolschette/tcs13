@@ -9,9 +9,7 @@ This section first introduces the notion of focal processes within a PH
 (\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
 in \pref{ssec:wf}, and as well used by the parametrization inference presented in \pref{sec:infer-K}.
 Finally, the rules for inferring the interactions between components from a PH are
-described in two complementary subsections with a different perspective in the inference.
-\pref{ssec:infer-IG-structure} proposes an inference based on the structure of the original PH model
-while \pref{ssec:infer-IG-dynamics} uses a dynamics point of view to infer the Interaction Graph.
+described in \pref{ssec:infer-IG}.
 We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
 performed.
 
@@ -199,6 +197,190 @@ with $\Gamma = \{a,b,c\}$.
 
 
 
+\subsection{Interaction Inference}\label{ssec:infer-IG}
+
+
+At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
+($\PHs \setminus \Gamma$) that will not appear in the IG. 
+We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
+by considering direct actions and possible intermediate cooperative sorts.
+The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
+(\pref{eq:regulators}).
+\begin{align}
+\begin{split}
+\forall a \in \PHs, \PHpredec{a} &\DEF \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists
+(c^k)_{k \in \segm{0}{n}} \in \PHs^{n+1}, \\
+                                   & \quad \quad c^0 = b \wedge c^n = a \\
+                                   & \quad \quad \wedge \forall k \in \segm{0}{n-1},
+                   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
+\end{split}
+\label{eq:ph_predec}
+\\
+\forall a\in \PHs, \PHpredecgene{a} & \DEF \PHpredec{a} \cap \Gamma
+\label{eq:regulators}
+\end{align}
+
+Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
+refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
+If $g=\{b\}$, we simple note $\ctx_b(\sigma)$.
+This set is composed of the active processes of sorts in $g$, and the focal process (assumed
+unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
+The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
+relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
+$\upsilon$ are defined in $\sigma$.
+When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
+the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval},
+where $\uplus$ stands for a union of states (which are sets of processes).
+Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
+always terminates.
+\begin{align}
+\forall g\subset \Gamma,
+  \ctx_g(\sigma) & \DEF \{ \sigma[b] \mid b\in g \} \cup \{ \upsilon(\sigma) \mid
+\upsilon\in\PHdirectpredec{a} \setminus \Gamma \wedge g\cap \PHpredecgene{\upsilon} \neq \emptyset \}
+\label{eq:ctx-sigma}
+\\
+\upsilon(\sigma) & \DEF
+\upsilon(\sigma \uplus \state{\upsilon'(\sigma) \mid 
+  \upsilon'\in\PHdirectpredec{\upsilon} \wedge
+  \upsilon'\in\PHs\setminus\Gamma })
+\label{eq:cooperative-eval}
+\end{align}
+
+This inference mainly focuses on the presence of actions betweens two sorts to conclude on the presence of a regulation.
+We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
+the level of $b$ makes possible the increase (decrease) of the level of $a$,
+and is directly inspired from the works of~\cite{Richard2010378}.
+To do so, the sets of components cooperating together to hit $a$, called groups of influence of $a$, are studied.
+Such groups are given by the set $X(a)$ that is the set of connected components in the graph linking two regulators
+$b$ and $c$ of $a$ if they use a common cooperative sort to have an influence on $a$ (\pref{eq:influence-groups}).
+\begin{equation}
+X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
+        \exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
+        \{b,c\} \subset \PHpredecgene{\upsilon} \}) \right)
+\label{eq:influence-groups}
+\end{equation}
+
+To infer influence of a component $b$ on a component $a$,
+we observe of the direction of evolution of $a$ for different active processes of $b$.
+The fact that $a$ tends to evolve differently when $b$ changes denotes an influence from $b$.
+This reasoning can also be applied in the case where $a = b$.
+
+%To infer influences on a component $a$, we compare several configurations of groups of components of $a$.
+%Indeed, to study the influence of any component $b$ on $a$, it is sufficient to study the (unique) group of influence
+%$g \in X(a)$ which $b$ belongs to
+%(that is, the unique set of components regulating $a$ through common cooperative sorts containing $b$).
+%This reasoning relies on the observation of the direction of evolution of $a$ for different active processes of $b$.
+%and we can infer a positive influence if raising the level of $b$ changes the evolution of $a$ 
+
+Formally, for a given group $g$ of regulators of a component $a$
+(that is, a minimal set of components regulating $a$ through common cooperative sorts),
+and a configuration $\ctx$ on $g$,
+$\irB_a(\sigma)$ is the set of processes towards which $a$ can bounce (\pref{eq:possible-bounces}).
+%This set is defined using the set $\irF_a(\sigma)$ of action hitting $\PHget{\sigma}{a}$ in $\sigma$ (\pref{eq:possible-actions})
+%and the set of processes $\ctx$ hitting any process of $a$ (\pref{eq:ctx-sigma}).
+If $a$ cannot be hit by any action in $\sigma$, then $\irB_a(\sigma) = \{ \PHget{\sigma}{a} \}$.
+%
+\begin{align}
+\begin{split}\label{eq:possible-bounces}
+  &\forall g \in X(a), \forall \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c,
+%    \sigma' = \ctx_{\reg{a}}(\sigma),\\
+  \irB_a(\sigma) \DEF 
+  \begin{cases}
+    \irF_a(\sigma)
+      & \text{ if } \irF_a(\sigma) \neq \emptyset\\
+    \{ \PHget{\sigma}{a} \}
+      & \text{ if } \irF_a(\sigma) = \emptyset
+  \end{cases}\\
+%\end{split}\\
+%\begin{split}
+  &\text{where: } \irF_a(\sigma) \DEF \{ a_k \in \PHl_a \mid \exists b \in \PHs, \exists \PHfrappe{b_i}{a_j}{a_k} \in \PHa,\\
+  & \qquad\qquad\qquad\qquad\qquad\qquad \PHget{\sigma}{a} = a_j \wedge \PHget{(\ctx_{g}(\sigma))}{b} = b_i \}\\
+\end{split}
+\end{align}
+
+\pref{pps:inference-edges} details the inference of all existing influences between components occurring
+with a threshold $t$.
+The main idea of this inference is that
+the presence of a positive (negative) influence of a component $b$ on $a$ denotes the fact that
+there exists a state in which increasing the level of $b$ tends to make the future level of $a$ rise (drop)
+(\pref{eq:edges-inference-pos} \& \eqref{eq:edges-inference-neg}).
+Therefore, these influences are split into positive and negative ones, and represent possible edges in the final IG.
+We ignore the cases where a component has no visible influence on another.
+%
+\begin{proposition}[Influences inference]\label{pps:inference-edges}
+We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any $a\in\Gamma$ by:
+\begin{align}
+\begin{split}\label{eq:edges-inference-pos}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\quad\\
+  b\xrightarrow{t+1} a \in \hat{E}_+ \Longleftrightarrow\ &
+    \exists \sigma \in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c, \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}),\\
+    &\qquad \warnul{a_j \leq \PHget{\sigma}{a} < a_k \quad^*}\\
+    &\qquad \warnul{a_j \leq \PHget{\sigma}{a} < a_k \vee a_j < \PHget{\sigma}{a} \leq a_k \quad^{**}}\\
+    &\qquad \warnul{a_j < a_k \quad^{***}}
+\end{split}\\
+\begin{split}\label{eq:edges-inference-neg}
+  \forall b\in\PHpredecgene{a}, \qquad\qquad\quad\\
+  b\xrightarrow{t+1} a \in \hat{E}_- \Longleftrightarrow\ &
+    \exists \sigma \in \textstyle\prod_{c\in \reg{a} \cup \{ a \}} \PHl_c, \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}),\\
+    &\qquad \warnul{a_j > \PHget{\sigma}{a} \geq a_k \quad^*}\\
+    &\qquad \warnul{a_j > \PHget{\sigma}{a} \geq a_k \vee a_j \geq \PHget{\sigma}{a} > a_k \quad^{**}}\\
+    &\qquad \warnul{a_j > a_k \quad^{***}}
+\end{split}
+\end{align}
+\end{proposition}
+%
+\todo{\underline{$^*$Strict inference}}\\
+\todo{\underline{$^{**}$Large inference}}\\
+\todo{\underline{$^{***}$Non-unitary-style inference}}
+
+We are now able to infer the edges of the final IG by considering positive and negative influences
+(\pref{pps:inference-IG}).
+We infer a positive (resp. negative) edge if there only exist corresponding influences with the same sign.
+If an influence is both positive and negative, we infer an unsigned edge.
+In the end, the threshold of each edge is the minimum threshold for which an influence has been found.
+%
+\begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
+We infer $\IG = (\Gamma,E)$ using \pref{pps:inference-edges} as follows:
+\begin{align*}
+E_+ &= \{ \GRNedge{a}{+}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
+  \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
+E_- &= \{ \GRNedge{a}{-}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
+  \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
+E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t''} b \in \hat{E}_- \\
+  & \qquad\qquad\qquad \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_- \cup \hat{E}_+\}\}
+\end{align*}
+\end{proposition}
+
+We point out that one of the benefits of this alternative inference is the fact that the conditions used to infer each influence
+in \pref{eq:edges-inference-pos} \& \eqref{eq:edges-inference-neg}
+allow to apply some results about the links between the structure of an IG and the dynamics of the model.
+These results consist mainly in Thomas' conjectures, that focus on the presence of positive and negative circuits in the IG, and state that:
+\begin{itemize}
+  \item the presence of a positive circuit in the IG is a necessary condition for several fixed points,
+  \item the presence of a negative circuit in the IG is a necessary condition for sustained oscillations.
+\end{itemize}
+The sign of a circuit is defined by the number of negative edges it contains;
+given the nature of unsigned edges, the presence of such an edge in a circuit would count for the presence of both a positive and negative circuit.
+These conjectures have been demonstrated in~\cite{Richard2010378} \towrite{Other references! (multi-stationarity \& boolean models)}.
+
+\todo{Insist on the absence of non-functional edges in the inferred IG (contrary to biologists' IGs)}
+
+
+
+\begin{example}
+The IG inference from the PH of \pref{fig:runningPH-2} gives
+$\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
+$\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runningBRN}.
+No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
+\rewrite{Check this example}
+\end{example}
+
+
+
+
+\begin{comment}
 \subsection{Structure-based Interaction Inference}\label{ssec:infer-IG-structure}
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
@@ -446,3 +628,4 @@ given the nature of unsigned edges, the presence of such an edge in a circuit wo
 These conjectures have been demonstrated in~\cite{Richard2010378} \towrite{Other references! (multi-stationarity \& boolean models)}.
 
 \todo{Example}
+\end{comment}
