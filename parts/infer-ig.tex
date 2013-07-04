@@ -305,36 +305,42 @@ the presence of a positive (negative) influence of a component $b$ on $a$ denote
 there exists a state in which increasing the level of $b$ tends to make the future level of $a$ rise (drop)
 (\pref{eq:edges-inference}).
 Therefore, these influences are split into positive and negative ones, and represent possible edges in the final IG.
-Furthermore, studying the influences of the groups of regulators of $a$
-allows to study its auto-influences, and thus infer auto-edges on $a$ in the IG (\pref{eq:edges-inference-auto}).
-Finally, \pref{eq:edges-inference-noreg} handles the special case where $a$ has no regulators.
+%Furthermore, studying the influences of the groups of regulators of $a$
+%allows to study its auto-influences, and thus infer auto-edges on $a$ in the IG (\pref{eq:edges-inference-auto}).
+%Finally, \pref{eq:edges-inference-noreg} handles the special case where $a$ has no regulators.
 We ignore the cases where a component has no visible influence on another.
 %
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any $a\in\Gamma$ by:
 \begin{align}
 \begin{split}\label{eq:edges-inference}
-  \forall b\in\PHpredecgene{a}, \forall s \in \{ +, - \}, \\
+  \forall b\in\PHpredecgene{a} \cup \{ a \}, \forall s \in \{ +, - \}, \\
   b \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), b \in g,
   \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
     &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
     &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
     &\qquad s = \f{sign}(a_k - a_j)
 \end{split}\\
-\begin{split}\label{eq:edges-inference-auto}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), \exists b \in g,
-  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
-    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
-    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
-    &\qquad s = \f{sign}(a_k - a_j)
-\end{split}\\
-\begin{split}\label{eq:edges-inference-noreg}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
-    &\qquad \exists a_j \in \irB_a(\PHetat{a_t}), \exists a_k \in \irB_a(\PHetat{a_{t+1}}), \\
-    &\qquad s = \f{sign}(a_k - a_j)
-\end{split}
+%
+%%% Tentative de réduire le nombre d'auto-arcs superflus
+%
+%\begin{split}\label{eq:edges-inference-auto}
+%  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
+%  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), \exists b \in g,
+%  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
+%    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+%    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
+%    &\qquad s = \f{sign}(a_k - a_j)
+%\end{split}\\
+%\begin{split}\label{eq:edges-inference-noreg}
+%  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
+%  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
+%    &\qquad \exists a_j \in \irB_a(\PHetat{a_t}), \exists a_k \in \irB_a(\PHetat{a_{t+1}}), \\
+%    &\qquad s = \f{sign}(a_k - a_j)
+%\end{split}
+%
+%%% Ancienne version de l'inférence
+%
 %\begin{split}\label{eq:edges-inference-pos}
 %  \forall b\in\PHpredecgene{a}, \qquad\qquad\quad\\
 %  b\xrightarrow{t+1} a \in \hat{E}_+ \Longleftrightarrow\ &
