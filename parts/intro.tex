@@ -50,10 +50,10 @@ by capturing the largest (the most general) dynamics.
 \medskip
 
 \updated{%
-The aim of this paper is to formally estiblish links between several layers suited for specifying the
+The aim of this paper is to formally establish links between several layers suited for specifying the
 qualitative dynamics of BRNs, namely:
 the Interaction Graph (IG), referencing the sign of direct regulations between components;
-the Process Hitting (PH), which permits to specify the qualitatif dynamics of the system with
+the Process Hitting (PH), which permits to specify the qualitative dynamics of the system with
 various degrees of knowledge for joint regulations;
 and Thomas' parameters, which completely specify the functions governing the evolution of
 components.}
@@ -66,7 +66,9 @@ This typically results into IGs that contain less interaction than an hypothetic
 IG, as the specification of component evolutions may reveal non-functional regulations.
 Based on the derived IG, various static analysis allows to conclude on global properties
 of the system dynamics (see \cite{PR11-SASB} for a short survey).
-The most known are the Thomas' conjectures (that have been proved since \todo{refs}),
+The most known are the Thomas' conjectures (that have been proved since, e.g.
+\cite{RRT08,RiCo07,Richard2010378}
+for Boolean and discrete networks),
 which relate the absence of
 positive cycle to the impossibility for multi-stationarity (distinct attractors),
 and the absence of negative cycle to the impossibility for oscillatory behaviours.
@@ -91,6 +93,7 @@ precise dynamical features using a single PH models which gathers all the plausi
 Finally, we discuss on an implementation of these inference schemes using Answer Set
 Programming (ASP) \cite{Baral03},  which turns out to be effective for these enumerative searches.
 }
+\todo{describe application}
 
 %The outcome of this work is twofold.
 %The first benefit is that such an approach makes it possible to refine the construction of

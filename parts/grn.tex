@@ -1,3 +1,4 @@
+% vim:spell spelllang=en
 \subsection{Thomas' modeling}
 
 We concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
@@ -162,10 +163,11 @@ However, $a$ cannot evolve if its expression level already belongs to the interv
 \begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
 The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
-  \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma, \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + f^a(s) \\
+  \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma,
+  \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + \delta^a(s) \\
     & \qquad\quad \wedge \forall b \in \Gamma, b \neq a \Rightarrow \GRNget{s}{b} = \GRNget{s'}{b}
 \end{align*}
-with: $f^a(s) = 
+with: $\delta^a(s) = 
   \begin{cases}
     +1 & \text{if } \GRNget{s}{a} < K_{a, \GRNres{a}{s}} \\
     -1 & \text{if } \GRNget{s}{a} > K_{a, \GRNres{a}{s}} \\
@@ -183,6 +185,22 @@ This sequence of states ends in a steady state: no evolution is possible in $\GR
 Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
 \end{example}
 
+\updated{
+\paragraph{Interaction Graph of the dynamics}
+From the dynamics specification of a BRN, one can infer back the IG that contain only the functional
+regulations.
+Let us define
+$f^a(s) = s[a]$ if $s[a]\in K_{a, \GRNres{a}{s}}$, 
+$f^a(s) = s[a]+1$ if $s[a] < K_{a, \GRNres{a}{s}}$, 
+and 
+$f^a(s) = s[a]-1$ if $s[a] > K_{a, \GRNres{a}{s}}$.
+A positive (resp. negative) interaction from $b$ to $a$ is inferred if there exists a state $s$ such
+that increasing $b$ in $s$ would increase (resp. decrease) $f^a$:
+$f^a(s\{b_i\}) < \text{ (resp. $>$) } f^a(s\{b_{i+1}\})$, 
+where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
+Then, such an IG can be used to derives global properties on the dynamics
+(e.g., \cite{Richard2010378,PR11-SASB}).
+}
 
 
 \paragraph{Discussion on maximum level restrictions}
@@ -216,8 +234,7 @@ These interval parameters are mainly introduced for convenience, and it is worth
 do not add extra expressivity for modeling multivalued networks.
 Although, interval parameters are more expressive than single value parameters for multivalued networks.
 First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, necessarily there exists
-a positive edge from $a$ to $a$ in the interaction graph.
-\todo{be sure to have introduced the inference of IG from discrete maps}
+a positive edge from $a$ to $a$ in the interaction graph of the dynamics.
 Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and
 let $s$ be a state such that $\GRNres{a}{s} = \omega$.
 From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ can not evolve in $s$;
