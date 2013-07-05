@@ -1,10 +1,7 @@
+% vim:spell spelllang=en:
 \section{Introduction}\label{sec:intro}
 
 \rewrite{Include Olivier's additions}
-
-\rewrite{Emphasize on the results on IGs (multistationarity, cyclic attractors) and parameters (?) and its complementarity with PH (reachability, fixed points)}
-
-\rewrite{Idea: IG abstracts PH abstracts BRN}
 
 As regulatory phenomena play a crucial role in biological systems, they need to be studied accurately.
 Biological Regulatory Networks (BRNs) consist in sets of either positive or negative mutual effects between the components.
@@ -27,55 +24,80 @@ Thomas' modeling has motivated numerous works around the link between the Intera
 model reduction (e.g., \cite{Naldi09}), formal checking of dynamics (e.g., \cite{Richard06,Naldi07}), 
 and the incorporation of time (e.g., \cite{Siebert06,Ahmad08}) and probability
 (e.g., \cite{Twardziok10-CMSB}) dimensions, to name but a few.
-While the formal checking of dynamical properties is often limited to small networks because of the
-state graph explosion, the main drawback of this framework is the difficulty to specify Thomas'
-parameters, especially for large networks.
 
-In order to address the formal checking of dynamical properties within very large BRNs, we recently
-introduced in \cite{PMR10-TCSB} a new formalism, named the \emph{``Process Hitting''} (PH), to model
+While the formal checking of dynamical properties is often limited to small networks because of the
+state graph explosion, \updated{an other major} drawback of this framework is the difficulty to
+specify Thomas' parameters, especially for large networks.
+
+In order to address the formal analysis of dynamical properties within very large BRNs, we recently
+introduced in \cite{PMR10-TCSB} a new formalism, named the \emph{Process Hitting} (PH), to model
 concurrent systems having components with a few qualitative levels.
-A PH describes, in an atomic manner, the possible evolutions of a process (representing one
+A PH model describes, in an atomic manner, the possible evolutions of a process (representing one
 component at one level) triggered by the hit of at most one other process in the system.
 This framework can be seen as a special class of formalisms like Petri Nets or Communicating Finite
-State Machines, where the causality between actions is restricted.
+State Machines, \updated{where the arity and the effect of synchronisations between components is
+restricted.}
 Thanks to the particular structure of interactions within a PH, very efficient static analysis
 methods have been developed to over- and under-approximate reachability properties making tractable
-the formal analysis of BRNs with hundreds of components \cite{PMR12-MSCS}.
+the formal analysis of the qualitative dynamics of BRNs with hundreds or thousands of components,
+\updated{which was impossible with other state-of-the-art approaches \cite{PMR12-MSCS,PAK13-CAV,FPMR13-CS2Bio}}.
 
-PH is suitable to model BRNs with different levels of abstraction in the specification of
+The PH is suitable to model BRNs with different levels of abstraction in the specification of
 cooperations (associated influences) between components.
 This allows to model BRNs with a partial knowledge on precise evolution functions for components
 by capturing the largest (the most general) dynamics.
 
-The objectives of the work presented in this paper are the following.
-Firstly, we show that starting from one PH model, it is possible to find back the underlying IG.
-We perform an exhaustive search for the possible interactions on one component from all the
-others, consistently with the knowledge of the dynamics that these interactions lead to and that are
-expressed in PH.
-The second phase of our work concerns the inference of Thomas' parameters.
-It consists in determining the nesting set (possibly too large) of the parameters which necessarily
-lead to the satisfaction of the known cooperating constraints.
-The resulting BRN dynamics is ensured to respect the PH dynamics, \ie no spurious transitions are
-made possible by the inference.
-Answer Set Programming (ASP) \cite{Baral03} turns out to be effective for these enumerative searches.
+\medskip
 
-%A major contribution from [CMSB] is the use of unsigned edges to model a wider class of models.
-While the work presented in~\cite{FPIMR12-CMSB} could not handle regulations that were not strictly activations or inhibitions,
-the results presented in this paper allow to study a wider class of models by using interactions of a new type: \emph{unsigned} regulations.
-The benefit is that inferring an unsigned edge does not prevent the second phase of the inference,
-and the method is thus conclusive on all boolean models.
-\rewrite{Should we cite [CMSB]?}
+\updated{%
+The aim of this paper is to formally estiblish links between several layers suited for specifying the
+qualitative dynamics of BRNs, namely:
+the Interaction Graph (IG), referencing the sign of direct regulations between components;
+the Process Hitting (PH), which permits to specify the qualitatif dynamics of the system with
+various degrees of knowledge for joint regulations;
+and Thomas' parameters, which completely specify the functions governing the evolution of
+components.}
 
-The outcome of this work is twofold.
-The first benefit is that such an approach makes it possible to refine the construction of
-BRNs with a partial and progressively brought knowledge in PH, while being able to export such
-models in the Thomas' framework.
-This work thus strengthens the formal link between both modelings.
-The second feature of our method is that it can be applied on very large BRNs.
+\updated{%
+Firstly, we derive rules that, given a PH model, infer the IG corresponding to the dynamics of the
+encoded BRN.
+The obtained IG relates only components that have actual influence in the dynamics.
+This typically results into IGs that contain less interaction than an hypothetical starting prior
+IG, as the specification of component evolutions may reveal non-functional regulations.
+Based on the derived IG, various static analysis allows to conclude on global properties
+of the system dynamics (see \cite{PR11-SASB} for a short survey).
+The most known are the Thomas' conjectures (that have been proved since \todo{refs}),
+which relate the absence of
+positive cycle to the impossibility for multi-stationarity (distinct attractors),
+and the absence of negative cycle to the impossibility for oscillatory behaviours.
+}
+\todo{check if the inferred IG contains the IG of compatible Thomas}
 
-Finally, it must be noticed that we are not interested in this paper in the derivation of one
-PH from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding out
-a set of BRNs from one PH.
+\updated{%
+Second, we tackle the characterisation of Thomas' parameters that are compatible with a given PH
+model, \ie that fully specify the evolution of components while respecting the cooperations
+specified in PH.
+More formally, the resulting BRN dynamics is ensured to be included in the PH dynamics: any
+transition in the (asynchronous) Thomas model exists in the PH model.
+In practice, the number of compatible Thomas parameters can be huge for large networks where only a
+few cooperations are specified.
+This highlights the fact that the PH is very suited to analyse dynamics of large-scale networks
+where the knowledge on cooperations is often incomplete:
+instead of dealing with a possibly non-tractable number of Thomas models, one can already capture
+precise dynamical features using a single PH models which gathers all the plausible dynamics.
+}
+
+\updated{%
+Finally, we discuss on an implementation of these inference schemes using Answer Set
+Programming (ASP) \cite{Baral03},  which turns out to be effective for these enumerative searches.
+}
+
+%The outcome of this work is twofold.
+%The first benefit is that such an approach makes it possible to refine the construction of
+%BRNs with a partial and progressively brought knowledge in PH, while being able to export such
+%models in the Thomas' framework.
+%This work thus strengthens the formal link between both modelings.
+%The second feature of our method is that it can be applied on very large BRNs.
 
 Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming.
 Both aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
@@ -83,12 +105,24 @@ Both aim at determining a class of models which are consistent with available pa
 %In our approach, we intend to focus on the Thomas' parameters inference
 Our method is based on a model rather than on constraints, which allows to define some properties on the system structure (such as cooperations).
 Furthermore, we claim that we are able to deal with larger biological networks.
+Finally, it must be noticed that we are not interested in this paper in the derivation of one PH
+from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding
+out a set of BRNs from one PH.
+
+The contributions presented in this paper significantly extends and improves the preliminary results
+presented in \cite{FPIMR12-CMSB}.
+In addition of improving the efficiency and accuracy of the IG inference, we have added support for
+unsigned regulations, that are regulations being positive or negative depending on a particular
+context.
+This allows to apply our methodology to a wider class of models.
+\todo{asp improvement? more detailed application?}
 
 \paragraph{Outline}
 \pref{sec:frameworks} recalls the PH and Thomas frameworks;
 \pref{sec:infer-IG} defines the IG inference from PH;
 \pref{sec:infer-K} details the enumeration of Thomas parametrizations compatible with a PH
 and discuss its implementation in ASP.
+\todo{add ref to ASP section}
 \pref{sec:examples} illustrates the applicability of our method on simple examples
 and large biological models.
 

@@ -59,6 +59,7 @@
 \newcommand{\towrite}[1]{\rewriteil{TOWRITE: #1}}
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
 \newcommand{\new}[1]{\textcolor{darkgreen}{\textbf{[$^\bigstar$New:} #1\textbf{$^\bigstar$]}}}
+\def\updated#1{{\color{magenta}#1}}
 %\newcommand{\new}[1]{#1}
 
 
@@ -76,8 +77,8 @@
 
 \begin{frontmatter}
 
-\title{Constructing Biological Regulatory Networks from Process Hitting models
-\\\rewriteil{Or possibly: “Complementarity between PH, IG and Thomas modeling”}}
+\title{Constructing Biological Regulatory Networks from Process Hitting models}
+%\\\rewriteil{Or possibly: “Complementarity between PH, IG and Thomas modeling”}
 
 \author[irccyn,nii]{Maxime Folschette}
 \ead{Maxime.Folschette@irccyn.ec-nantes.fr}
@@ -91,8 +92,8 @@
 1 rue de la No\"e - B.P. 92101 - 44321 Nantes Cedex 3, France.}
 \address[nii]{National Institute of Informatics,\\
 2-1-2, Hitotsubashi, Chiyoda-ku, Tokyo 101-8430, Japan.}
-\address[eth]{ETH Zürich, Institut für Automatik,\\
-ETL I 28, Physikstrasse 3, 8092 Zurich, Switzerland.}
+\address[eth]{BISON group, Automatic Control Laboratory, ETH Zürich\\
+Physikstrasse 3, 8092 Zurich, Switzerland.}
 
 \begin{abstract}
 \parindent 0.5cm
@@ -106,16 +107,20 @@ with respect to these constraints.
 On the other hand, the qualitative modeling of BRNs has been widely addressed using Ren\'e Thomas'
 formalism, leading to numerous theoretical work and practical tools to understand emerging behaviors.
 
-Given a PH model of a BRN, we first tackle the inference of the underlying Interaction Graph
-between components.
-To handle wider class of models, we introduce unsigned edges to model regulations that are
-more complex than simple activations or inhibitions.
-Then the inference of corresponding Thomas' models is provided using Answer Set Programming,
-which allows notably an efficient enumeration of (possibly numerous) compatible parametrizations.
-
-In addition to giving a formal link between different approaches for qualitative BRNs modeling, 
-this work emphasizes the ability of PH to deal with large BRNs with incomplete knowledge on
+This paper establishes formal links between these two formalisms, permitting to appreciate their
+complementary features.
+First, the inference of the Interaction Graph (IG) from a PH models allows a compact representation of
+the regulations that are effective for the dynamics.
+From this IG, well-known results can be applied to derive global dynamical properties for the
+modelled BRN.
+Second, the inference of all Thomas models that are compatible with a given PH is tackled.
+As the PH allows partial specification of cooperation between components, this inference
+emphasizes the ability of PH to deal with large BRNs with incomplete knowledge on
 cooperations, where Thomas' approach fails because of the combinatorics of parameters.
+
+The inference of corresponding Thomas' models is provided using Answer Set Programming,
+which allows notably an efficient enumeration of (possibly numerous) compatible parametrizations.
+\todo{application}
 \end{abstract}
 
 \end{frontmatter}

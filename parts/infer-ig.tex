@@ -1,9 +1,29 @@
-\section{Interaction Graph Inference}\label{sec:infer-IG}
+% vim:spell spelllang=en:
+\section{Interaction Graph Inference from Process Hitting}\label{sec:infer-IG}
 
-In order to infer a complete BRN, one has to find the Interaction Graph (IG) first, as some
-constraints on the parametrization rely on it.
-Inferring the IG is an abstraction step which consists in determining the global influence of
-components on each of its successors.
+\updated{%
+The Interaction Graph (IG) is an abstract representation of the direct qualitative influences,
+positives and/or negatives, between the components of the system.
+As discussed in \pref{sec:intro}, the IG allows to efficiently characterise global dynamical
+properties for the concrete system, such as the capability for multi-stationarity or oscillation.}
+
+\updated{%
+In a typical biological network modelling process, a prior IG is generally the starting point for
+the formal system specification.
+However, it is very common that the prior IG actually refers interaction that reveal to be 
+non-effective with respect to the dynamics.
+Hence, deriving the IG directly from the dynamical models lead to more concise IGs, enhancing the
+conclusiveness of static analyses based upon this abstract representation.}
+
+\updated{%
+In this section, we formally derive the IG corresponding to a given PH that is well-formed for BRN
+modelling.}
+
+%In order to infer a complete BRN, one has to find the Interaction Graph (IG) first, as some
+%constraints on the parametrization rely on it.
+%Inferring the IG is an abstraction step which consists in determining the global influence of
+%components on each of its successors.
+
 
 This section first introduces the notion of focal processes within a PH
 (\pref{ssec:focal}) which is used to characterize well-formed PH for IG inference
@@ -319,7 +339,7 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
   \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
     &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
     &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
-    &\qquad s = \f{sign}(a_k - a_j)
+    &\qquad s = \f{sign}(k - a)
 \end{split}\\
 %
 %%% Tentative de réduire le nombre d'auto-arcs superflus
@@ -360,12 +380,14 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
 %    %&\qquad \warnul{a_j > a_k \quad^{***}}
 %\end{split}
 \end{align}
-where $\f{sign}(x) = \begin{cases}\frac{|x|}{x} & \text{ if $x \neq 0$} \\ 0 & \text{ if $x = 0$}\end{cases}$.
+where $\f{sign}(x) = \begin{cases}|x|/x & \text{ if $x \neq 0$} \\ 0 & \text{ if $x = 0$}\end{cases}$.
 \end{proposition}
 %
 %\todo{\underline{$^*$Strict inference}}\\
 %\todo{\underline{$^{**}$Large inference}}\\
 %\todo{\underline{$^{***}$Non-unitary-style inference}}
+
+\todo{remark for reducing the number of self-regulation}
 
 We are now able to infer the edges of the final IG by considering positive and negative influences
 (\pref{pps:inference-IG}).
@@ -385,21 +407,6 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 \end{align*}
 \end{proposition}
 
-We point out that one of the benefits of this inference is the fact that the conditions used to infer each influence
-in \pref{pps:inference-edges}
-allow to apply some results about the links between the structure of an IG and the dynamics of the model.
-These results consist mainly in Thomas' conjectures, that focus on the presence of positive and negative circuits in the IG, and state that:
-\begin{itemize}
-  \item the presence of a positive circuit in the IG is a necessary condition for several fixed points,
-  \item the presence of a negative circuit in the IG is a necessary condition for sustained oscillations.
-\end{itemize}
-The sign of a circuit is defined by the number of negative edges it contains;
-given the nature of unsigned edges, the presence of such an edge in a circuit would count for the presence of both a positive and negative circuit.
-These conjectures have been demonstrated in~\cite{Richard2010378} \towrite{Other references! (multi-stationarity \& boolean models)}.
-
-\todo{Insist on the absence of non-functional edges in the inferred IG (contrary to biologists' IGs)}
-
-
 
 \begin{example}
 The IG inference from the PH of \pref{fig:runningPH-2} gives
@@ -408,8 +415,6 @@ $\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runn
 No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
 \rewrite{Check this example}
 \end{example}
-
-
 
 
 \begin{comment}
