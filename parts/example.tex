@@ -1,16 +1,147 @@
 \section{Examples}\label{sec:examples}
 
-\todo{Find a new large and challenging biological example}
+\rewrite{Reformulate / glue.}
 
-\rewrite{Expand the description of the results obtained from the 4 tested models (TCRSIG-40/94 \& 2 EGFR-20/104)}
+\subsection{Implementation}
 
-===========
+The inference method described in this paper has been implemented as part of
+\textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
+tools.
+Our implementation mainly consists in ASP programs that are solved using Clingo\footnote{Available
+at \url{http://potassco.sourceforge.net}}.
+The IG and parameters inference can be performed using the command
+\texttt{ph2thomas -i model.ph -{}-dot ig.dot}
+where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
+The (possibly partial) inferred parametrization will be returned on the standard output.
+The admissible parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
+parameter to the command.
 
-EGFR20 example :
+\todo{Check this paragraph}
+Applied to the example in \pref{fig:runningPH-2} where cooperations have been defined,
+our method infers the IG and parametrization given in \pref{fig:runningBRN}.
+Regarding the example in \pref{fig:runningPH-1}, the same IG is inferred, as well as for the
+parametrization except for the parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ which are
+undefined (because of the lack of cooperativity between $b$ and $c$).
+In such a case, this partial parametrization allows 36 admissible complete parametrizations, as two
+parameters with 3 potential values could not be inferred.
+If we constrain these latter parameters so that they contain exactly one element, we obtain only 9
+admissible parametrizations.
 
-Raw example (no cooperations) = $4'503'599'627'370'496 = 4.10^{15}$ possible parametrizations
 
-===========
+
+\subsection{Biological application}
+
+The system studied is extracted from a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
+This model represents a chain of reactions that lead to the activation of protein pRB which is responsible for regulating the cell division,
+and is therefore essential to prevent cancer development.
+Its IG is composed of 20 components and 52 edges.
+
+Three models are created from the original IG, with different levels of precision regarding the cooperation between components.
+Model (1) represents a translation of the raw IG into Process Hitting, that is,
+without any knowledge of the Boolean rules (and therefore the cooperations) of the components.
+Model (2) implements some of the rules based on the results of several knockdown experiments.
+Given the results of the experiments, the introduced cooperative sorts to model the most important cooperations,
+which were emphasized by the impossibility to reach the production of pRB without the knocked protein.
+Model (3) is the totally refined model with all cooperations implemented given the Boolean functions for all components.
+Therefore, those three models can be considered as successive refinements of the original and most general one.
+The results of the IG and parameters inferences are detailed in \pref{tb:egfr20}
+and discussed in the following alongside with details about their construction.
+
+\begin{table}[ht]
+~\hfill%\begin{center}
+  \begin{tabular}{r|l|l|m{2cm}|m{2.5cm}|m{1.5cm}}
+    \textbf{Model} & \textbf{$|E|$} & \textbf{$|K|$} & \textbf{Inferred parameters} & \textbf{Possible\newline models} & \textbf{Fixed points}
+  \\\hline\hline
+    (1) & $52$ & $196$ & $20$ & $2^{176}\simeq 9.6\cdot10^{52}$ & $0$   % v1_0.ph
+  \\\hline
+    (2) & $51$ & $192$ & $98$ & $2^{94}\simeq 2.0\cdot10^{28}$ & $0$    % v2_1.ph
+  \\\hline
+    (3) & $51$ & $192$ & $192$ & $1$ & $3$                              % ori.ph
+  \\\hline
+  \end{tabular}
+\hfill~%\end{center}
+  \caption{Results of the IG and parameters inference on three models
+  derived the ERBB receptor-regulated G1/S transition model of~\cite{Sahin09}
+  with different precisions in the definition of the cooperations.
+  Model (1) contains no cooperations between the components.
+  Several cooperations were included in model (2) under the form of 14 cooperative sorts.
+  Model (3) models all the Boolean functions between components using 22 cooperative sorts.}
+  \label{tb:egfr20}
+\end{table}
+
+Model (1) encompasses only sole interactions between components, that is,
+independent activations or inhibitions of a component on another given the regulations specified in the original IG.
+Therefore, the IG inferred from model (1) is exactly the IG ised to create the model, and the inferred parameters
+are the parameters for the extreme cases (all activators present and all inhibitors absent).
+This first model therefore abstracts a large number of Thomas models as a lot of parameters are left undecided.
+
+In order to build model (2), 14 cooperative sorts were added in order to model the Boolean functions of several components
+(consisting of AND and OR operands).
+To do so, the following components were noticed due to their importance in the chain of reactions:
+CDK4, CDK6, CycD1, ER$\alpha$ and c-MYC.
+Indeed, knockdown experiments have been conducted in~\cite{Sahin09}
+and the results showed that knocking down these components lead to an important decrease in the production of pRB.
+We therefore concluded that these components were involved in other components' Boolean functions
+in a way that their knockdown was sufficient to prevent its production (which is typical of AND operands).
+In order to reproduce such requirements, the boolean functions of their successors,
+that is CDK4, CDK6, prB, p21, p27, IGF1R, MYC, CycD1 and CycE1,
+were modeled as cooperative sorts, if needed.
+We note that the added cooperations allowed to infer about half the parameters.
+However, the number of possible Thomas models that can be inferred from this PH is still significant
+as the remaining unknown parameters leave a big number of possibilities.
+Furthermore, the inferred IG contains one edge less than the original IG. This is due to the fact that
+one of the Boolean function could in fact be simplified in a way that one of the components did not appear anymore.
+No edge have therefore been inferred in this case.
+
+Finally, model (3) was build using all the Boolean functions provided in~\cite{Sahin09}.
+These functions take the form of 22 cooperative sorts into the model in order to match the desired behavior of the system.
+As all cooperations are fully defined in this model, all the parameters are inferred and only one Thomas model can be derived.
+We note also that this model is the only one containing at least one fixed point.
+
+
+
+\subsection{Computation times and results}
+
+The current implementation can successfully handle large PH models of BRNs found in the literature
+such as the ERBB receptor-regulated G1/S transition model from~\cite{Sahin09} presented in the last subsection,
+and a T cell receptor model from~\cite{Klamt06} which contains 40 components and 14 cooperative
+sorts\footnote{All models mentioned in this section are available as examples distributed with \textsc{Pint}.}.
+For each model, IG and parameters inferences are performed together in less than a second
+on a standard desktop computer.
+
+Bigger models related to the aforementioned systems were also tested with our implementation:
+an other T cell receptor model described in~\cite{SaezRodriguez2007} containing 94 components
+and an EGFR/ErbB signaling model described in~\cite{Samaga2009} which containing 104 components.
+\todo{Mention how these models were created?}
+
+The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
+We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
+Therefore, these models would therefore be more efficiently studied as PH than as BRNs.
+finally, we note that the complexity of the method is exponential in the number of regulators of one
+component and linear in the number of components.
+
+\begin{table}
+\begin{center}
+  \begin{tabular}{r|c|c|c|c}
+    \textbf{Model} & \textbf{Components} & \textbf{\# CS} & \textbf{$\Delta t$ IG} & \textbf{$\Delta t$ K}
+\\\hline\hline
+    ERBB-G1/S & $20$ & $22$ & <1s & <1s
+\\\hline
+    T cell receptor & $40$ & $14$ & <1s & <1s
+\\\hline
+    T cell receptor & $94$ & $39$ & 10s & 
+\\\hline
+    EGFR/ErbB signaling & $104$ & $89$ & 3min 20s & 
+  \end{tabular}
+\end{center}
+  \caption{Other models \rewrite{Caption}}
+  \label{tb:computation}
+\end{table}
+
+
+
+\begin{comment}
+\subsection{\warnul{Old version of this section}}
 
 The inference method described in this paper has been implemented as part of
 \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
@@ -53,3 +184,4 @@ component and linear in the number of components.
 A PH model can be built based on information found in the literature about the local influences between components.
 The precision of this knowledge will determine the precision of the modeled activations and inhibitions,
 and some information is likely to help in the representation of cooperations.
+\end{comment}
