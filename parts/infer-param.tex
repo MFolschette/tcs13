@@ -13,10 +13,9 @@ In addition, we introduce the well-formed PH for parameter inference property (\
 which implies that %the inferred IG does not contain any unsigned interactions, and thus can be seen as the
 %regular IG $(\Gamma, E)$,
 %and that 
-any processes in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior
+any process in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior
 regarding $a$.
 
-\todo{Revoir !}
 \begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
 it is well-formed for IG inference, and
@@ -24,9 +23,9 @@ the IG $(\Gamma, E)$ inferred by \pref{pps:inference-IG}
 verifies the following property:
 \begin{align*}
   \begin{split}
-  \forall a \in \Gamma, \forall b\in \GRNreg{a}&,
+  \forall a \in \Gamma&, \forall b\in \GRNreg{a},
           \forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
-  & \quad \forall c \in \Gamma, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a} \wedge b\in\PHdirectpredec{c})), \\
+  & \quad \forall c \in \PHs, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a}\setminus \Gamma \wedge b\in\PHdirectpredec{c})), \\
   & \qquad
                           \PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
                                   \PHfrappe{b_j}{c_k}{c_l}\in\PHa
