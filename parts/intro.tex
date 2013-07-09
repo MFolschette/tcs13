@@ -1,8 +1,6 @@
 % vim:spell spelllang=en:
 \section{Introduction}\label{sec:intro}
 
-\rewrite{Include Olivier's additions}
-
 As regulatory phenomena play a crucial role in biological systems, they need to be studied accurately.
 Biological Regulatory Networks (BRNs) consist in sets of either positive or negative mutual effects between the components.
 With the purpose of analyzing these systems, they are often modeled as graphs which make it possible to determine the possible evolutions of all the interacting components of the system.
@@ -14,7 +12,7 @@ In this approach, the different levels of a component, such as concentration or 
 Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states.
 Nevertheless, these dynamics can be precisely established only with regard to some discrete parameters,
 hereafter called ``Thomas' parameters'',
-which stand for kinds of ``focal points'', i.e. the evolutionary tendency from each state and depending on the set of the other currently interacting components.
+which stand for kinds of ``focal points'', \ie the evolutionary tendency from each state and depending on the set of the other currently interacting components.
 %resources in this very state, that is, the set of the other currently interacting components.
 %Hereafter, we refer to these discrete parameters as Thomas' parameters.
 
@@ -66,8 +64,8 @@ This typically results into IGs that contain less interaction than an hypothetic
 IG, as the specification of component evolutions may reveal non-functional regulations.
 Based on the derived IG, various static analysis allows to conclude on global properties
 of the system dynamics (see \cite{PR11-SASB} for a short survey).
-The most known are the Thomas' conjectures (that have been proved since, e.g.
-\cite{RRT08,RiCo07,Richard2010378}
+The most known are the Thomas' conjectures (that have been proved since,
+e.g.~\cite{RRT08,RiCo07,Richard2010378}
 for Boolean and discrete networks),
 which relate the absence of
 positive cycle to the impossibility for multi-stationarity (distinct attractors),
@@ -92,8 +90,14 @@ precise dynamical features using a single PH models which gathers all the plausi
 \updated{%
 Finally, we discuss on an implementation of these inference schemes using Answer Set
 Programming (ASP) \cite{Baral03},  which turns out to be effective for these enumerative searches.
+}%
+\updatedmax{%
+The whole method is also applied to the biological model of ERBB receptor-regulated G1/S transition,
+containing 20 components,
+which allows to detail how joint actions can be defined inside a PH model in order
+to refine its dynamics, and and study a more precise class of underlying Thomas models.
 }
-\todo{describe application}
+%\todo{describe application}
 
 %The outcome of this work is twofold.
 %The first benefit is that such an approach makes it possible to refine the construction of
@@ -112,22 +116,26 @@ Finally, it must be noticed that we are not interested in this paper in the deri
 from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding
 out a set of BRNs from one PH.
 
-The contributions presented in this paper significantly extends and improves the preliminary results
+\updated{%
+The contributions presented in this paper significantly extend and improve the preliminary results
 presented in \cite{FPIMR12-CMSB}.
 In addition of improving the efficiency and accuracy of the IG inference, we have added support for
 unsigned regulations, that are regulations being positive or negative depending on a particular
 context.
 This allows to apply our methodology to a wider class of models.
-\todo{asp improvement? more detailed application?}
+}%
+\updatedmax{%
+Furthermore, some parts have been completely rewritten in order to explain more precisely the efficiency of the ASP implementation,
+and give a new detailed biological application of our work.
+}%
 
 \paragraph{Outline}
 \pref{sec:frameworks} recalls the PH and Thomas frameworks;
 \pref{sec:infer-IG} defines the IG inference from PH;
-\pref{sec:infer-K} details the enumeration of Thomas parametrizations compatible with a PH
-and discuss its implementation in ASP.
-\todo{add ref to ASP section}
-\pref{sec:examples} illustrates the applicability of our method on simple examples
-and large biological models.
+\pref{sec:infer-K} details the parameters inference and the enumeration of Thomas parametrizations compatible with a PH;
+\pref{sec:impl} discusses the implementation of the latter in ASP.
+\pref{sec:examples} illustrates our method on a biological model
+and discusses its applicability on large models.
 
 \paragraph{Notations}
 $\segm{i}{j}$ is the set of integers $\{ i, i+1, \dots, j \}$.
