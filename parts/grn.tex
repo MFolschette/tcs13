@@ -9,6 +9,8 @@ we propose the notion of unsigned edge modeling an interaction whose nature (act
 and we extend the classical parametrization formalism by setting parameters to intervals of values instead of single values.
 We briefly discuss these additions.
 
+\medskip
+
 Thomas' formalism lies on two complementary descriptions of the system. First, the
 \emph{Interaction Graph} (IG) models the structure of the system by defining the components'
 mutual influences and the conditions of these influences.
@@ -76,7 +78,6 @@ We also have especially:
 \begin{align*}
   \levels{a}{b} &= \segm{2}{2} & \ulevels{a}{b} &= \segm{0}{1}
 \end{align*}
-\todo{Find an example with an unsigned edge?}
 \end{example}
 
 \begin{figure}[t]
@@ -114,13 +115,11 @@ We also have especially:
   otherwise, $b$ inhibits $a$.
   (right)
   Example parametrization on the left IG.
-  \todo{Find an example with an unsigned edge?}
 }
 \end{figure}
 
 A \emph{state} $s$ of an IG $(\Gamma, E)$ is an element in $\GRNstates \DEF \prod_{a \in \Gamma} \segm{0}{l_a}$.
 $\GRNget{s}{a}$ refers to the level of component $a$ in $s$.
-%\rewrite{Functional definition of a state? (More rigorous)}
 For each possible state, the set of \emph{resources} of a given component
 is the set of regulators of this component whose expression level is above the threshold of the regulation (\pref{def:resources}).
 In other words, in every state $s$, a regulator $b$ of a component $a$
@@ -194,10 +193,9 @@ A positive (resp. negative) interaction from $b$ to $a$ is inferred if there exi
 that increasing $b$ in $s$ would increase (resp. decrease) $f^a$:
 $f^a(s\{b_i\}) < \text{ (resp. $>$) } f^a(s\{b_{i+1}\})$, 
 where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
-Then, such an IG can be used to derives global properties on the dynamics
+Then, such an IG can be used to derive global properties on the dynamics
 (e.g., \cite{Richard2010378,PR11-SASB}).
 }
-
 
 \paragraph{Discussion on maximum level restrictions}
 The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$ in the IG, \ie the number of components that $a$ regulates.
@@ -227,8 +225,9 @@ Whereas most of the literature use single value parameters (e.g., $K_{a,\omega} 
 in this paper intervals as parameter values (e.g., $K_{a,\omega} = \segm{i}{j}$) for specifying
 the discrete functions for components.
 These interval parameters are mainly introduced for convenience, and it is worth noticing that they
-do not add extra expressivity for modeling multivalued networks.
+do not add extra expressivity for modeling multivalued networks in the general case.
 Although, interval parameters are more expressive than single value parameters for multivalued networks.
+\rewrite{“However, interval parameters are more expressive than single value parameters for Thomas models.”?}
 First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, necessarily there exists
 a positive edge from $a$ to $a$ in the interaction graph of the dynamics.
 Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and

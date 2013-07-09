@@ -141,7 +141,7 @@ Here, actions involving $b_1$ or $c_1$ are in thick lines.
 This PH example actually models a BRN where the component $a$ has three qualitative
 levels and components $b$ and $c$ are boolean.
 In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
-The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$;
+The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$ (noted: $a_2$);
 in the other cases, $b$ cannot evolve in any direction.
 The activation of $a$ by $b$ ($c$) is encoded by the actions making the level of $a$ increase (resp.
 decrease) when $b$ ($c$) is present (resp. absent).
@@ -151,7 +151,6 @@ we thus model an over-approximation of the possible actions.
 \end{example}
 
 \paragraph{Modeling cooperation}
-%\rewrite{Detail the modeling of cooperations?}
 As described in \cite{PMR10-TCSB}, the cooperation between several processes to make another process bounce can be
 expressed in PH by building a \emph{cooperative sort}.
 \pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
@@ -307,7 +306,3 @@ bounce to $a_0$ of a cooperation between $b_0$ and $c_0$.
 Hence, this PH expresses a BRN where $a$ requires both $b$ and $c$ active to reach its
 highest level, and $a$ does not become inactive unless both $b$ and $c$ are inactive.
 \end{example}
-
-%\rewrite{Explain the efficiency of PH for reachability?}
-
-
