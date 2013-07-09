@@ -447,6 +447,20 @@ The inference of the refined PH of \pref{fig:runningPH-2} gives the same IG.
 \end{example}
 
 
+\begin{example}
+If we add the action $\PHfrappe{a_2}{b_0}{b_1}$ to the PH of \pref{fig:runningPH-2},
+then two unsigned edges towards $b$ are inferred instead of the previous signed edges:
+\begin{align*}
+  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{c}{+}{1}{c}\}\\
+  E_- &= \emptyset \qquad\qquad\qquad\qquad
+  E_\uns = \{\GRNedgef{a}{\uns}{2}{b}, \GRNedgef{b}{\uns}{1}{b}\}
+\end{align*}
+This is due to the fact that the actions $\PHfrappe{a_2}{b_1}{b_0}$ and $\PHfrappe{a_2}{b_0}{b_1}$
+introduce an oscillation only caused by $a$, which cannot be represented in Thomas modeling.
+\end{example}
+
+
+
 \begin{comment}
 \subsection{Structure-based Interaction Inference}\label{ssec:infer-IG-structure}
 
