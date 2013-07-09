@@ -77,19 +77,36 @@ If $\focals(a,C^a_{a,\omega},C_{a,\omega})=\segm{a_i}{a_j}$ is a non-empty inter
 
 \begin{example}
 \label{ex:infer-param-runningPH-1}
-Applied to the PH in \pref{fig:runningPH-1}, we obtain, in particular,
-$K_{b,\emptyset} = \segm{0}{1}$ and
-$K_{a,\{b,c\}} = \segm{2}{2}$,
-while $K_{a,\{b\}}$ and $K_{a,\{c\}}$ can not be inferred.
+
+Applied to the PH in \pref{fig:runningPH-1}, we infer the following parameters:
+\begin{align*}
+K_{a, \emptyset} &= \segm{0}{0} &
+K_{b, \emptyset} &= \segm{0}{0} \\
+K_{a, \{a\}} &= \segm{0}{0} &
+K_{b, \{a\}} &= \segm{0}{0} \\
+K_{a, \{c\}} &= \segm{1}{1} &
+K_{b, \{b\}} &= \segm{1}{1} \\
+K_{a, \{b\}} &= \segm{1}{1} &
+K_{b, \{a,b\}} &= \segm{0}{0} \\
+K_{a, \{b,c\}} &= \segm{1}{1} &
+K_{c, \emptyset} &= \segm{0}{0} \\
+K_{a, \{a,b,c\}} &= \segm{2}{2} &
+K_{c, \{c\}} &= \segm{1}{1}
+%K_{a, \{a,b\}} = ?
+%K_{a, \{a,c\}} = ?
+\end{align*}
+$K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ cannot be inferred,
+which is a direct consequence of the lack of cooperation between $b$ and $c$ on $a$.
 \end{example}
 
 \begin{example}
-Regarding the PH in \pref{fig:runningPH-2}, we obtain
-$K_{b,\emptyset} = \segm{0}{1}$,
-$K_{a,\{b,c\}} = \segm{2}{2}$,
-$K_{a,\{b\}} = \segm{1}{1}$,
-and $K_{a,\{c\}} = \segm{1}{1}$.
-For this PH, all parameters can be inferred, and the obtained parametrization is the one of \pref{fig:runningBRN}(right).
+Regarding the refined PH of \pref{fig:runningPH-2}, all parameters can be inferred.
+We obtain the same value for the inferred parameters of \pref{ex:infer-param-runningPH-1},
+together with the following results:
+\begin{align*}
+  K_{a,\{a,b\}} &= 1 &
+  K_{a,\{a,c\}} &= 1
+\end{align*}
 \end{example}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
@@ -152,3 +169,25 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
   K_{b,\omega \cup A^-} & \leqsegm K_{b,\omega \cup A^+}
 \end{align*}
 \end{property}
+
+\begin{example}\label{ex:enum-param-runningPH-1}
+The parametrization inferred in \pref{ex:infer-param-runningPH-1} was partial because $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ could not be inferred.
+It is however possible to enumerate all complete and admissible parametrizations
+compatible with both the inferred parameters, and the properties of this subsection.
+This enumeration gives 9 different parametrizations which correspond to the 3 possible values
+for each of the two parameters that could not be inferred:
+\begin{align*}
+  K_{a,\{a,b\}} &\in \{ \segm{1}{1}, \segm{1}{2}, \segm{2}{2} \} \\
+  K_{a,\{a,c\}} &\in \{ \segm{1}{1}, \segm{1}{2}, \segm{2}{2} \}
+\end{align*}
+We note that for all solutions, $0 \notin K_{a,\{a,b\}} \wedge 0 \notin K_{a,\{a,c\}}$.
+This is due to the monotonicity assumption (\pref{pro:param_enum_monotonicity}) which especially states that:
+\begin{align*}
+  K_{a,\{b\}} \leqsegm K_{a,\{a,b\}} \wedge
+  K_{a,\{c\}} \leqsegm K_{a,\{a,c\}}
+\end{align*}
+
+Finally, we note that $\segm{1}{1}$ belongs to the possible values for both parameters.
+Therefore this enumeration allows, from the model in \pref{fig:runningPH-1},
+to find the behavior of the model refined with a cooperative sort described in \pref{fig:runningPH-2}.
+\end{example}

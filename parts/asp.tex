@@ -88,13 +88,13 @@ where the notation “$\leq$” stands for a shortcut in ASP which has the same 
 \begin{example}
 Regarding \pref{ex:infer-param-runningPH-1}, the previous rule will make the following set of atoms belong to every answer set:
 \begin{align*}
-  &\{&\componentlevels(b, 0)
-  &&\componentlevels(b, 1) \\
-  &&\componentlevels(c, 0)
-  &&\componentlevels(c, 1) \\
-  &&\componentlevels(a, 0)
-  &&\componentlevels(a, 1) \\
-  &&\componentlevels(a, 2) &&&&\}
+  &\{&&\componentlevels(b, 0),
+  &&\componentlevels(b, 1), \\
+  &&&\componentlevels(c, 0),
+  &&\componentlevels(c, 1), \\
+  &&&\componentlevels(a, 0),
+  &&\componentlevels(a, 1), \\
+  &&&\componentlevels(a, 2) &&&&\}
 \end{align*}
 \end{example}
 
@@ -176,14 +176,24 @@ thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 \begin{example}
-In the scope of \pref{ex:infer-param-runningPH-1}, $K_{a,\{b\}}$ and $K_{a,\{c\}}$ could not be inferred by \pref{pps:param_K}.
-The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values
-(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
+\towrite{Check this example.}
+In the scope of \pref{ex:infer-param-runningPH-1}, $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ could not be inferred by \pref{pps:param_K}.
+A cardinality rule allows to produce 36 parametrizations, in which these parameters can take all possible values:
+%The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values:
+%(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
 \begin{align*}
-  (K_{a,\{b\}} ; K_{a,\{c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
+  (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
 \end{align*}
-We note that $(\segm{1}{1} ; \segm{1}{1})$ belongs to the enumerated set of admissible parametrizations.
-Therefore, this enumeration allows, from the model in \pref{fig:runningPH-1}, to find the behavior of the model completed with a cooperative sort described in \pref{fig:runningPH-2}.
+and all the other parameters keep their inferred values.
+These parametrizations take the form of sets of $\paraminf$ atoms.
+
+Then, due to the fact that $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ were already inferred,
+the monotonicity assumption removes all parametrizations with: $0 \in K_{a,\{a,b\}} \vee 0 \in K_{a,\{a,c\}}$.
+In the end, the remaining possible values for the parameters that were not inferred are:
+\begin{align*}
+  (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{1}{1} , \segm{2}{2} , \segm{1}{2} \}^2
+\end{align*}
+We thus obtain the results of \pref{ex:enum-param-runningPH-1}.
 \end{example}
 
 

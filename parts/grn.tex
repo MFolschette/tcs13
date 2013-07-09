@@ -84,41 +84,37 @@ We also have especially:
 \centering
 \scalebox{1.2}{
 \begin{tikzpicture}[grn]
-\path[use as bounding box] (-0.3,-0.75) rectangle (2.5,1.5);
-\node[inner sep=0] (a) at (2,0) {a};
-\node[inner sep=0] (b) at (0,0) {b};
-\node[inner sep=0] (c) at (2,1.2) {c};
-%\path
-%  node[elabel, below=-1em of a] {$0..2$}
-%  node[elabel, below=-1em of b] {$0..1$}
-%  node[elabel, above=-.8em of c] {$0..1$};
-\path[->]
-  (b) edge[bend right] node[elabel, below=-2pt] {$+1$} (a)
-  (c) edge node[elabel, right=-2pt] {$+1$} (a)
-  (a) edge[bend right] node[elabel, above=-5pt] {$-2$} (b);
+  \path[use as bounding box] (-0.3,-0.75) rectangle (2.5,1.5);
+  \node[inner sep=0] (a) at (2,0) {a};
+  \node[inner sep=0] (b) at (0,0) {b};
+  \node[inner sep=0] (c) at (2,1.2) {c};
+  \path[->]
+    (b) edge[bend right] node[elabel, below=-2pt] {$+1$} (a)
+    (c) edge node[elabel, right=-2pt] {$+1$} (a)
+    (a) edge[bend right] node[elabel, above=-5pt] {$-2$} (b);
 \end{tikzpicture}
 }
 \end{minipage}
 \begin{minipage}{0.6\linewidth}
 \centering
 \begin{align*}
-K_{a,\emptyset} &= \segm{0}{0} & K_{b,\emptyset} &= \segm{0}{1} \\
-K_{a,\{b\}} &= \segm{1}{1} & K_{b,\{a\}} &= \segm{0}{0} \\
-K_{a,\{c\}} &= \segm{1}{1} &&\\
-K_{a,\{b,c\}} &= \segm{2}{2} & K_{c,\emptyset} &= \segm{0}{1}
+  K_{a,\emptyset} &= \segm{0}{0} & K_{b,\emptyset} &= \segm{0}{1} \\
+  K_{a,\{b\}} &= \segm{1}{1} & K_{b,\{a\}} &= \segm{0}{0} \\
+  K_{a,\{c\}} &= \segm{1}{1} &&\\
+  K_{a,\{b,c\}} &= \segm{2}{2} & K_{c,\emptyset} &= \segm{0}{1}
 \end{align*}
 \end{minipage}
 \caption{\label{fig:runningBRN}
-(left)
-IG example.
-Components are represented by nodes labeled with a name
-and regulations by edges labeled with their sign and threshold.
-For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $\GRNedgef{b}{+}{1}{a}$.
-This means that if the expression level of $b$ is equal to (\ie above) 1, then $b$ activates $a$;
-otherwise, $b$ inhibits $a$.
-(right)
-Example parametrization on the left IG.
-\todo{Find an example with an unsigned edge?}
+  (left)
+  IG example.
+  Components are represented by nodes labeled with a name
+  and regulations by edges labeled with their sign and threshold.
+  For instance, the edge from $b$ to $a$ is labeled $+1$, which stands for: $\GRNedgef{b}{+}{1}{a}$.
+  This means that if the expression level of $b$ is equal to (\ie above) 1, then $b$ activates $a$;
+  otherwise, $b$ inhibits $a$.
+  (right)
+  Example parametrization on the left IG.
+  \todo{Find an example with an unsigned edge?}
 }
 \end{figure}
 

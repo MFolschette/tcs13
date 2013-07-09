@@ -406,13 +406,44 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 \end{align*}
 \end{proposition}
 
-
 \begin{example}
-The IG inference from the PH of \pref{fig:runningPH-2} gives
-$\hat{E}_+ = \{b \xrightarrow{1} a, c \xrightarrow{1} a\}$ and 
-$\hat{E}_- = \{a \xrightarrow{2} b\}$, corresponding to the IG of \pref{fig:runningBRN}.
-No self-influence are inferred. %($X(a) = \{ \{b,c\} \}$, $X(b)=\{ \{a\}\}$, and $X(c)=\emptyset$).
-\rewrite{Check this example}
+The IG inference of the PH of \pref{fig:runningPH-1} gives the
+IG in \pref{fig:BRN-inf1}, containing the following edges:
+\begin{align*}
+  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{b}{+}{1}{b}, \GRNedgef{c}{+}{1}{c}\}\\
+  E_- &= \{\GRNedgef{a}{-}{2}{b}\} \qquad\qquad\qquad\qquad\qquad
+  E_\uns = \emptyset
+\end{align*}
+This IG is close to the one in \pref{fig:runningBRN} but not equivalent,
+as each component has an additional auto-action.
+The auto-actions on $b$ and $c$ are the consequence of a global stability
+in some configurations: $c$ never evolves, and neither does $b$ when $a_2$ is not active.
+The auto-action on $a$ is mainly caused by its multi-valued nature.
+
+The inference of the refined PH of \pref{fig:runningPH-2} gives the same IG.
+
+\begin{figure}[t]
+\centering
+\scalebox{1.2}{
+\begin{tikzpicture}[grn]
+  \path[use as bounding box] (-1.3,-0.75) rectangle (3.5,1.5);
+  \node[inner sep=0] (a) at (2,0) {a};
+  \node[inner sep=0] (b) at (0,0) {b};
+  \node[inner sep=0] (c) at (2,1.2) {c};
+  \path[->]
+    (b) edge[bend right] node[elabel, below=-2pt] {$+1$} (a)
+    (c) edge node[elabel, right=-2pt] {$+1$} (a)
+    (a) edge[bend right] node[elabel, above=-5pt] {$-2$} (b)
+    (b) edge[in=-15+180, out=15+180, loop] node[elabel, left=-2pt] {+1} (b)
+    (c) edge[in=15, out=-15, loop] node[elabel, right=-2pt] {+1} (c)
+    (a) edge[in=15, out=-15, loop] node[elabel, right=-2pt] {+1} (a);
+\end{tikzpicture}
+}
+\caption{\label{fig:BRN-inf1}
+  Result of the IG inference performed on the PH of \pref{fig:runningPH-2}.
+}
+\end{figure}
+
 \end{example}
 
 
