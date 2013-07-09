@@ -1,21 +1,26 @@
 \section{Examples}\label{sec:examples}
 
-\rewrite{Reformulate / glue.}
+\todo{Proofread this section}
 
-\subsection{Implementation}
+This section details the implementation and usage of the piece of software developed for this work.
+\pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
+while \pref{ssec:cpu} gives data related to the computation times of our software when applied to several large biological models.
 
-The inference method described in this paper has been implemented as part of
-\textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
-tools.
-Our implementation mainly consists in ASP programs that are solved using Clingo\footnote{Available
-at \url{http://potassco.sourceforge.net}}.
-The IG and parameters inference can be performed using the command
-\texttt{ph2thomas -i model.ph -{}-dot ig.dot}
-where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
+\medskip
+
+The inference methods described in this paper have been implemented as part of
+\textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related tools.
+Our implementation mainly consists in ASP programs that are solved using
+Clingo\footnote{Available at \url{http://potassco.sourceforge.net}}.
+The IG and parameters inference can be performed using the following command:\\
+  \hspace*{1.2em}\texttt{ph2thomas -i model.ph -{}-dot ig.dot}\\
+where \texttt{model.ph} is the PH model in \textsc{Pint} format,
+and \texttt{ig.dot} is an output of the inferred IG in DOT format.
 The (possibly partial) inferred parametrization will be returned on the standard output.
-The admissible parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
-parameter to the command.
+The admissible parametrizations enumeration is performed when adding the \texttt{-{}-full-enumerate} parameter to the command,
+or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
 
+\begin{comment}
 \todo{Check this paragraph}
 Applied to the example in \pref{fig:runningPH-2} where cooperations have been defined,
 our method infers the IG and parametrization given in \pref{fig:runningBRN}.
@@ -26,22 +31,22 @@ In such a case, this partial parametrization allows 36 admissible complete param
 parameters with 3 potential values could not be inferred.
 If we constrain these latter parameters so that they contain exactly one element, we obtain only 9
 admissible parametrizations.
+\end{comment}
 
 
 
-\subsection{Biological application}
+\subsection{Biological application}\label{ssec:appli}
 
-The system studied is extracted from a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
-This model represents a chain of reactions that lead to the activation of protein pRB which is responsible for regulating the cell division,
-and is therefore essential to prevent cancer development.
-Its IG is composed of 20 components and 52 edges.
+This subsection focuses on the study of a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
+This model is represented by an IG containing 20 components and 52 edges.
+A protein named EGF, having no ingoing edge, can be considered as the only input.
+Then, a chain of reactions lead to the activation of protein pRB which is responsible for regulating the cell division,
+therefore making it essential to prevent cancer development.
 
 Three models are created from the original IG, with different levels of precision regarding the cooperation between components.
-Model (1) represents a translation of the raw IG into Process Hitting, that is,
+Model (1) represents a translation of the original IG into Process Hitting, that is,
 without any knowledge of the Boolean rules (and therefore the cooperations) of the components.
 Model (2) implements some of the rules based on the results of several knockdown experiments.
-Given the results of the experiments, the introduced cooperative sorts to model the most important cooperations,
-which were emphasized by the impossibility to reach the production of pRB without the knocked protein.
 Model (3) is the totally refined model with all cooperations implemented given the Boolean functions for all components.
 Therefore, those three models can be considered as successive refinements of the original and most general one.
 The results of the IG and parameters inferences are detailed in \pref{tb:egfr20}
@@ -75,6 +80,10 @@ Therefore, the IG inferred from model (1) is exactly the IG ised to create the m
 are the parameters for the extreme cases (all activators present and all inhibitors absent).
 This first model therefore abstracts a large number of Thomas models as a lot of parameters are left undecided.
 
+\todo{Intégrer}
+Given the results of the experiments, the introduced cooperative sorts to model the most important cooperations,
+which were emphasized by the impossibility to reach the production of pRB without the knocked protein.
+
 In order to build model (2), 14 cooperative sorts were added in order to model the Boolean functions of several components
 (consisting of AND and OR operands).
 To do so, the following components were noticed due to their importance in the chain of reactions:
@@ -100,7 +109,7 @@ We note also that this model is the only one containing at least one fixed point
 
 
 
-\subsection{Computation times and results}
+\subsection{Computation times and results}\label{ssec:cpu}
 
 The current implementation can successfully handle large PH models of BRNs found in the literature
 such as the ERBB receptor-regulated G1/S transition model from~\cite{Sahin09} presented in the last subsection,
