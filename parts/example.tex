@@ -2,9 +2,11 @@
 
 \todo{Proofread this section}
 
+\updatedmax{%
 This section details the implementation and usage of the piece of software developed for this work.
 \pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
 while \pref{ssec:cpu} gives data related to the computation times of our software when applied to several large biological models.
+}
 
 \medskip
 
@@ -35,6 +37,7 @@ admissible parametrizations.
 
 
 
+\updatedmax{%
 \subsection{Biological application}\label{ssec:appli}
 
 This subsection focuses on the study of a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
@@ -76,13 +79,11 @@ and discussed in the following alongside with details about their construction.
 
 Model (1) encompasses only sole interactions between components, that is,
 independent activations or inhibitions of a component on another given the regulations specified in the original IG.
-Therefore, the IG inferred from model (1) is exactly the IG ised to create the model, and the inferred parameters
-are the parameters for the extreme cases (all activators present and all inhibitors absent).
+Therefore, the IG inferred from model (1) is the same as the IG used to create the model,
+with one additional positive auto-edge on the only input EGF (which is due to its absence of regulators).
+The only parameters that could be inferred are the parameters for the extreme cases
+(all activators present and all inhibitors absent, and the reverse).
 This first model therefore abstracts a large number of Thomas models as a lot of parameters are left undecided.
-
-\todo{Intégrer}
-Given the results of the experiments, the introduced cooperative sorts to model the most important cooperations,
-which were emphasized by the impossibility to reach the production of pRB without the knocked protein.
 
 In order to build model (2), 14 cooperative sorts were added in order to model the Boolean functions of several components
 (consisting of AND and OR operands).
@@ -91,25 +92,27 @@ CDK4, CDK6, CycD1, ER$\alpha$ and c-MYC.
 Indeed, knockdown experiments have been conducted in~\cite{Sahin09}
 and the results showed that knocking down these components lead to an important decrease in the production of pRB.
 We therefore concluded that these components were involved in other components' Boolean functions
-in a way that their knockdown was sufficient to prevent its production (which is typical of AND operands).
-In order to reproduce such requirements, the boolean functions of their successors,
+in a way that the knockdown of the former was sufficient to prevent the production of the latter (which is typical of AND operands).
+In order to reproduce such requirements, the Boolean functions of their successors,
 that is CDK4, CDK6, prB, p21, p27, IGF1R, MYC, CycD1 and CycE1,
 were modeled as cooperative sorts, if needed.
+In theory, 9 cooperative sorts would have sufficed, but the chaining of cooperative sorts described
+in \pref{ssec:PH} was used to reduce the number of processes in each cooperative sort.
 We note that the added cooperations allowed to infer about half the parameters.
 However, the number of possible Thomas models that can be inferred from this PH is still significant
-as the remaining unknown parameters leave a big number of possibilities.
+because of the numerous remaining unknown parameters.
 Furthermore, the inferred IG contains one edge less than the original IG. This is due to the fact that
-one of the Boolean function could in fact be simplified in a way that one of the components did not appear anymore.
-No edge have therefore been inferred in this case.
+one of the Boolean functions could in fact be simplified in a way that this component did not appear anymore.
+No edge have therefore been inferred by our method in this case.
 
 Finally, model (3) was build using all the Boolean functions provided in~\cite{Sahin09}.
 These functions take the form of 22 cooperative sorts into the model in order to match the desired behavior of the system.
 As all cooperations are fully defined in this model, all the parameters are inferred and only one Thomas model can be derived.
-We note also that this model is the only one containing at least one fixed point.
+We note also that this PH model is the only one containing at least one fixed point.
 
 
 
-\subsection{Computation times and results}\label{ssec:cpu}
+\subsection{Computation times on several large models}\label{ssec:cpu}
 
 The current implementation can successfully handle large PH models of BRNs found in the literature
 such as the ERBB receptor-regulated G1/S transition model from~\cite{Sahin09} presented in the last subsection,
@@ -120,13 +123,13 @@ on a standard desktop computer.
 
 Bigger models related to the aforementioned systems were also tested with our implementation:
 an other T cell receptor model described in~\cite{SaezRodriguez2007} containing 94 components
-and an EGFR/ErbB signaling model described in~\cite{Samaga2009} which containing 104 components.
+and an EGFR/ErbB signaling model described in~\cite{Samaga2009} containing 104 components.
 \todo{Mention how these models were created?}
 
 The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
 We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
-Therefore, these models would therefore be more efficiently studied as PH than as BRNs.
-finally, we note that the complexity of the method is exponential in the number of regulators of one
+These models would therefore be more efficiently studied as PH than as BRNs.
+Finally, we note that the complexity of the method is exponential in the number of regulators of one
 component and linear in the number of components.
 
 \begin{table}
@@ -134,18 +137,23 @@ component and linear in the number of components.
   \begin{tabular}{r|c|c|c|c}
     \textbf{Model} & \textbf{Components} & \textbf{\# CS} & \textbf{$\Delta t$ IG} & \textbf{$\Delta t$ K}
 \\\hline\hline
-    ERBB-G1/S & $20$ & $22$ & <1s & <1s
+    ERBB-G1/S \cite{Sahin09} & $20$ & $22$ & <1s & <1s
 \\\hline
-    T cell receptor & $40$ & $14$ & <1s & <1s
+    T cell receptor \cite{Klamt06} & $40$ & $14$ & <1s & <1s
 \\\hline
-    T cell receptor & $94$ & $39$ & 10s & 
+    T cell receptor \cite{SaezRodriguez2007} & $94$ & $39$ & 10s & ---
 \\\hline
-    EGFR/ErbB signaling & $104$ & $89$ & 3min 20s & 
+    EGFR/ErbB signaling \cite{Samaga2009} & $104$ & $89$ & 3min 20s & ---
   \end{tabular}
 \end{center}
-  \caption{Other models \rewrite{Caption}}
+  \caption{Other models \rewrite{Caption}
+  Computation times and several pieces of data related to the IG and parametrization inferences of fours biological models.
+  The third column gives the number of cooperative sorts used in the models to model joint actions,
+  and the fourth (resp.~fifth) column gives the computation times of the IG inference (resp.~the parametrization inference).
+  }
   \label{tb:computation}
 \end{table}
+}%
 
 
 
