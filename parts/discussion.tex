@@ -1,5 +1,7 @@
 \section{Conclusion and Discussion}
 
+\todo{Complete/extend}
+
 This work establishes the abstraction relationship between PH and Thomas' approaches for
 qualitative BRN modeling.
 The PH allows an abstract representation of BRNs dynamics (allowing incomplete knowledge on the
@@ -17,19 +19,16 @@ delimit the set of compatible Thomas' parametrizations that are compatible with 
 and give arguments for their correctness.
 A parametrization is compatible with the PH if its dynamics (in terms of possible transitions) is included in the PH dynamics.
 The enumeration of such parametrizations is efficiently tackled using Answer Set Programming.
-We illustrate the overall method on simple examples and large biological models.
+We illustrate the overall method on several large biological models.
 
 Several extensions of the presented work are now to be considered.
-First, we now plan to explore the inference of Thomas' parameters when the inferred IG involves unsigned interactions, as some particular cases having such IGs are known to have correct
-Thomas' parametrization (not respecting some assumptions imposed in \pref{ssec:admissible-K},
-however).
-Second, the inference of BRN multiplexes \cite{BernotMultiplexes} may be of practical interest 
+First, the inference of BRN multiplexes \cite{BernotMultiplexes} may be of practical interest 
 as they allow to implicitly reduce the possible parametrizations by making cooperations appear
 in the IG.
 Because of its atomicity, the PH allows to specify a range of cooperations that can not be
 completely captured by a single instance of BRN multiplexes, then encouraging the inference of a set
 of compatible ones.
-Finally, in order to improve the performances in the IG inference, we will consider projection operations on
+Second, in order to improve the performances in the IG inference, we will consider projection operations on
 the PH structure to undo cooperations between components and reduce the cardinality of
 configurations to explore by making the interactions independent.
 
