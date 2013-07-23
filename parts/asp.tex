@@ -35,6 +35,8 @@ The motivations are following:
 \end{itemize}
 We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
 
+
+
 \subsection{Simple rules}\label{sssec:simple_rules}
 ASP is based on a set of rules of of the form:
 \begin{align*}
@@ -64,7 +66,7 @@ For instance, the information describing the studied model (the original PH mode
 In particular, the predicate $\component$ allows to define all components belonging to the inferred IG.
 Thus, an atom $\component(a, m)$ states that $a$ is a component of the IG and that $l_a = m$.
 
-\begin{example}
+\begin{example}\label{ex:asp-component}
 Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 3 components, and to state the existence of each of them, the following facts are used:
 \begin{align*}
   &\component(a, 2). \\
@@ -86,17 +88,36 @@ The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ 
 where the notation “$\leq$” stands for a shortcut in ASP which has the same meaning as the mathematical operator.
 
 \begin{example}
-Regarding \pref{ex:infer-param-runningPH-1}, the previous rule will make the following set of atoms belong to every answer set:
+Regarding \pref{ex:infer-param-runningPH-1}, the previous rule together with the facts of \pref{ex:asp-component}
+will give the following answer set:
 \begin{align*}
-  &\{&&\componentlevels(b, 0),
+  &\{&&\component(a, 2),
+  &&\component(b, 1), \\
+  &&&\component(c, 1),
+  &&\componentlevels(a, 0), \\
+  &&&\componentlevels(a, 1),
+  &&\componentlevels(a, 2), \\
+  &&&\componentlevels(b, 0),
   &&\componentlevels(b, 1), \\
   &&&\componentlevels(c, 0),
-  &&\componentlevels(c, 1), \\
-  &&&\componentlevels(a, 0),
-  &&\componentlevels(a, 1), \\
-  &&&\componentlevels(a, 2) &&&&\}
+  &&\componentlevels(c, 1). &&&&\}
 \end{align*}
+%will make the following set of atoms belong to every answer set:
+%\begin{align*}
+%  &\{&&\componentlevels(b, 0),
+%  &&\componentlevels(b, 1), \\
+%  &&&\componentlevels(c, 0),
+%  &&\componentlevels(c, 1), \\
+%  &&&\componentlevels(a, 0),
+%  &&\componentlevels(a, 1), \\
+%  &&&\componentlevels(a, 2),% &&&&\}
+%  &&\component(a, 2), \\
+%  &&&\component(b, 1),
+%  &&\component(c, 1). &&&&\}
+%\end{align*}
 \end{example}
+
+
 
 \subsection{Cardinality rules}
 \label{sssec:cardinality_rules}
@@ -193,9 +214,8 @@ thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 \begin{example}
-
 The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
-For example, a constraint was written in order to obtain only interval parameter
+For example, a constraint was written in order to obtain only interval parameters
 (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
 Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
 \begin{align*}
@@ -204,7 +224,7 @@ Applying such a constraint would reduce the set of possible values for the param
 
 Then, due to the fact that the parameters $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ could be inferred,
 the monotonicity assumption (\pref{pro:param_enum_monotonicity}) removes all parametrizations with: $0 \in K_{a,\{a,b\}} \vee 0 \in K_{a,\{a,c\}}$.
-In the end, the remaining possible values for the parameters that were not inferred are:
+In the end, the remaining possible values for the two parameters that were not inferred are:
 \begin{align*}
   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{1}{1} , \segm{2}{2} , \segm{1}{2} \}^2
 \end{align*}
