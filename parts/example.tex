@@ -1,12 +1,10 @@
 \section{Examples}\label{sec:examples}
 
-\todo{Proofread this section}
+%\todo{Proofread this section}
 
-\updatedmax{%
 This section details the implementation and usage of the piece of software developed for this work.
 \pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
 while \pref{ssec:cpu} gives data related to the computation times of our software when applied to several large biological models.
-}
 
 \medskip
 
@@ -37,7 +35,6 @@ admissible parametrizations.
 
 
 
-\updatedmax{%
 \subsection{Biological application}\label{ssec:appli}
 
 This subsection focuses on the study of a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
@@ -153,52 +150,3 @@ component and linear in the number of components.
   }
 \label{tb:computation}
 \end{table}
-}%
-
-
-
-\begin{comment}
-\subsection{\warnul{Old version of this section}}
-
-The inference method described in this paper has been implemented as part of
-\textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related
-tools.
-Our implementation mainly consists in ASP programs that are solved using Clingo\footnote{Available
-at \url{http://potassco.sourceforge.net}}.
-The IG and parameters inference can be performed using the command
-\texttt{ph2thomas -i model.ph -{}-dot ig.dot}
-where \texttt{model.ph} is the PH model in \textsc{Pint} format and \texttt{ig.dot} is an output of the inferred IG in DOT format.
-The (possibly partial) inferred parametrization will be returned on the standard output.
-The admissible parametrizations enumeration is performed when adding the \texttt{-{}-enumerate}
-parameter to the command.
-
-Applied to the example in \pref{fig:runningPH-2} where cooperations have been defined,
-our method infers the IG and parametrization given in \pref{fig:runningBRN}.
-Regarding the example in \pref{fig:runningPH-1}, the same IG is inferred, as well as for the
-parametrization except for the parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ which are
-undefined (because of the lack of cooperativity between $b$ and $c$).
-In such a case, this partial parametrization allows 36 admissible complete parametrizations, as two
-parameters with 3 potential values could not be inferred.
-If we constrain these latter parameters so that they contain exactly one element, we obtain only 9
-admissible parametrizations.
-
-The current implementation can successfully handle large PH models of BRNs found in the literature
-such as an ERBB receptor-regulated G1/S transition model from \cite{Sahin09} which contains 20
-components and 15 cooperative sorts, and a T-cells receptor model from \cite{Klamt06} which contains 40
-components and 14 cooperative sorts\footnote{Both models are available as examples distributed with \textsc{Pint}.}.
-For each model, IG and parameters inferences are performed together in less than a second
-on a standard desktop computer.
-%\footnote{Using a Dell Inspiron 1720 laptop, with an Intel Core 2 Duo CPU T5550 ($2 \times 1.83\text{GHz}$)
-%and 3.9 Gib memory, on an Ubuntu 11.10 64-bits OS}
-After removing the cooperations from these models (leaving only raw actions), the inferences allow to
-determine 40 parameters out of 195 for the 20 components model, and 77 out of 143 for the 40 components model.
-As we thus have an order of magnitude of respectively $10^{31}$ and $10^{73}$ admissible parametrizations,
-these models would therefore be more efficiently studied as PH than as BRNs.
-We note that the complexity of the method is exponential in the number of regulators of one
-component and linear in the number of components.
-% We note that despite its smaller size in term of components, the ERBB transmission model takes more time to be computed because the biggest cooperative sorts contain more processes (up to 32 processes) than in the T-cells receptor model (up to 8 processes).
-
-A PH model can be built based on information found in the literature about the local influences between components.
-The precision of this knowledge will determine the precision of the modeled activations and inhibitions,
-and some information is likely to help in the representation of cooperations.
-\end{comment}
