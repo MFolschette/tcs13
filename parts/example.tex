@@ -1,7 +1,5 @@
 \section{Examples}\label{sec:examples}
 
-%\todo{Proofread this section}
-
 This section details the implementation and usage of the piece of software developed for this work.
 \pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
 while \pref{ssec:cpu} gives data related to the results and computation times of our software when applied to several large biological models.
@@ -19,19 +17,6 @@ and \texttt{ig.dot} is an output of the inferred IG in DOT format.
 The (possibly partial) inferred parametrization will be returned on the standard output.
 The admissible parametrizations enumeration is performed when adding the \texttt{-{}-full-enumerate} parameter to the command,
 or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
-
-\begin{comment}
-\todo{Check this paragraph}
-Applied to the example in \pref{fig:runningPH-2} where cooperations have been defined,
-our method infers the IG and parametrization given in \pref{fig:runningBRN}.
-Regarding the example in \pref{fig:runningPH-1}, the same IG is inferred, as well as for the
-parametrization except for the parameters $K_{a,\{b\},\{c\}}$ and $K_{a,\{c\},\{b\}}$ which are
-undefined (because of the lack of cooperativity between $b$ and $c$).
-In such a case, this partial parametrization allows 36 admissible complete parametrizations, as two
-parameters with 3 potential values could not be inferred.
-If we constrain these latter parameters so that they contain exactly one element, we obtain only 9
-admissible parametrizations.
-\end{comment}
 
 
 
@@ -139,7 +124,6 @@ Bigger models related to the aforementioned systems were also tested with our im
   \item a model of the EGF receptor with 104 components, described in~\cite{Samaga2009}.
 \end{itemize}
 These two models were obtained in a previous work by an automatic translation from the CellNetAnalyzer formalism.
-%\todo{Mention how these models were created?}
 
 The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
 We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
