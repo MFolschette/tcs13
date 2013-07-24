@@ -4,7 +4,7 @@
 
 This section details the implementation and usage of the piece of software developed for this work.
 \pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
-while \pref{ssec:cpu} gives data related to the computation times of our software when applied to several large biological models.
+while \pref{ssec:cpu} gives data related to the results and computation times of our software when applied to several large biological models.
 
 \medskip
 
@@ -37,17 +37,18 @@ admissible parametrizations.
 
 \subsection{Biological application}\label{ssec:appli}
 
-This subsection focuses on the study of a model of ERBB receptor-regulated G1/S transition detailed in~\cite{Sahin09}.
+This subsection focuses on the study of the epidermal growth factor (EGF) receptor model detailed in~\cite{Sahin09}.
 This model is represented by an IG containing 20 components and 52 edges.
-A protein named EGF, having no ingoing edge, can be considered as the only input.
-Then, a chain of reactions lead to the activation of protein pRB which is responsible for regulating the cell division,
+A protein named EGF, having no regulator, can be considered as the only input,
+and a chain of reactions leads to the activation of protein pRB which is responsible for regulating the cell division,
 therefore making it essential to prevent cancer development.
 
 Three models are created from the original IG, with different levels of precision regarding the cooperation between components.
-Model (1) represents a translation of the original IG into Process Hitting, that is,
+The translation from an IG into a Process Hitting is not detailed here as it was previously covered in~\cite{PMR10-TCSB}.
+Model (1) represents a translation of the raw IG into Process Hitting, that is,
 without any knowledge of the Boolean rules (and therefore the cooperations) of the components.
 Model (2) implements some of the rules based on the results of several knockdown experiments.
-Model (3) is the totally refined model with all cooperations implemented given the Boolean functions for all components.
+Model (3) is the totally refined model with all cooperations implemented given the Boolean functions of all components.
 Therefore, those three models can be considered as successive refinements of the original and most general one.
 The results of the IG and parameters inferences are detailed in \pref{tb:egfr20}
 and discussed in the following alongside with details about their construction.
@@ -55,7 +56,7 @@ and discussed in the following alongside with details about their construction.
 \begin{table}[ht]
 ~\hfill%\begin{center}
   \begin{tabular}{r|l|l|m{2cm}|m{2.5cm}|m{1.5cm}}
-    \textbf{Model} & \textbf{$|E|$} & \textbf{$|K|$} & \textbf{Inferred parameters} & \textbf{Possible\newline models} & \textbf{Fixed points}
+    \textbf{Model} & $\mathbf{|E|}$ & $\mathbf{|K|}$ & \textbf{Inferred parameters} & \textbf{Possible\newline models} & \textbf{Fixed points}
   \\\hline\hline
     (1) & $52$ & $196$ & $20$ & $2^{176}\simeq 9.6\cdot10^{52}$ & $0$   % v1_0.ph
   \\\hline
@@ -65,12 +66,23 @@ and discussed in the following alongside with details about their construction.
   \\\hline
   \end{tabular}
 \hfill~%\end{center}
-  \caption{Results of the IG and parameters inference on three models
-  derived the ERBB receptor-regulated G1/S transition model of~\cite{Sahin09}
+  \caption{%
+  Results of the IG and parameters inference on three models
+  derived from the EGF receptor model of~\cite{Sahin09}
   with different precisions in the definition of the cooperations.
   Model (1) contains no cooperations between the components.
-  Several cooperations were included in model (2) under the form of 14 cooperative sorts.
-  Model (3) models all the Boolean functions between components using 22 cooperative sorts.}
+  Several cooperations were included in model (2) under the form of 14 cooperative sorts
+  and all of them were included in Model (3) under the form of 22 cooperative sorts.
+%  Model (3) models all the Boolean functions between components using 22 cooperative sorts.
+  The second column gives the number of edges in the IG inferred with \pref{pps:inference-IG}
+  (the number of nodes is always the number of components in the model, that is, 20).
+  The third column gives the number of parameters in the model (given the IG),
+  the fourth column gives the number of parameters that could be inferred using \pref{pps:param_K},
+  and the fifth column consequently gives the number fo compatible models with the studied PH model,
+  which exponentially depends on the number of parameters that could not be inferred.
+  Finally, the last column gives the number of fixed points in the PH model,
+  computed with another existing PH tool included in \textsc{Pint}.
+  }
   \label{tb:egfr20}
 \end{table}
 
@@ -105,23 +117,29 @@ No edge have therefore been inferred by our method in this case.
 Finally, model (3) was build using all the Boolean functions provided in~\cite{Sahin09}.
 These functions take the form of 22 cooperative sorts into the model in order to match the desired behavior of the system.
 As all cooperations are fully defined in this model, all the parameters are inferred and only one Thomas model can be derived.
-We note also that this PH model is the only one containing at least one fixed point.
+We note also that this PH model is the only one containing at least one fixed point,
+which indicates the possibility of a steady state once the input signal is completely propagated.
 
 
 
 \subsection{Computation times on several large models}\label{ssec:cpu}
 
-The current implementation can successfully handle large PH models of BRNs found in the literature
-such as the ERBB receptor-regulated G1/S transition model from~\cite{Sahin09} presented in the last subsection,
-and a T cell receptor model from~\cite{Klamt06} which contains 40 components and 14 cooperative
-sorts\footnote{All models mentioned in this section are available as examples distributed with \textsc{Pint}.}.
+The current implementation can successfully handle large PH models of BRNs found in the literature such as:
+\begin{itemize}
+  \item the EGF receptor model from~\cite{Sahin09} with 20 components presented in the last subsection,
+  \item a T cell receptor model described as an IG in~\cite{Klamt06}, which contains 40 components and 14 cooperative
+    sorts\footnote{All models mentioned in this section are available as examples distributed with \textsc{Pint}.}.
+\end{itemize}
 For each model, IG and parameters inferences are performed together in less than a second
 on a standard desktop computer.
 
 Bigger models related to the aforementioned systems were also tested with our implementation:
-an other T cell receptor model described in~\cite{SaezRodriguez2007} containing 94 components
-and an EGFR/ErbB signaling model described in~\cite{Samaga2009} containing 104 components.
-\todo{Mention how these models were created?}
+\begin{itemize}
+  \item a model of the T cell receptor with 94 components, described in~\cite{SaezRodriguez2007},
+  \item a model of the EGF receptor with 104 components, described in~\cite{Samaga2009}.
+\end{itemize}
+These two models were obtained in a previous work by an automatic translation from the CellNetAnalyzer formalism.
+%\todo{Mention how these models were created?}
 
 The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
 We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
@@ -129,24 +147,27 @@ These models would therefore be more efficiently studied as PH than as BRNs.
 Finally, we note that the complexity of the method is exponential in the number of regulators of one
 component and linear in the number of components.
 
-\begin{table}
+\begin{table}[ht]
 \begin{center}
-  \begin{tabular}{r|c|c|c|c}
-    \textbf{Model} & \textbf{Components} & \textbf{\# CS} & \textbf{$\Delta t$ IG} & \textbf{$\Delta t$ K}
+  \begin{tabular}{r|c|c|c|c|c}
+    \textbf{Model} & $\mathbf{|\Gamma|}$ & $\mathbf{|\PHs \setminus \Gamma|}$ & \textbf{$\Delta t$ IG} & \textbf{$\Delta t$ K} & $\mathbf{|K|}$
 \\\hline\hline
-    ERBB-G1/S \cite{Sahin09} & $20$ & $22$ & <1s & <1s
+    EGF receptor \cite{Sahin09} & $20$ & $22$ & <1s & <1s & 192
 \\\hline
-    T cell receptor \cite{Klamt06} & $40$ & $14$ & <1s & <1s
+    T cell receptor \cite{Klamt06} & $40$ & $14$ & <1s & <1s & 143
 \\\hline
-    T cell receptor \cite{SaezRodriguez2007} & $94$ & $39$ & 10s & ---
+    T cell receptor \cite{SaezRodriguez2007} & $94$ & $39$ & 10s & --- & $2.1\cdot10^{9}$
 \\\hline
-    EGFR/ErbB signaling \cite{Samaga2009} & $104$ & $89$ & 3min 20s & ---
+    EGF receptor \cite{Samaga2009} & $104$ & $89$ & 3min 20s & --- & $4.2\cdot10^{6}$
   \end{tabular}
 \end{center}
-\caption{
-  Computation times and several pieces of data related to the IG and parametrization inferences of fours biological models.
-  The third column gives the number of cooperative sorts used in the models to model joint actions,
-  and the fourth (resp.~fifth) column gives the computation times of the IG inference (resp.~the parametrization inference).
+\caption{%
+  Computation times and several pieces of information related to the IG and parametrization inferences of four biological models.
+  The second column gives the number of components of each model and
+  the third column gives the number of cooperative sorts used to model joint actions.
+  The fourth (resp.~fifth) column gives the computation times of the IG inference (resp.~the parametrization inference).
+  The last column gives the number of parameters in each model.
+  Due to the too high number of parameters, parametrization inference could not be performed on the $94$ and $104$ component models.
   }
 \label{tb:computation}
 \end{table}
