@@ -33,7 +33,7 @@ concurrent systems having components with a few qualitative levels.
 A PH model describes, in an atomic manner, the possible evolutions of a process (representing one
 component at one level) triggered by the hit of at most one other process in the system.
 This framework can be seen as a special class of formalisms like Petri Nets or Communicating Finite
-State Machines, where the arity and the effect of synchronizations between components is
+State Machines, where the arity and the effect of synchronizations between components are
 restricted.
 Thanks to the particular structure of interactions within a PH, very efficient static analysis
 methods have been developed to over- and under-approximate reachability properties making tractable
@@ -68,7 +68,7 @@ we should be able to synthesize families of BRN having some featuring behavioral
 Firstly, we derive rules that, given a PH model, infer the IG corresponding to the dynamics of the
 encoded BRN.
 The obtained IG relates only components that have actual influence in the dynamics.
-This typically results into IGs that contain less interaction than an hypothetical starting prior
+This typically results into IGs that contain less interactions than an hypothetical starting prior
 IG, as the specification of component evolutions may reveal non-functional regulations.
 Based on the derived IG, various static analysis allows to conclude on global properties
 of the system dynamics (see \cite{PR11-SASB} for a short survey).
@@ -77,19 +77,19 @@ e.g.~\cite{RRT08,RiCo07,Richard2010378}
 for Boolean and discrete networks),
 which relate the absence of
 positive cycle to the impossibility for multi-stationarity (distinct attractors),
-and the absence of negative cycle to the impossibility for oscillatory behaviours.
+and the absence of negative cycle to the impossibility for oscillatory behaviors.
 
-Second, we tackle the characterisation of Thomas' parameters that are compatible with a given PH
+Second, we tackle the inference of Thomas' parameters that are compatible with a given PH
 model, \ie that fully specify the evolution of components while respecting the cooperations
 specified in PH.
 More formally, the resulting BRN dynamics is ensured to be included in the PH dynamics: any
 transition in the (asynchronous) Thomas model exists in the PH model.
 In practice, the number of compatible Thomas parameters can be huge for large networks where only a
 few cooperations are specified.
-This highlights the fact that the PH is very suited to analyse dynamics of large-scale networks
+This highlights the fact that the PH is very suitable to analyze dynamics of large-scale networks
 where the knowledge on cooperations is often incomplete:
 instead of dealing with a possibly non-tractable number of Thomas models, one can already capture
-precise dynamical features using a single PH models which gathers all the plausible dynamics.
+precise dynamical features using a single PH model which gathers all the plausible dynamics.
 
 Finally, we discuss on an implementation of these inference schemes using Answer Set
 Programming (ASP) \cite{Baral03},  which turns out to be effective for these enumerative searches.
@@ -106,12 +106,12 @@ Both aim at determining a class of models which are consistent with available pa
 Our method is based on a model rather than on constraints, which allows to define some properties on the system structure (such as cooperations).
 Furthermore, we claim that we are able to deal with larger biological networks.
 Finally, it must be noticed that we are not interested in this paper in the derivation of one PH
-from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, to finding
+from a BRN (which was previously described in \cite{PMR10-TCSB}) but, on the contrary, in finding
 out a set of BRNs from one PH.
 
 The contributions presented in this paper significantly extend and improve the preliminary results
-presented in \cite{FPIMR12-CMSB}.
-In addition of improving the efficiency and accuracy of the IG inference, we have added support for
+introduced in \cite{FPIMR12-CMSB}.
+In addition to the improvement of the efficiency and accuracy of the IG inference, we have added support for
 unsigned regulations, that are regulations being positive or negative depending on a particular
 context.
 This allows to apply our methodology to a wider class of models.
