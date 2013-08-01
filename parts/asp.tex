@@ -23,29 +23,28 @@
 
 
 
-Answer Set Programming (ASP) is a logic programming paradigm \cite{Baral03},
+Answer Set Programming (ASP) is a logic programming paradigm \cite{Baral03, Baral10},
 which has been chosen to address the enumeration of all admissible parametrizations.
 The motivations are following:
 \begin{itemize}
-  \item ASP efficiently tackles the inherent complexity of the models used, thus allowing a fast execution of the formal tools defined in this paper,
-  \item it is convenient to enumerate a large set of possible answers,
-  \item and it allows to easily constrain the answers according to some properties.
+  \item ASP efficiently tackles the inherent complexity of the used models, thus enabling us fast execution of the formal tools defined in this paper,
+  \item ASP can efficiently enumerate a large set of possible answers,
+  \item and it is easy to constrain the answers according to some properties.
 \end{itemize}
 We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
 
 
 
-\subsection{Simple rules}\label{sssec:simple_rules}
+\subsection{Simple rules and answer sets}\label{sssec:simple_rules}
 ASP is based on a set of rules of of the form:
 \begin{align*}
   \underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.
 \end{align*}
 where the $body$ is a series of atoms ($\atom{A}_i$) and negations of atoms ($\nota \atom{B}_i$).
 In the case of \emph{simple rules} (as opposed to the \emph{cardinality rules} of \pref{sssec:cardinality_rules}), the $head$ is also an atom ($\atom{H}$).
-Such a rule states that if all atoms $\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n$ are true
+Such a rule, whose formal semantics is defined below,
+schematically states that if all atoms $\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n$ are true
 and all atoms $\atom{B}_1, \atom{B}_2, \dots, \atom{B}_m$ are not true (negation by failure), then $\atom{H}$ has to be true.
-Solving an ASP program means finding an \emph{answer set}, that is a minimal set of true atoms that respect all the rules.
-Several answer sets can be solution to the same ASP program and the solver can be directed to enumerate them all.
 
 An atom is composed of a predicate and a series of arguments (possibly empty).
 For example, the following atom:
@@ -53,32 +52,71 @@ For example, the following atom:
   \predicate{p}(x_1, x_2, \dots, x_r)
 \end{align*}
 is composed of the predicate $\predicate{p}$ and $r$ arguments: $x_1, x_2, \dots, x_r$.
-Each argument can be either an constant or a variable, %value -> constant
-a constant being a representation of a piece of data (component name, expression level, …)
-and a variable is used to represent any possible existing constant which respects the rules.
-In this paper, a variable is always denoted by a single capital letter (e.g.~$\var{A}$, $\var{P}$, $\var{Q}$, …)
-while constants are either numerical or consist of a single lowercase letter (e.g.~$a$, $b$, $c$, $1$, $2$, …).
+Each argument is either a \emph{constant}, which is a representation of a piece of data (component name, expression level, …),
+or a \emph{variable}, which is in fact a shorthand for any possible constants (variables are detailed below).
+In this paper, constants are either numerical or consist of a single lowercase letter (e.g.~$a$, $b$, $c$, $1$, $2$, …)
+while variables are always denoted by a single capital letter (e.g.~$\var{A}$, $\var{P}$, $\var{Q}$, …).
+We do not use function symbols as arguments in this work.
 
-A rule with no $body$ part is called a fact, and its $head$ atom has to belong to all answer sets.
+\begin{example}\label{ex:asp-atom}
+Consider a PH model such as \pref{ex:infer-param-runningPH-1}:
+in order to state the existence of each component, we use a predicate called $\component$ with two arguments:
+\begin{align*}
+  &\component(x, n).
+\end{align*}
+where $x$ is the name of the component and $l_x = n$ is its maximum level of expression.
+\end{example}
+
+An ASP program is a set of rules as described above.
+Solving an ASP program means finding an \emph{answer set}, which is a minimal set of atoms that respect all the rules.
+In order to formally define this notion of answer set,
+let us define a \emph{definite rule} as a rule with no negation of atoms (noted “$\nota$” above),
+and a \emph{definite program} as a program containing only definite rules.
+Let $X$ be a set of atoms: a definite rule is satisfied by $X$ if $\atom{H} \in X$,
+or if $\exists i \in \segm{1}{n}, A_i \notin X$.
+Given this definition of satisfaction, we define the answer set of a definite program $\Pi$
+as the (unique) minimal set $X$ of atoms that satisfies all the rules in $\Pi$.
+
+In order to consider the general case,
+for all non-definite program $\Pi$ and set $X$ of atoms, we denote $\Pi^X$ the reduct of $\Pi$ w.r.t.~$X$, defined from $\Pi$ by:
+\begin{enumerate}
+  \item deleting all the rules that have a negation of atom $\nota \atom{B}_i$ in the body where $\atom{B}_i \in X$, and
+  \item removing all negations of atoms in the bodies of the remaining rules.
+\end{enumerate}
+Then, a set of atoms $X$ is an answer set of a non-definite program $\Pi$ if it is the answer set of $\Pi^X$, which is a definite program.
+We note that several answer sets can be solution to the same non-definite program, and in practice the solver can be directed to enumerate them all.
+
+%\begin{example}
+%  As an example not related to the current work, consider the following ASP program:
+%  \begin{align*}
+%    a &\la \nota b.\\
+%    b &\la \nota a.
+%  \end{align*}
+%  This program has the two following answer sets: $\{a\}$ and $\{b\}$.
+%\end{example}
+
+
+
+\subsection{Facts}
+A rule with no $body$ part is called a \emph{fact}, and its $head$ atom consequently has to belong to all answer sets.
 For instance, the information describing the studied model (the original PH model and the inferred IG and parameters) are expressed in ASP using facts.
 In particular, the predicate $\component$ allows to define all components belonging to the inferred IG.
 Thus, an atom $\component(a, m)$ states that $a$ is a component of the IG and that $l_a = m$.
 
-
-
 \begin{example}\label{ex:asp-component}
-Consider \pref{ex:infer-param-runningPH-1}: the inferred IG contains 3 components, and to state the existence of each of them, the following facts are used:
+In order to define the 3 components of \pref{ex:infer-param-runningPH-1}, we use the following program:
 \begin{align*}
   &\component(a, 2). \\
   &\component(b, 1). \\
   &\component(c, 1).
 \end{align*}
-These three atoms are built with the predicate $\component$.
-Furthermore, $a$, $b$, $c$, $1$ and $2$ are constants.
+This program contains only facts using the predicate $\component$ defined in \pref{ex:asp-atom},
+and $a$, $b$, $c$, $1$ and $2$ are constants.
 \end{example}
 
 
 
+\subsection{Variables}
 To describe the sets of all expression levels of each component (\ie the set $\segm{0}{l_a}$ for each $a \in \Gamma$),
 one can use atoms of the form $\componentlevels(a, k)$ to state that $k \in \segm{0}{l_a}$.
 Variables here come in handy to enumerate each possible constant $k$ for each component $a$:
@@ -88,8 +126,6 @@ The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ 
   \componentlevels(A, K) \la \component(\var{A}, \var{M}), 0 \leq K \leq M.
 \end{align*}
 where the notation “$\leq$” stands for a shortcut in ASP which has the same meaning as the mathematical operator.
-
-
 
 \begin{example}
 Regarding \pref{ex:infer-param-runningPH-1}, the previous rule together with the facts of \pref{ex:asp-component}
