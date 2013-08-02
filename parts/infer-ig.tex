@@ -177,7 +177,7 @@ Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be sui
 inference.
 In addition of having either component sorts or well-formed cooperative sorts, we also require that
 there is no cycle between cooperative sorts, and that
-sorts being never hit (\ie{} serving as an invariant environment) are components.
+sorts being never hit (\ie serving as an invariant environment) are components.
 
 \begin{property}[Well-formed Process Hitting for IG inference]\label{pro:wf-ph}
 A PH is well-formed for IG inference if and only if the following conditions are verified:
@@ -210,7 +210,7 @@ with $\Gamma = \{a,b,c\}$.
 \subsection{Interaction Inference}\label{ssec:infer-IG}
 
 At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
-($\PHs \setminus \Gamma$) that will not appear in the IG. 
+that will not appear in the IG ($\PHs \setminus \Gamma$).
 We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
 by considering direct actions and possible intermediate cooperative sorts.
 The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
@@ -231,7 +231,7 @@ The predecessors of $a$ that are components are the regulators of $a$, denoted $
 
 Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
 refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
-If $g=\{b\}$, we simple note $\ctx_b(\sigma)$.
+If $g=\{b\}$, we simply note $\ctx_b(\sigma)$.
 This set is composed of the active processes of sorts in $g$, and the focal process (assumed
 unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
 The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
@@ -309,8 +309,8 @@ We ignore the cases where a component has no visible influence on another.
 %
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any $a\in\Gamma$ by:
-\begin{align}
 % Arcs a -> b, a ≠ b
+\begin{align}
 \begin{split}\label{eq:edges-inference}
   \forall b\in\PHpredecgene{a}, \forall s \in \{ +, - \}, \\
   b \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), b \in g,
@@ -318,8 +318,10 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
     &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
     &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
     &\qquad s = \f{sign}(k - a)
-\end{split}\\
-% Auto-arcs
+\end{split}
+\end{align}
+% Auto-arcs depuis les groupes de régulateurs
+\begin{align}
 \begin{split}\label{eq:edges-inference-auto}
   \forall s \in \{ +, - \}, \quad\qquad\qquad \\
   a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), \exists b \in g,
@@ -327,7 +329,10 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
     &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
     &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
     &\qquad s = \f{sign}(a_k - a_j)
-\end{split}\\
+\end{split}
+\end{align}
+% Auto-arcs des composants sans prédécesseurs
+\begin{align}
 \begin{split}\label{eq:edges-inference-noreg}
   \forall s \in \{ +, - \}, \quad\qquad\qquad \\
   a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
@@ -335,7 +340,7 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
     &\qquad s = \f{sign}(a_k - a_j)
 \end{split}
 \end{align}
-where $\f{sign}(x) = \begin{cases}|x|/x & \text{ if $x \neq 0$} \\ 0 & \text{ if $x = 0$}\end{cases}$.
+where $\f{sign}(x) = \begin{cases}|x|/x & \text{ if $x \neq 0$} \\ 0 & \text{ if $x = 0$}\end{cases}$ \enspace.
 \end{proposition}
 
 We are now able to infer the edges of the final IG by considering positive and negative influences

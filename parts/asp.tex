@@ -60,7 +60,7 @@ in order to state the existence of each component, we use a predicate called $\c
 \begin{align*}
   &\component(x, n).
 \end{align*}
-where $x$ is the name of the component and $l_x = n$ is its maximum level of expression.
+where $x$ is the name of the component and $l_x = n$ is its maximum expression level.
 \end{example}
 
 An ASP program is a set of rules as described above.
@@ -68,7 +68,7 @@ Solving an ASP program means finding an \emph{answer set}, which is a minimal se
 In order to formally define this notion of answer set,
 let us define a \emph{definite rule} as a rule with no negation of atoms (noted “$\nota$” above),
 and a \emph{definite program} as a program containing only definite rules.
-Let $S$ be a set of atoms: a definite rule is satisfied by $S$ if $\atom{H} \in S$,
+Let $S$ be a set of atoms: a definite rule is \emph{satisfied} by $S$ if $\atom{H} \in S$,
 or if $\exists i \in \segm{1}{n}, A_i \notin S$.
 Given this definition of satisfaction, we define the answer set of a definite program $\Pi$
 as the (unique) minimal set $S$ of atoms that satisfies all the rules in $\Pi$.
@@ -80,7 +80,7 @@ for all non-definite program $\Pi$ and set $S$ of atoms, we denote $\Pi^S$ the r
   \item removing all negations of atoms in the bodies of the remaining rules.
 \end{enumerate}
 Then, a set of atoms $S$ is an answer set of a non-definite program $\Pi$ if it is the answer set of $\Pi^S$, which is a definite program.
-We note that several answer sets can be solution to the same non-definite program, and in practice the solver can be directed to enumerate them all.
+We note that several answer sets can be solution to the same non-definite program, and in practice a solver can be directed to enumerate them all.
 
 %\begin{example}
 %  As an example not related to the current work, consider the following ASP program:
@@ -93,11 +93,9 @@ We note that several answer sets can be solution to the same non-definite progra
 
 
 
-\subsection{Facts}
-A rule with no $body$ part is called a \emph{fact}, and its $head$ atom consequently has to belong to all answer sets.
+Note that it is possible to define a simple rule with no $body$ part.
+Such a rule is called a \emph{fact}, and its $head$ atom consequently has to belong to all answer sets.
 For instance, the information describing the studied model (the original PH model and the inferred IG and parameters) are expressed in ASP using facts.
-In particular, the predicate $\component$ allows to define all components belonging to the inferred IG.
-Thus, an atom $\component(a, m)$ states that $a$ is a component of the IG and that $l_a = m$.
 
 \begin{example}\label{ex:asp-component}
 In order to define the 3 components of \pref{ex:infer-param-runningPH-1}, we use the following program:
@@ -116,7 +114,7 @@ and $a$, $b$, $c$, $1$ and $2$ are constants.
 To describe the sets of all expression levels of each component (\ie the set $\segm{0}{l_a}$ for each $a \in \Gamma$),
 one can use atoms of the form $\componentlevels(a, k)$ to state that $k \in \segm{0}{l_a}$.
 Variables here come in handy to enumerate each possible constant $k$ for each component $a$:
-before solving, any rule containing variables is grounded, that is replaced by an equivalent set of rules with constants only.
+before solving, any rule containing variables is \emph{grounded}, that is, replaced by an equivalent set of rules with constants only.
 %during the solving, any rule containing variables is duplicated in order to replace each variable by all the possible constants it could represent.
 The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ and $\var{M}$) and enumerates the set of possible expression levels of each component in the system:
 \begin{align*}
@@ -210,7 +208,7 @@ as no rule specifying that a parameter has to be an interval has been defined ye
 
 
 \subsection{Constraints}\label{sssec:constraints}
-Finally, a constraint is a rule with no $head$ part:
+Finally, a \emph{constraint} is a rule with no $head$ part:
 \begin{align*}
   \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
 \end{align*}
@@ -243,7 +241,8 @@ Applying such a constraint would reduce the set of possible values for the param
 \end{align*}
 
 Then, due to the fact that the parameters $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ could be inferred,
-the monotonicity assumption (\pref{pro:param_enum_monotonicity}) removes all parametrizations with: $0 \in K_{a,\{a,b\}} \vee 0 \in K_{a,\{a,c\}}$.
+the monotonicity assumption (\pref{pro:param_enum_monotonicity} and expressed in ASP above) removes all parametrizations with:
+$0 \in K_{a,\{a,b\}} \vee 0 \in K_{a,\{a,c\}}$.
 In the end, the remaining possible values for the two parameters that were not inferred are:
 \begin{align*}
   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{1}{1} , \segm{2}{2} , \segm{1}{2} \}^2

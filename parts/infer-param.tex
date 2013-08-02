@@ -106,22 +106,24 @@ Regarding the refined PH of \pref{fig:runningPH-2}, all parameters can be inferr
 We obtain the same value for the inferred parameters of \pref{ex:infer-param-runningPH-1},
 together with the following results:
 \begin{align*}
-  K_{a,\{a,b\}} &= 1 &
-  K_{a,\{a,c\}} &= 1
+  K_{a,\{a,b\}} &= \segm{1}{1} &
+  K_{a,\{a,c\}} &= \segm{1}{1}
 \end{align*}
 \end{example}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
-This can be due to a lack of cooperation between regulators: when two regulators independently hit a component, their actions can have opposite effects, leading to either an indeterministic evolution or to oscillations.
-Such an indeterminism is not possible in a BRN as in a given configuration of regulators, a component can only have an interval attractor, and eventually reaches a steady-state.
+This can be due to a lack of cooperation between regulators:
+when two regulators independently hit a component, their actions can have opposite effects, leading to two possible evolutions.
+Such an indeterminism is not possible in Thomas modeling as in a given configuration of regulators,
+a component can only have an interval attractor, and can therefore evolve in only one direction.
 In order to avoid such inconclusive cases, one has to ensure that no such behavior is allowed by
 either removing undesired actions or using cooperative sorts to prevent opposite influences between
-regulators.
+concurrent regulators.
 
 \subsection{Admissible parametrizations}\label{ssec:admissible-K}
 
 When building a BRN, one has to find the parametrization that best describes the desired behavior of the studied system.
-Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t. the number of components.
+Complexity is inherent to this process as the number of possible parametrizations for a given IG is exponential w.r.t.~the number of components.
 However, the method of parameters inference presented in this section gives some information about necessary parameters given a certain dynamics described by a PH.
 This information thus drops the number of possible parametrizations, allowing to find the desired behavior more easily.
 

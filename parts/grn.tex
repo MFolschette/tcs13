@@ -189,20 +189,21 @@ Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1
 From the dynamics specification of a BRN, one can infer back the IG that contain only the functional
 regulations.
 Let us define
-$f^a(s) = s[a]$ if $s[a]\in K_{a, \GRNres{a}{s}}$, 
-$f^a(s) = s[a]+1$ if $s[a] < K_{a, \GRNres{a}{s}}$, 
-and 
-$f^a(s) = s[a]-1$ if $s[a] > K_{a, \GRNres{a}{s}}$.
+$f^a(s) = s[a]$ if $s[a]\in K_{a, \GRNres{a}{s}}$
+and
+$f^a(s) = s[a]+\delta^a(s)$ otherwise.
 A positive (resp. negative) interaction from $b$ to $a$ is inferred if there exists a state $s$ such
-that increasing $b$ in $s$ would increase (resp. decrease) $f^a$:
-$f^a(s\{b_i\}) < \text{ (resp. $>$) } f^a(s\{b_{i+1}\})$, 
+that increasing $b$ in $s$ would increase (resp. decrease) $f^a$; in other words, if
+there exists a state $s$ so that:
+$f^a(s\{b_i\}) < \text{(resp. $>$) } f^a(s\{b_{i+1}\})$, 
 where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
 Then, such an IG can be used to derive global properties on the dynamics
 (e.g., \cite{Richard2010378,PR11-SASB}).
 
 \paragraph{Discussion on maximum level restrictions}
 The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$ in the IG, \ie the number of components that $a$ regulates.
-Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels for which $a$ has a certain influence on several other components it regulates.
+Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels of the protein coded by $a$
+and for which it has a certain influence on several other components that it regulates.
 Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
 on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
 However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
@@ -210,7 +211,7 @@ In the scope of this paper, we allow any number of levels for components, withou
 as the number of processes in a PH sort is not constrained in any way.
 For instance, in the example of \pref{fig:runningBRN},
 it would be more relevant to have $l_a = 1$ and $\GRNedgef{a}{-}{1}{b} \in E$, as $a$ has only one outgoing edge,
-but the value $l_a = 2$ makes the example more interesting, therefore $\GRNedgef{a}{-}{2}{b} \in E$ can be arbitrarily chosen.
+but the value $l_a = 2$ makes the example more interesting; this is why $\GRNedgef{a}{-}{2}{b} \in E$ can be arbitrarily chosen.
 
 \paragraph{Discussion on unsigned edges}
 Unsigned edges allow to model regulations whose trend is more complex than a simple activation or inhibition.

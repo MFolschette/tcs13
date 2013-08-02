@@ -10,10 +10,10 @@ The inference methods described in this paper have been implemented as part of
 \textsc{Pint}\footnote{Available at \url{http://process.hitting.free.fr}}, which gathers PH related tools.
 Our implementation mainly consists in ASP programs that are solved using
 Clingo\footnote{Available at \url{http://potassco.sourceforge.net}}.
-The IG and parameters inference can be performed using the following command:\\
-  \hspace*{1.2em}\texttt{ph2thomas -i model.ph -{}-dot ig.dot}\\
-where \texttt{model.ph} is the PH model in \textsc{Pint} format,
-and \texttt{ig.dot} is an output of the inferred IG in DOT format.
+The IG and parameter inferences can be performed using the following command:\\
+  \hspace*{\parindent}\texttt{ph2thomas -i model.ph -{}-dot ig.dot}\\
+where \texttt{model.ph} is the PH model file in \textsc{Pint} format,
+and \texttt{ig.dot} is an output file to write the inferred IG in DOT format.
 The (possibly partial) inferred parametrization will be returned on the standard output.
 The admissible parametrizations enumeration is performed when adding the \texttt{-{}-full-enumerate} parameter to the command,
 or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
@@ -58,15 +58,14 @@ and discussed in the following alongside with details about their construction.
   Model (1) contains no cooperations between the components.
   Several cooperations were included in model (2) under the form of 14 cooperative sorts
   and all of them were included in Model (3) under the form of 22 cooperative sorts.
-%  Model (3) models all the Boolean functions between components using 22 cooperative sorts.
   The second column gives the number of edges in the IG inferred with \pref{pps:inference-IG}
   (the number of nodes is always the number of components in the model, that is, 20).
   The third column gives the number of parameters in the model (given the IG),
   the fourth column gives the number of parameters that could be inferred using \pref{pps:param_K},
-  and the fifth column consequently gives the number fo compatible models with the studied PH model,
+  and the fifth column consequently gives the number of compatible models with the studied PH model,
   which exponentially depends on the number of parameters that could not be inferred.
   Finally, the last column gives the number of fixed points in the PH model,
-  computed with another existing PH tool included in \textsc{Pint}.
+  computed with another existing PH tool provided with \textsc{Pint}.
   }
   \label{tb:egfr20}
 \end{table}
@@ -75,8 +74,8 @@ Model (1) encompasses only sole interactions between components, that is,
 independent activations or inhibitions of a component on another given the regulations specified in the original IG.
 Therefore, the IG inferred from model (1) is the same as the IG used to create the model,
 with one additional positive auto-edge on the only input EGF (which is due to its absence of regulators).
-The only parameters that could be inferred are the parameters for the extreme cases
-(all activators present and all inhibitors absent, and the reverse).
+The only parameters that could be inferred are the parameters for the extreme cases of regulation
+(all activators present and all inhibitors absent, and the opposite).
 This first model therefore abstracts a large number of Thomas models as a lot of parameters are left undecided.
 
 In order to build model (2), 14 cooperative sorts were added in order to model the Boolean functions of several components
@@ -92,18 +91,21 @@ that is CDK4, CDK6, prB, p21, p27, IGF1R, MYC, CycD1 and CycE1,
 were modeled as cooperative sorts, if needed.
 In theory, 9 cooperative sorts would have sufficed, but the chaining of cooperative sorts described
 in \pref{ssec:PH} was used to reduce the number of processes in each cooperative sort.
-We note that the added cooperations allowed to infer about half the parameters.
-However, the number of possible Thomas models that can be inferred from this PH is still significant
+As a result, the added cooperations allowed to infer about half the parameters;
+however, the number of possible Thomas models that can be inferred from this PH is still significant
 because of the numerous remaining unknown parameters.
-Furthermore, the inferred IG contains one edge less than the original IG. This is due to the fact that
-one of the Boolean functions could in fact be simplified in a way that this component did not appear anymore.
+Furthermore, we note that the inferred IG contains one edge less than the original IG. This is due to the fact that
+one of the Boolean functions could in fact be simplified in a way that a component did not appear anymore in it.
 No edge have therefore been inferred by our method in this case.
 
 Finally, model (3) was build using all the Boolean functions provided in~\cite{Sahin09}.
 These functions take the form of 22 cooperative sorts into the model in order to match the desired behavior of the system.
 As all cooperations are fully defined in this model, all the parameters are inferred and only one Thomas model can be derived.
-We note also that this PH model is the only one containing at least one fixed point,
-which indicates the possibility of a steady state once the input signal is completely propagated.
+We note also that this PH model is the only one containing at least one fixed point.
+In fact, the three found steady states include the two states that correspond to a complete propagation of the input signal,
+that is, in the case where EGF is active and in the case where it is not.
+The two other models contain no fixed point because some cooperations are not fully defined,
+leading to oscillations that are a consequence of the nondeterministic behavior.
 
 
 
@@ -111,9 +113,9 @@ which indicates the possibility of a steady state once the input signal is compl
 
 The current implementation can successfully handle large PH models of BRNs found in the literature such as:
 \begin{itemize}
-  \item the EGF receptor model from~\cite{Sahin09} with 20 components presented in the last subsection,
-  \item a T cell receptor model described as an IG in~\cite{Klamt06}, which contains 40 components and 14 cooperative
-    sorts\footnote{All models mentioned in this section are available as examples distributed with \textsc{Pint}.}.
+  \item the EGF receptor model from~\cite{Sahin09} with 20 components presented in the last
+    subsection\footnote{All models mentioned in this section are available as examples distributed with \textsc{Pint}.},
+  \item a T cell receptor model described as an IG in~\cite{Klamt06}, which contains 40 components and 14 cooperative sorts.
 \end{itemize}
 For each model, IG and parameters inferences are performed together in less than a second
 on a standard desktop computer.
@@ -123,7 +125,7 @@ Bigger models related to the aforementioned systems were also tested with our im
   \item a model of the T cell receptor with 94 components, described in~\cite{SaezRodriguez2007},
   \item a model of the EGF receptor with 104 components, described in~\cite{Samaga2009}.
 \end{itemize}
-These two models were obtained in a previous work by an automatic translation from CellNetAnalyzer~\cite{klamt2007structural} formalism.
+These two models were obtained in a previous work by an automatic translation from the CellNetAnalyzer~\cite{klamt2007structural} formalism.
 
 The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
 We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
