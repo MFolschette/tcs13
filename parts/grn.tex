@@ -22,7 +22,7 @@ and edges ($\GRNedge{a}{s}{t}{b}$, …) labeled with a sign ($s$) and a threshol
 The activity, concentration rate or presence of each component in a given state of the system is modeled by an abstract discrete value called \emph{expression level}.
 The maximum expression level of a component $a$ is denoted $l_a$.
 The sign of an edge denotes the kind of regulation it models: it can be positive ($+$), negative ($-$) or unsigned ($\uns$),
-the latter meaning that the nature of the regulation can not be reduced to a simple activation or inhibition.
+the latter meaning that the nature of the regulation cannot be reduced to a simple activation or inhibition.
 Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influences the evolution of $b$ in a certain way when its expression level is above or equal to the threshold $t$;
 when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
 %For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
@@ -44,7 +44,7 @@ $E_s \DEF \{ \GRNedge{a}{s}{t}{b} \in E \}$ for $s \in \{ +, -, \uns \}$.
 Furthermore, for all component $b \in \Gamma$, we denote $\GRNreg{b}$ the set of its regulators as defined in \pref{eq:grn-regulators}.
 \begin{align}
 \label{eq:grn-regulators}
-  \GRNreg{b} \DEF \{ b\in\Gamma\mid \exists \GRNedge{a}{s}{t}{b} \in E \}
+  \GRNreg{b} \DEF \{ a\in\Gamma\mid \exists \GRNedge{a}{s}{t}{b} \in E \}
 \end{align}
 Then, for all component $a$ regulating $b$,
 \ie if $\GRNedge{a}{s}{t}{b} \in E$,
@@ -233,8 +233,8 @@ First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, neces
 a positive edge from $a$ to $a$ in the interaction graph of the dynamics.
 Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and
 let $s$ be a state such that $\GRNres{a}{s} = \omega$.
-From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ can not evolve in $s$;
+From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ cannot evolve in $s$;
 therefore, $a$ has three (local) fixed points ($i$, $i+1$ and $i+2$).
-This behavior can not be reproduced with single value parameters, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
+This behavior cannot be reproduced with single value parameters, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
 At most two steady-states can be modeled by using a self-regulation $\GRNedge{a}{s}{t}{a}$, allowing to distinguish two cases ($\GRNget{s}{a} < t$ and $\GRNget{s}{a} \geq t$), which is not enough.
 

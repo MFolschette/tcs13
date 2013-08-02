@@ -1,13 +1,9 @@
 \section{Answer Set Programming implementation concepts}\label{sec:impl}
 
-\newcommand{\ti}[1]{\texttt{\textit{#1}}}
-\newcommand{\aspil}[1]{\texttt{#1}}
-\newcommand{\asp}[1]{\begin{itemize} \item[] \aspil{#1} \end{itemize}}
-
 %\newcommand{\atom}{\mathbf}
 \newcommand{\atom}[1]{#1}
 %\newcommand{\predicate}{\mathbf}
-\newcommand{\predicate}[1]{#1}
+\newcommand{\predicate}[1]{\mathit{#1}}
 \newcommand{\la}{\leftarrow}
 \newcommand{\var}[1]{#1}
 \newcommand{\nota}{\neg}
@@ -72,18 +68,18 @@ Solving an ASP program means finding an \emph{answer set}, which is a minimal se
 In order to formally define this notion of answer set,
 let us define a \emph{definite rule} as a rule with no negation of atoms (noted “$\nota$” above),
 and a \emph{definite program} as a program containing only definite rules.
-Let $X$ be a set of atoms: a definite rule is satisfied by $X$ if $\atom{H} \in X$,
-or if $\exists i \in \segm{1}{n}, A_i \notin X$.
+Let $S$ be a set of atoms: a definite rule is satisfied by $S$ if $\atom{H} \in S$,
+or if $\exists i \in \segm{1}{n}, A_i \notin S$.
 Given this definition of satisfaction, we define the answer set of a definite program $\Pi$
-as the (unique) minimal set $X$ of atoms that satisfies all the rules in $\Pi$.
+as the (unique) minimal set $S$ of atoms that satisfies all the rules in $\Pi$.
 
 In order to consider the general case,
-for all non-definite program $\Pi$ and set $X$ of atoms, we denote $\Pi^X$ the reduct of $\Pi$ w.r.t.~$X$, defined from $\Pi$ by:
+for all non-definite program $\Pi$ and set $S$ of atoms, we denote $\Pi^S$ the reduct of $\Pi$ w.r.t.~$S$, defined from $\Pi$ by:
 \begin{enumerate}
-  \item deleting all the rules that have a negation of atom $\nota \atom{B}_i$ in the body where $\atom{B}_i \in X$, and
+  \item deleting all the rules that have a negation of atom $\nota \atom{B}_i$ in the body where $\atom{B}_i \in S$, and
   \item removing all negations of atoms in the bodies of the remaining rules.
 \end{enumerate}
-Then, a set of atoms $X$ is an answer set of a non-definite program $\Pi$ if it is the answer set of $\Pi^X$, which is a definite program.
+Then, a set of atoms $S$ is an answer set of a non-definite program $\Pi$ if it is the answer set of $\Pi^S$, which is a definite program.
 We note that several answer sets can be solution to the same non-definite program, and in practice the solver can be directed to enumerate them all.
 
 %\begin{example}
@@ -120,7 +116,8 @@ and $a$, $b$, $c$, $1$ and $2$ are constants.
 To describe the sets of all expression levels of each component (\ie the set $\segm{0}{l_a}$ for each $a \in \Gamma$),
 one can use atoms of the form $\componentlevels(a, k)$ to state that $k \in \segm{0}{l_a}$.
 Variables here come in handy to enumerate each possible constant $k$ for each component $a$:
-during the solving, any rule containing variables is duplicated in order to replace each variable by all the possible constants it could represent.
+before solving, any rule containing variables is grounded, that is replaced by an equivalent set of rules with constants only.
+%during the solving, any rule containing variables is duplicated in order to replace each variable by all the possible constants it could represent.
 The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ and $\var{M}$) and enumerates the set of possible expression levels of each component in the system:
 \begin{align*}
   \componentlevels(A, K) \la \component(\var{A}, \var{M}), 0 \leq K \leq M.
@@ -161,8 +158,9 @@ and every atom $\atom{H}_i \in S \cap H$ respects the simple rule:
 \begin{align*}
   \atom{H}_i \la \atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m.
 \end{align*}
-In other words, all answer sets contain a subset of $H$ whose cardinality goes from $min$ to $max$.
-The set of atoms $H = \{ \atom{H}_1, \atom{H}_2, \dots, \atom{H}_p \}$ is often defined as: $H = \atom{P} \mid \atom{Q}$,
+In other words, all answer sets contain a subset of $H$ whose cardinality goes from $min$ to $max$,
+and for which the condition in the body of the cardinality rule is met.
+The set of atoms $H = \{ \atom{H}_1, \atom{H}_2, \dots, \atom{H}_p \}$ is often defined as: $H = \{ \atom{P} \mid \atom{Q} \}$,
 which is a shorthand for “the set of atoms of the form $\atom{P}$ for which $\atom{Q}$ is true”.
 
 Cardinality rules turn out to be convenient to enumerate all possible parametrizations by creating multiple answer sets.
@@ -186,7 +184,7 @@ Indeed, this rule applies to any possible parameter $\var{P}$ of any component $
 and states that any expression level $\var{I}$ of this component ($\componentlevels$) can belong to the value of the parameter ($\param$).
 Furthermore, the lower bound is $1$, which forces each enumerated parameter to contain at least one value,
 but no upper bound is specified ($\infty$) for the size of each parameter
-(which is already bounded by the number of possible expression levels of the related component).
+(which is in fact already bounded by the number of possible expression levels of the related component).
 %each parameter contains at least $1$ value, as stated by the lower bound, and has no upper bound ($\infty$) but the number of expression levels of its component.
 In other worlds, this cardinality rule creates as many answer sets as there are \emph{candidate} parametrizations
 so that if $K_{a, \omega_p}$ could not be inferred by \pref{pps:param_K}, then
@@ -265,4 +263,5 @@ all possible parametrizations are generated in separate answer sets,
 and integrity constraints are formulated to remove those that do not fit the assumptions of admissible parametrizations,
 thus reducing the number of candidate parametrizations to be considered in the end.
 However, all steps of the inference presented in this paper (\pref{sec:infer-IG} \& \ref{sec:infer-K})
-were implemented in and benefited from this programming paradigm, although in significantly different ways.
+were implemented in and benefited from this programming paradigm.
+%, although in significantly different ways.
