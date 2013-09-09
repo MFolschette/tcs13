@@ -317,6 +317,38 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
   \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
     &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
     &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
+    &\qquad s = \f{sign}(k - j)
+\end{split}
+\end{align}
+% Auto-arcs depuis les groupes de régulateurs
+\begin{align}
+\begin{split}\label{eq:edges-inference-auto}
+  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
+  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a),
+  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
+    &\qquad \{ a_t, a_{t+1} \} \subset \PHl_a \wedge a_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{a_{t+1}\}), \\
+    &\qquad s = \f{sign}(k - j)
+\end{split}
+\end{align}
+% Auto-arcs des composants sans prédécesseurs
+\begin{align}
+\begin{split}\label{eq:edges-inference-noreg}
+  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
+  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
+    &\qquad \exists a_j \in \irB_a(\PHetat{a_t}), \exists a_k \in \irB_a(\PHetat{a_{t+1}}), \\
+    &\qquad s = \f{sign}(k - j)
+\end{split}
+\end{align}
+\begin{comment}
+% Arcs a -> b, a ≠ b
+\begin{align}
+\begin{split}\label{eq:edges-inference}
+  \forall b\in\PHpredecgene{a}, \forall s \in \{ +, - \}, \\
+  b \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), b \in g,
+  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
+    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
     &\qquad s = \f{sign}(k - a)
 \end{split}
 \end{align}
@@ -340,6 +372,7 @@ We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\h
     &\qquad s = \f{sign}(a_k - a_j)
 \end{split}
 \end{align}
+\end{comment}
 where $\f{sign}(x) = \begin{cases}|x|/x & \text{ if $x \neq 0$} \\ 0 & \text{ if $x = 0$}\end{cases}$ \enspace.
 \end{proposition}
 
