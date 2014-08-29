@@ -26,6 +26,22 @@ and the incorporation of time (e.g., \cite{Siebert06,Ahmad08}) and probability
 While the formal checking of dynamical properties is often limited to small networks because of the
 state graph explosion, an other major drawback of this framework is the difficulty to
 specify Thomas' parameters, especially for large networks.
+\todo{The reviewer proposes to nuance this with several papers:
+\begin{itemize}
+  \item Corblin, F., Tripodi, S., Fanchon, E., Ropers, D., \& Trilling, L. (2009).
+    A declarative constraint-based method for analyzing discrete genetic
+    regulatory networks. Bio Systems, 98(2), 91104.
+  \item Bollman, D., Coln-Reyes, O., \& Orozco, E. (2007). Fixed points in
+    discrete models for regulatory genetic networks. EURASIP journal on
+    bioinformatics \& systems biology, 2007, 97356.
+  \item Delaplace, F., Klaudel, H., Melliti, T., \& Sen, S. (2012). Analysis
+    of modular organisation of interaction networks based on asymptotic
+    dynamics. In D. Gilbert \& M. Heiner (Eds.), CMSB 2012
+  \item Scalable Steady State Analysis of Boolean Biological Regulatory Net-
+    works Ay F, Xu F, Kahveci T (2009) Scalable Steady State Analysis
+    of Boolean Biological Regulatory Networks. PLoS ONE 4(12): e7992.
+\end{itemize}
+This can be in turn be nuanced as some papers only focus on rather specific aspects (like steady-states for instance).}
 
 In order to address the formal analysis of dynamical properties within very large BRNs, we recently
 introduced in \cite{PMR10-TCSB} a new formalism, named the \emph{Process Hitting} (PH), to model
@@ -42,6 +58,7 @@ which was impossible with other state-of-the-art approaches \cite{PMR12-MSCS,PAK
 
 The PH is suitable to model BRNs with different levels of abstraction in the specification of
 cooperations (associated influences) between components.
+\todo{Explain the notion of “cooperation” (informally) to be understandable until the definition of cooperative sorts.}
 This allows to model BRNs with a partial knowledge on precise evolution functions for components
 by capturing the largest (the most general) dynamics.
 

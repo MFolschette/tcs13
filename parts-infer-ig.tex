@@ -1,10 +1,25 @@
 % vim:spell spelllang=en:
 \section{Interaction Graph Inference from Process Hitting}\label{sec:infer-IG}
 
+\todo{In this while section: add informal explanations and maybe more examples.\\
+Especially:
+\begin{itemize}
+  \item Intuitively detail the motivations
+  \item Give the intuition of the methods (esp. $\focals$)
+  \item Insist on the use/motivation of the definitions
+\end{itemize}
+The reviewer also proposes to use a biological running example (such as $\lambda$-phage).}
+
 The Interaction Graph (IG) is an abstract representation of the direct qualitative influences,
 positive and/or negative, between the components of the system.
 As discussed in \pref{sec:intro}, the IG allows to efficiently characterize global dynamical
 properties for the concrete system, such as the capability for multi-stationarity or oscillation.
+
+\todo{The reviewer says about the following paragraph: “The inference of an
+IG from a dynamics is interesting and important in biology. However the
+motivations expressed here are not well argued. In particular I don't find
+this “common”. Some bibliographical references are required to consolidate
+the arguments or the sentence has to be rephrased.”}
 
 In a typical biological network modeling process, a prior IG is generally the starting point for
 the formal system specification.
@@ -26,6 +41,14 @@ performed.
 
 
 \subsection{Focal Processes}\label{ssec:focal}
+
+\todo{The two following subsections (down to “Interaction Inference”) have a lot of definitions but few examples and not enough informal explanations, especially on their use.
+Especially:
+\begin{itemize}
+  \item What kinds of concept do represent $\focals$?
+  \item What is the importance of a strict context?
+  \item Add an outline guiding the reader through these subsections.
+\end{itemize}}
 
 Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
 processes} w.r.t. a given context (a set of processes that are potentially present).
@@ -397,7 +420,7 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 
 
 \begin{example}
-The IG inference of the PH of \pref{fig:runningPH-1} gives the
+The IG inference of the PH of \pref{fig:runningPH-2} gives the
 IG in \pref{fig:BRN-inf1}, containing the following edges:
 \begin{align*}
   E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{b}{+}{1}{b}, \GRNedgef{c}{+}{1}{c}\}\\
@@ -410,7 +433,8 @@ The auto-actions on $b$ and $c$ are the consequence of a global stability
 in some configurations: $c$ never evolves, and neither does $b$ when $a_2$ is not active.
 The auto-action on $a$ is mainly caused by its multi-valued nature.
 
-The inference of the refined PH of \pref{fig:runningPH-2} gives the same IG.
+The inference of the PH of \pref{fig:runningPH-1}
+(without refinement with cooperative sort) gives the same IG.
 
 \begin{figure}[t]
 \centering

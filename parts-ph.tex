@@ -61,6 +61,7 @@ For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHa$ is abbreviated as
 $(s\play h\play h')$.
 
 \begin{example}
+\todo{\pref{fig:runningPH-1} lacks readability (arrows hitting $a$ are too small).}
 \pref{fig:runningPH-1} represents a PH $(\PHs,\PHl,\PHa)$ with
 $\PHs = \{a,b,c\}$,
 $\PHl_a = \{a_0,a_1,a_2\}$,
@@ -289,6 +290,15 @@ processes reflecting the presence of $b_1$ and $c_1$, and a cooperative sort $bc
 reflecting the presence of $bc_{11}$ and $d_1$.  Such constructions are helpful in PH
 as the static analysis of dynamics developed in \cite{PMR12-MSCS} does not suffer from the number of
 sorts, but on the number of processes within a single sort.
+
+\todo{The reviewer did not understand the following paragraph about the time shift.
+He wonders if it is really important to the understanding of the rest of the paper. Three possibilities here:
+\begin{enumerate}
+  \item Add more (informal? formal?) explanations,
+  \item Remove (or substantially reduce) this paragraph,
+  \item Use priorities and prioritized cooperative sorts to remove the temporal shift.
+\end{enumerate}
+The last possibility would be formally the most accurate but also the most time-consuming one.}
 
 While the construction of cooperation in PH allows to encode any boolean functions
 between cooperating processes \cite{PMR10-TCSB}, it is worth noticing they introduce a temporal
