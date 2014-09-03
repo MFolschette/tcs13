@@ -1,0 +1,281 @@
+\documentclass[11pt]{article}
+% vim:set spell spelllang=en:
+\usepackage{color}
+\usepackage{fullpage}
+
+% ----- parameters ----------------------------------------------------------------
+\def\BibTex{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+         T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\def\baselinestretch{1.5}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% to import paper citations and refs
+% generated with 
+% cat ../v5/paper.aux  | sed 's/\\@/% \\@/' > paper.aux
+%\input{paper.aux}
+
+% ----------------------------------------------------------------------------------
+\newcounter{pointno}
+\setcounter{pointno}{0}
+\def\thepoint{\arabic{pointno}}
+\newcommand{\ptno}[1]{\textcolor{blue}{\refstepcounter{pointno} \thepoint. #1}}
+\newcommand{\question}[1]{\bigskip{\it\ptno{#1}}}
+\def\answer{}
+
+\def\TODO#1{\textbf{[TODO: #1]}}
+\def\DISCUSS#1{\textbf{DISCUSSION(#1): }}
+
+\setlength{\parindent}{0pt}
+
+
+\def\V{\mathcal V}
+\def\O{\mathcal O}
+
+\def\zero{\mathbf 0}
+\def\R{\mathbb R}
+\def\Rpos{\R_{\geq 0}}
+\def\Rspos{\R_{>0}}
+\def\Q{\mathbb Q}
+\def\Qpos{\Q_{\geq 0}}
+\def\Qspos{\Q_{>0}}
+\def\Z{\mathbb Z}
+\def\Zpos{\Z_{\geq 0}}
+\def\Zspos{\Z_{> 0}}
+
+\def\mspan{\mathrm{span}}
+\def\lp{\mathrm{lowerpoint}}
+\def\orderings{\mathrm{orderings}}
+
+\def\inner#1#2{#1#2}
+%\def\inner#1#2{\langle #1,#2 \rangle}
+
+\def\apply{\bullet}
+
+\def\B{\mathcal B}
+
+\begin{document}
+
+\section*{Comments and answers to the reviewer}
+
+We thank the reviewer for th comments and  suggestions.
+
+\TODO{summary of response + changes}
+
+Please find below our detailed answers.
+
+\question{Beside, the definition of RT model, including signs that can be
+deduced
+from the K parameters must be justified or clarify. For a computer scientist
+it is always surprising to have redundant pieces of information without accounting their matching.
+With your definition I can write $a \xrightarrow+ b$ and I can
+set $K_{b,\emptyset} = 1$ and $K_{b,\{a\}} = 0$.
+On the one side I define a as an activator and
+on the other side I define a as an inhibitor with K parameters. As signs do
+not enter in the interpretation, why they are included in the formalism as
+necessary ``comments''?}
+
+\DISCUSS{LP}
+We have to clarify this point, while insisting that we want to stick with this
+standard definition (due to Thomas). Arguments:
+\begin{enumerate}
+\item this design allows to decouple the IG from the dynamics, which is
+interesting for modelling biological systems as the IG is often a prior
+knowledge with possible inconsistencies with the dynamics we want to encode
+with.
+A further step may then infer back the IG of the actual dynamics (here, an
+abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior
+one, we have consistency.
+\item Additional constraints (as discussed in sect XX) on parameters can also
+ensure consistency between the prior IG and the encoded dynamics.
+For instance, monotonicity (which imposes an ordering between the value of
+parameters), but also lighter constraints (like imposing minimum and maximum
+values).
+Hence, the K definition is very generic, ranging from totally decoupled
+specification to very constrained valuation w.r.t to the prior IG.
+\item Several alternative definition exist, with various degree of equivalency.
+We picked this definition as it the original and standard one in the Thomas
+community (give reference to Thomas' articles).
+\end{enumerate}
+
+\TODO{Answer inc. text modification}
+
+\question{
+(P.1) Abstract: the following sentence is not understandable. Either more explanations
+are needed or simply suppress it.
+``Its major originality lies in a specific restriction on the causality of actions, which makes the formal
+analysis of very large systems tractable.''
+}
+
+\answer
+\DISCUSS{LP}
+proposition: ``The PH is a particular class of Indeterministic Asynchronous Automata
+Network (or safe Petri nets) on which have been designed static analysis for
+dynamical properties that are tractable on very large systems.''
+
+
+\TODO{Modify sentence + answer (quote)}
+
+\question{
+The BRNs were introduced by S. Kauffman in 1969. His work also covers
+“numerous theoretical works”. Therefore, it would be interesting to mention this
+fact. Ren\'e Thomas is not the father of BRN applied to regulatory
+circuit dynamics. Beside, the definition of the BRN for S. Kaufman consists
+of a Boolean system dynamics with a Boolean function which is a normal
+way to define a dynamical system. The R.T.'s formalization is slightly unconventional, namely not based on a stepwise function.}
+
+\answer
+\DISCUSS{LP} yes, we have to mention Kauffman of course, while stressing the
+differences brought by Thomas (async + parameters).
+
+\question{
+For Boolean networks, symbolic methods and parsimonious generation of
+states exist to circumvent the generation of the whole state graph and then
+scaling up the performances of the analysis (e.g. equilibria computation).
+Therefore, claiming that it is a ``major difficulty'' is partly true only.
+}
+
+\answer
+\DISCUSS{LP} yes, we have to mention those work, while stressing that they have
+hard time with transient dynamics on very large networks, partly due to
+concurrency, which makes model-checking very hard even with symbolic techniques.
+
+\DISCUSS{LP} how such a discussion is relevant for the paper? Can't we simply
+say that PH allows to model indeterministic Boolean and multi-valued networks
+and remove (or drastically reduce) this discussion on model-checking?
+
+\question{
+(P.3 and 6) The term “cooperation” is often mentioned. It is not self-
+explanatory for the reader. In particular in P.3 “associated influences” is
+not explanatory at all. If I have missed it I suggest to more clearly emphasize it. This comment does not concern cooperative sort which is clearly
+explained, but the notion of cooperation that cooperative sort encompasses.
+A definition of “cooperation” is required (formal or not) or more explanations of the notion of cooperation in this context.
+}
+
+\DISCUSS{LP} we should avoid this term in introduction, and only use once
+formally defined.
+In the introduction, maybe we should mention that
+PH models can embed additional automata that encode for some (partial) logic
+gates. Such additional automata that can be considered as ``internal''
+variables, and we may want to mask them in abstract representations of the
+systems, such as IG and Thomas' parameters.
+
+\question{
+(P. 6) The arrows representing the hitting of sort a fig 1. are too small.
+}
+
+\answer
+\TODO{improve figure}
+
+\question{
+(P. 8)
+``This allows the existence of interleaving of actions leading .. semantics with
+prioritized actions defined in [13]''.
+Again I don't understand the message related to your own notion of cooperation. Is it really important to
+mention these elements?}
+
+\answer
+\DISCUSS{LP} I would go for removing this discussion.
+
+\question{
+(P. 9) Interaction Graph. $\Gamma$ refers to the set of vertices. However
+$\Gamma^{−1}(b)$
+requires to seek the pre-image in E. I find the choice of $\Gamma$ to annotate
+a function giving the regulators confusing. If we admit that E defines a
+relation, $Eb$ or $E^{-1} (b)$ are more natural notations for the pre-image or more
+simply $b \rightarrow$ for the image and $\rightarrow b$ for the pre image. These notations
+are classically used for relation to qualify these sets of elements and do not
+require additional notations.
+}
+
+\answer
+\TODO{Apply the changes + quick answer}
+
+\question{
+(P. 8) You mention that Thomas formalism lies on two complementary descriptions of the system IG and K parameters. However There exists some
+redundancies for these description because the sign may be deduced from the
+parameters representing monotonous properties of the parameters. Moreover, The dynamics is not deduced from signs. IG graph with levels and
+parameters appears to suffice for fully describing the RT model. It would
+be more parsimonious (for an article in TCS) to define an IG with levels
+only, and parameters corresponding to Thomas’ model and then explain
+that signs are abstractions of the parameters corresponding to monotony
+properties.
+}
+
+\answer
+\DISCUSS{LP} See 1. The definitions need to be more clear with more textual
+explanation for CS people.
+
+\question{
+(P. 11) Definition of the sign. The term of monotony is classically associated
+to the inference of signs and should be clearly mentioned. Here it is hidden
+in your definition. The discussion on the number of maximum levels has
+already been fully developed in other articles related to RT formalisms. Is
+it necessary here just for mentioning that PH may accept any level?
+}
+
+\answer
+\DISCUSS{LP} Yes, we should make clear that we are looking for monotonic
+influences - but not necessarily at the global scope, which mean that we can
+find two contradictory monotonic influences, leading to those ``unsigned'' edges
+in the IG.
+And yes, we should just mention that PH models can have an arbitrary number of
+levels.
+
+\question{
+(P. 12) The order of your explanations makes the text confusing. Signs
+are components of the definition of an IG. After you argue that it is useless
+because parameters suffice to deduce the state graph. You mention that they
+can be inferred although they must be included in the definition of an IG.
+The formalization is not clear. Unsigned IG could/must be presented before
+signed IG which is an abstraction of the monotony of the K parameters.
+}
+
+\answer
+\DISCUSS{LP} Same as 1 and 9.
+
+\question{
+(P. 12) ``However, it is common that the prior IG actually refers to interaction
+.. enhancing the conclusiveness of static analyses''.
+The inference of an IG from a dynamics is interesting and important in biology. However the
+motivations expressed here are not well argued. In particular I don't find
+this "common". Some bibliographical references are required to consolidate
+the arguments or the sentence has to be rephrased.
+}
+
+\answer
+\DISCUSS{LP}
+Indeed, the motivation is quite weak. Some arguments:
+\begin{enumerate}
+\item Abstract representation of influences
+\item Consistency with prior knowledge: if the modelling started from an IG, we may want to
+verify that the dynamical models is consistent w.r.t. to the prior IG
+\item + remove non-used influences (IG reduction).
+\end{enumerate}
+
+\question{
+(P. 13 -14 - 15) 3 pages contain 5 definitions with no example and no
+intuition on their use but for $\Gamma$ and focal. More explanations are required:
+what kinds of concept do represent focal, what is the importance of a strict
+context, where is the outline guiding the reader through the dense area of
+definitions located in three pages only? These pages must be rewritten and
+extended to understand the core of the method.
+}
+
+\answer
+\DISCUSS{LP}redo this section
+
+\question{
+(P. 18) Figure 5 shows a result of Fig 3. However the detail concerns example
+in Fig. 1?  Examples and the implementation part are more clear. However, the
+biological example is only used to evaluate performances of the implementation. A concrete (biological) modeling example used as a guideline for
+illustrating the different notions throughout the article would certainly help
+the reader.
+}
+
+\answer
+\DISCUSS{LP} use Lambda phage as a running example (or dedicate a subsection to
+apply the whole pipeline to it).
+
+
+\end{document}
