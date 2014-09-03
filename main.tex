@@ -1,4 +1,5 @@
 \documentclass[preprint]{elsarticle}
+% vi:spell spelllang=en
 
 \usepackage{hyperref}
 
@@ -57,6 +58,12 @@
 %\newcommand{\rewrite}[1]{\rewriteil{REWRITE: #1}}
 
 
+\def\modMF#1{\textcolor{teal}{#1}}
+\def\modLP#1{\textcolor{magenta}{#1}}
+\def\modMM#1{\textcolor{blue}{#1}}
+\def\modOR#1{\textcolor{olive}{#1}}
+
+
 
 % Id est
 \newcommand{\ie}{i.e.~}
@@ -71,12 +78,12 @@
 
 \begin{frontmatter}
 
-\title{Constructing Biological Regulatory Networks from Process Hitting models}
+\title{\modLP{Identification of} Biological Regulatory Networks from Process Hitting models}
 %\\\rewriteil{Or possibly: “Complementarity between PH, IG and Thomas modeling”}
 
 \author[irccyn,nii]{Maxime Folschette}
 \ead{Maxime.Folschette@irccyn.ec-nantes.fr}
-\author[eth]{Lo\"ic Paulev\'e}
+\author[lri]{Lo\"ic Paulev\'e}
 \author[nii]{Katsumi Inoue}
 \author[irccyn,nii]{Morgan Magnin}
 \author[irccyn]{Olivier Roux}
@@ -86,40 +93,44 @@
 1 rue de la No\"e - B.P. 92101 - 44321 Nantes Cedex 3, France.}
 \address[nii]{National Institute of Informatics,\\
 2-1-2, Hitotsubashi, Chiyoda-ku, Tokyo 101-8430, Japan.}
-\address[eth]{BISON group, Automatic Control Laboratory, ETH Zürich\\
-Physikstrasse 3, 8092 Zurich, Switzerland.}
+\address[lri]{CNRS, Laboratoire de Recherche en Informatique UMR CNRS 8623\\
+Universit\'e Paris-Sud, 91405 Orsay Cedex, France}
+
 
 \begin{abstract}
-\parindent 0.5cm
-The Process Hitting (PH) is a recently introduced framework to model concurrent processes.
-\todo{The reviewer did not understand the following sentence:}
-Its major originality lies in a specific restriction on the causality of actions, which
-makes the formal analysis of very large systems tractable.
-PH is suitable to model Biological Regulatory Networks (BRNs) with complete or partial
-knowledge of cooperations between regulators by defining the most permissive dynamics
-with respect to these constraints.
+\modMF{Maxime}
+\modLP{Lo\"ic}
+\modMM{Morgan}
+\modOR{Olivier}
 
-\todo{Rather name Kaufman as the creator of BRNs.}
-On the other hand, the qualitative modeling of BRNs has been widely addressed using Ren\'e Thomas'
-formalism, leading to numerous theoretical work and practical tools to understand emerging behaviors.
+%\parindent 0.5cm
+The Process Hitting (PH) \modLP{is a particular class of Indeterministic Asynchronous Automata
+Network (or safe Petri nets) on which have been recently designed several static analyses for
+dynamical properties that are tractable on very large systems.}
+
+\modLP{In this paper, we address the formal identification of qualitative
+models of Biological Regulatory Networks (BRNs) from PH models.}
+First, the inference of the Interaction Graph (IG) from a PH model
+\modLP{summarizes the signed influences between the components} that are effective for the dynamics.
+Second, we provide the inference of all Ren\'e Thomas models of BRNs 
+that are compatible with a given PH.
+As the PH allows the specification of indeterministic interactions between
+components, our inference emphasizes the ability of PH to deal with large BRNs with incomplete knowledge
+on interactions, where Thomas' approach fails because of the combinatorics of parameters.
+
+The inference of corresponding Thomas models is provided using Answer Set Programming,
+which allows notably an efficient enumeration of (possibly numerous) compatible parametrizations.
+
+%\todo{Rather name Kaufman as the creator of BRNs.}
+%On the other hand, the qualitative modeling of BRNs has been widely addressed using Ren\'e Thomas'
+%formalism, leading to numerous theoretical work and practical tools to understand emerging behaviors.
 %In addition to be able to use the existing results on this formalism,
 %obtaining the Thomas representation of a PH model allows to iteratively refine a model.
-Linking this representation to PH would not only allow to use the existing results on this formalism,
-but also to iteratively refine the model of a system.
+%Linking this representation to PH would not only allow to use the existing results on this formalism,
+%but also to iteratively refine the model of a system.
 
-This paper establishes formal links between these two formalisms, permitting to appreciate their
-complementary features.
-First, the inference of the Interaction Graph (IG) from a PH model gives a compact representation of
-the regulations that are effective for the dynamics.
-From this IG, well-known results can be applied to derive global dynamical properties for the
-modeled BRN.
-Second, the inference of all Thomas models that are compatible with a given PH is tackled.
-As the PH allows partial specification of cooperation between components, this inference
-emphasizes the ability of PH to deal with large BRNs with incomplete knowledge on
-cooperations, where Thomas' approach fails because of the combinatorics of parameters.
-
-The inference of corresponding Thomas' models is provided using Answer Set Programming,
-which allows notably an efficient enumeration of (possibly numerous) compatible parametrizations.
+%This paper establishes formal links between these two formalisms, permitting to appreciate their
+%complementary features.
 \end{abstract}
 
 \begin{keyword}
