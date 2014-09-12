@@ -1,0 +1,138 @@
+% vim:spell spelllang=en:
+\section{From Local Transitions to Global Functions}\label{sec:tr2global}
+
+\todo{(LP) motivation, outline}
+Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
+processes} w.r.t. a given context (a set of processes that are potentially present).
+When such a context applies, we expect to (always) reach one focal process in a bounded number of
+actions.
+
+\subsection{Focal Processes}\label{ssec:focal}
+
+\todo{(LP) more explanations, check strict context importance, more examples?}
+
+For $S_a\subseteq L_a$ and a context (set of processes) $\ctx$, let us define as $\PHa(S_a,\ctx)$
+the set of actions on the sort $a$ having their hitter in $\ctx$ and target in $S_a$
+(\pref{eq:PHa-ctx});
+and the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
+in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
+$\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
+$\PHa(S_a,\ctx)$ (\pref{def:focals}).
+\begin{align}
+\PHa(S_a,\ctx) & \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
+\label{eq:PHa-ctx}
+\\
+\begin{split}
+E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
+			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
+\\
+V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
+\end{split}
+\label{eq:bounce-graph}
+\end{align}
+
+\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
+The set of processes that are focal for processes in $S_a$ in the scope of $\PHa(S_a,\ctx)$
+are given by:
+%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
+\[
+\focals(a,S_a,\ctx) \DEF
+\begin{cases}
+\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if the digraph $(V,E)$ is acyclic},\\
+\emptyset & \text{otherwise.}\\
+\end{cases}
+\]
+\end{definition}
+
+We note $\PHl(\ctx)$ the set of states $s\in L$ such that $\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$,
+where $\PHsort(\ctx)$ is the set of sorts with processes in $\ctx$.
+We say a sequence of actions $h^1,\dots,h^n$ is \emph{bounce-wise} if and only if
+$\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$.
+From \pref{def:focals}, it derives that:
+\begin{enumerate}
+\item if $\focals(a,S_a,\ctx)=\emptyset$, there exists a 
+state $s\in \PHl(\ctx\cup S_a)$ such that $\forall n\in\mathbb N$ there
+exists a bounce-wise sequence of actions $h^1,\dots,h^{n+1}$ in $\PHa(S_a,\ctx)$ 
+with $\PHtarget(h^1)\in s$.
+\item if $\focals(a,S_a,\ctx)\neq\emptyset$, for all
+state $s\in \PHl(\ctx\cup S_a)$,
+for any bounce-wise sequence of actions $h^1,\dots,h^n$ in $\PHa(S_a,\ctx)$ where $\PHtarget(h^1)\in
+s$,
+either
+ $\PHbounce(h^n) \in \focals(a,S_a,\ctx)$,
+or
+$\exists h^{n+1}\in \PHa(a,\ctx)$ such that $\PHbounce(h^n) = \PHtarget(h^{n+1})$.
+Moreover $n\leq|\PHa(S_a,\ctx)|$ (i.e. no cycle of actions possible).
+\end{enumerate}
+
+It is worth noticing that those bounce-wise sequences of actions may not be successively playable in
+a state $s\in L(\ctx\cup S_a)$.
+Indeed, nothing impose that the hitters of actions are present in $s$.
+In the general case, the playability of those bounce-wise sequences, referred to as \emph{focals
+reachability} may be hard to prove.
+However, in the scope of this paper, the particular contexts used with $\focals$ ensure this property.
+Notably, the rest of this section uses only \emph{strict} contexts (\pref{def:strict-ctx}) which
+allow at most one hitter per sort in the bounce-wise sequences (and thus are present in $s$).
+
+\begin{definition}[Strict context for $S_a$]\label{def:strict-ctx}
+A context (set of processes) $\ctx$ is strict for $S_a\subseteq L_a$ if and only if
+$\{b_i,b_j\} \subset \ctx \wedge b\neq a \Rightarrow i=j$.
+\end{definition}
+
+In other words, assuming focals reachability, if $\focals(a,S_a,\ctx)$ is empty, there exists a
+sequence of actions that may be played an unbound number of times (cycle);
+if it is non-empty, it is ensured that any state in $\PHl(\ctx\cup S_a)$ converges, in a bounded
+number of steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
+$L_a\setminus S_a$.
+
+\begin{example}
+In the PH of \pref{fig:runningPH-1}, we obtain:
+\begin{align*}
+\focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
+&
+\focals(a,L_a,\{b_1,c_1\}) &= \{ a_2 \}
+\\
+\focals(a,L_a,\{b_1,c_0\}) &= \emptyset
+&
+\focals(a,\{a_1\},\{b_1,c_0\}) &= \{ a_0, a_2 \}
+\end{align*}
+\end{example}
+
+
+\subsection{Restrictions for Determinism} % or Well-formed Cooperative Sorts
+
+\todo{(LP) redo text}
+
+Any sort that does not act as a component should then be treated as a cooperative sort.
+As explained in \pref{ssec:PH}, the role of a cooperative sort $\upsilon$ is to compute the current
+state of set of cooperating processes.
+Hence, for each sub-state $\sigma$ formed by the sorts hitting $\upsilon$, $\upsilon$ should
+converge to a focal process.
+This is expressed by \pref{pro:wf-cooperative-sort}, where
+the set of sorts having an action on a given sort $a$ is given by 
+$\PHdirectpredec{a}$ (\pref{eq:ph_direct_predec})
+and $\PHproc(\sigma)$ is the set of processes that compose the sub-state $\sigma$.
+
+\begin{equation}
+\forall a \in \PHs, \PHdirectpredec{a} \DEF \{b \in \PHs \mid \exists \PHfrappe{b_i}{a_j}{a_k}\in\PHa \}
+\label{eq:ph_direct_predec}
+\end{equation}
+
+\begin{property}[Well-formed cooperative sort]\label{pro:wf-cooperative-sort}
+A sort $\upsilon\in\PHs$ is a well-formed cooperative sort if and only if
+each configuration $\sigma$ of its predecessors leads $\upsilon$ to a unique focal process,
+denoted by $\upsilon(\sigma)$:
+\[
+\forall \sigma \in {\textstyle\prod_{
+a\in\PHdirectpredec{\upsilon} \wedge a\neq \upsilon}}
+\PHl_{a},
+\focals(\upsilon,\PHl_\upsilon,\PHproc(\sigma)\cup \PHl_\upsilon) = \{ \upsilon(\sigma) \}\]
+\end{property}
+
+Such a property allows a large variety of definitions of a cooperative sort, but
+for the sake of simplicity, does not allow the existence of multiple focal processes.
+While this may be easily extended to (the condition becomes 
+$\focals(\upsilon,\PHl_\upsilon, \PHproc(\sigma)\cup \PHl_\upsilon)\neq\emptyset$), it makes some
+hereafter equations a bit more complex to read as they should handle a set of focal processes instead
+of a unique focal process.
+

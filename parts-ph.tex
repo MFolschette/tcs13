@@ -1,7 +1,9 @@
 \subsection{The Process Hitting framework}
 \label{ssec:PH}
 
-We recall here the definition and semantics of the Process Hitting (PH), and its usage to model
+\todo{(LP) rework text, make presentation more CS oriented}
+
+We give the the definition and semantics of the Process Hitting (PH), and its usage to model
 cooperation between concurrent components.
 Two examples of PH modeling a BRN at different abstraction levels are given.
 They serve as running examples in the rest of this article.
@@ -126,6 +128,7 @@ $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 \end{tikzpicture}
 }
 \caption{\label{fig:runningPH-1}
+\todo{make more visible}
 A Process Hitting (PH) example.
 Sorts are represented by labeled boxes, and processes by circles (ticks are
 the identifiers of the processes within the sort, for instance, $a_0$ is the
@@ -291,24 +294,6 @@ reflecting the presence of $bc_{11}$ and $d_1$.  Such constructions are helpful 
 as the static analysis of dynamics developed in \cite{PMR12-MSCS} does not suffer from the number of
 sorts, but on the number of processes within a single sort.
 
-\todo{The reviewer did not understand the following paragraph about the time shift.
-He wonders if it is really important to the understanding of the rest of the paper. Three possibilities here:
-\begin{enumerate}
-  \item Add more (informal? formal?) explanations,
-  \item Remove (or substantially reduce) this paragraph,
-  \item Use priorities and prioritized cooperative sorts to remove the temporal shift.
-\end{enumerate}
-The last possibility would be formally the most accurate but also the most time-consuming one.}
-
-While the construction of cooperation in PH allows to encode any boolean functions
-between cooperating processes \cite{PMR10-TCSB}, it is worth noticing they introduce a temporal
-shift in their application.
-This allows the existence of interleaving of actions leading to a cooperative sort representing a
-past sub-state of the presence of the cooperative processes.
-The resulting behavior is then an over-approximation
-of the realization of an instantaneous cooperation.
-However, it is possible to obtain the exact behavior of the cooperations by using the semantics with prioritized actions defined in~\cite{FPMR13-CS2Bio}.
-Although this new semantics is not further described here, the inferences given in \pref{sec:infer-IG} \& \ref{sec:infer-K} do ignore the temporal shift induced by the cooperative sorts.
 
 \begin{example}
 The PH in \pref{fig:runningPH-2} results from the refinement of the PH in \pref{fig:runningPH-1}
