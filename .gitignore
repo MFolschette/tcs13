@@ -12,3 +12,4 @@ main.pdf
 *.spl
 *.kilepr
 response.pdf
+.*.swp
