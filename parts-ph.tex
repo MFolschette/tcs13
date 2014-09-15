@@ -1,8 +1,6 @@
 \subsection{The Process Hitting framework}
 \label{ssec:PH}
 
-\todo{(LP) rework text, make presentation more CS oriented}
-
 We give the the definition and semantics of the Process Hitting (PH), and its usage to model
 cooperation between concurrent components.
 Two examples of PH modeling a BRN at different abstraction levels are given.
@@ -62,8 +60,18 @@ $\forall c\in\PHs, c\neq b, \PHget{(s\play h)}{c} = \PHget{s}{c}$.
 For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHa$ is abbreviated as
 $(s\play h\play h')$.
 
+\medskip
+
+\modLP{PH can be seens as a particular sub-class of safe Petri nets \cite{BC92},
+i.e. Petri nets with at most one token per place, having
+groups of multually exclusive places (processes) acting as the sorts, and where each
+transition has at most one read-arc (connected to the \emph{hitter}), and
+exactly one incoming arc (from the \emph{target}) and one outgoing arc (to the
+\emph{bounce}).
+The relationship between PH and Petri nets is detailed in \cite{TR-PHvsPN-12}.}
+
+
 \begin{example}
-\todo{\pref{fig:runningPH-1} lacks readability (arrows hitting $a$ are too small).}
 \pref{fig:runningPH-1} represents a PH $(\PHs,\PHl,\PHa)$ with
 $\PHs = \{a,b,c\}$,
 $\PHl_a = \{a_0,a_1,a_2\}$,
@@ -154,9 +162,15 @@ This may express a lack of knowledge on the cooperation between these two regula
 we thus model an over-approximation of the possible actions.
 \end{example}
 
-\paragraph{Modeling cooperation}
-As described in \cite{PMR10-TCSB}, the cooperation between several processes to make another process bounce can be
-expressed in PH by building a \emph{cooperative sort}.
+\paragraph{Modeling conjunctions}
+\modLP{PH restricts the causality of transitions within sorts to the presence of
+at most one process in another sort (the hitter).
+One may want to model transitions that should be taken only when several
+processes are present, i.e., modeling conjunctions -- or cooperations -- between the presence of
+several processes.
+As described in \cite{PMR10-TCSB}, such cooperations can be encoded in PH with
+the use of some intermediate sorts, so-called \emph{cooperative sorts}, that
+merge information on the state of cooperating sorts.}
 \pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
 make $a_1$ bounce to $a_2$:
 a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of the presence of
@@ -285,6 +299,11 @@ The actions from $b$ and $c$ to the cooperative sort $bc$ are identical to those
 
 We note that cooperative sorts are standard PH sorts and do not involve any
 special treatment regarding the semantics of related actions.
+\modLP{%
+It is also worth noticing that the use of such intermediate sorts may trigger
+spurious transitions due to potential incoherences between the state of the
+cooperative sort and the actual state of cooperating sorts.
+However, such phenomena can be fixed by the use of priorities between actions \cite{FPMR13-CS2Bio}.}
 
 When the number of cooperating processes is large, it is possible to chain several cooperative sorts
 to prevent the combinatoric explosion of the number of processes created within cooperative sorts.
