@@ -9,6 +9,28 @@ and returns a possibly incomplete parametrization, given the exhaustiveness of t
 The last step consists of the enumeration of all compatible complete parametrizations (\pref{ssec:admissible-K}) given this
 set of inferred parameters, the PH dynamics and some biological constraints on parameters.
 
+\todo{(LP) parameters equivalence:
+if $\GRNedge{a}{+}{t}{a}$,
+$K_{a,R\setminus \{a\}} = t
+\equiv
+K_{a,R\setminus \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\cup \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \leq u < t$.
+If $\GRNedge{a}{-}{t}{a}$,
+$K_{a,R\cup \{a\}} = t
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\setminus \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \setminus u < t$.
+- any other equivalence?}
+
+
 \subsection{Parameters inference}\label{ssec:infer-K}
 
 This subsection presents some results related to the inference of independent discrete parameters from a given PH.
