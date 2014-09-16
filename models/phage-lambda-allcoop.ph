@@ -28,5 +28,4 @@ COOPERATIVITY([cI] in [[0]]
 
 (* cI ; cro -> cro *)
 RM({cro 2 -> cro 2 3 ; cro 0 -> cro 0 1 ; cro 1 -> cro 1 2})
-cro 3 -> cro  3 2
 
