@@ -143,10 +143,9 @@ in the scope of a given context,
 a PH sort may converge to one among several different processes (indeterminism) or may never converge
 (infinite loop).
 
-\todo{this statement is too strong if we consider intervals, but correct if we are not}
-It results that deriving Thomas specification for dynamics of a PH model
-requires that every sort converges toward a unique focal process, i.e., that every sort has a
-deterministic behaviour w.r.t. any context, as stated by \pref{pro:deterministic-sort}.
+From \pref{def:focals}, we call a \emph{deterministic sort} \pref{pro:deterministic-sort} a sort $a$
+that has a single focal process for any possible configuration of its predecessors in the scope of
+$L_a$.
 
 \begin{property}[Deterministic sort]\label{pro:deterministic-sort}
 A sort $a\in\PHs$ is a deterministic sort if and only if
@@ -159,5 +158,8 @@ b\in\PHdirectpredec{\upsilon} \wedge b\neq a}}
 \focals(a,\PHl_a,\sigma) = \{ a(\sigma) \}\]
 \end{property}
 
-\todo{examples}
+\todo{examples?}
 
+For the inference of the interaction graph and Thomas parameters from a PH model, the following
+sections assume that \emph{all the cooperative sorts are deterministic}.
+\todo{add more explanation depending on the text of the next sections}
