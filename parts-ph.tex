@@ -51,6 +51,15 @@ Given a state $s\in \PHl$, the process of sort $a\in\PHs$ present in $s$ is
 denoted by $\PHget{s}{a}$, that is the $a$-coordinate of the state $s$.
 If $a_i\in \PHl_a$, we define the notation $a_i\in s \EQDEF \PHget{s}{a}=a_i$.
 
+\modLP{
+The set of sorts having an action on a given sort $a$ is noted $\PHdirectpredec{a}$
+(\pref{eq:ph_direct_predec}).
+}
+\begin{equation}
+\forall a \in \PHs, \PHdirectpredec{a} \DEF \{b \in \PHs \mid \exists \PHfrappe{b_i}{a_j}{a_k}\in\PHa \}
+\label{eq:ph_direct_predec}
+\end{equation}
+
 An action $h=\PHfrappe{a_i}{b_j}{b_k} \in\PHa$ is \emph{playable} in $s\in L$
 if and only if $\PHget{s}{a}=a_i$ and $\PHget{s}{b}=b_j$.
 In such a case, $(s\play h)$ stands for the state resulting from the play of
