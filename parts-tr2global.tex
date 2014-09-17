@@ -1,105 +1,142 @@
 % vim:spell spelllang=en:
 \section{From Local Transitions to Global Functions}\label{sec:tr2global}
 
-\todo{(LP) motivation, outline}
-Many of the inferences defined in the rest of this paper rely on the knowledge of \emph{focal
-processes} w.r.t. a given context (a set of processes that are potentially present).
-When such a context applies, we expect to (always) reach one focal process in a bounded number of
-actions.
+Process Hitting (PH) and Thomas modelling rely on two different paradigms for the specification of
+network dynamics:
+Thomas parametrization defines a global function
+which associates to each component and each resource configuration a level toward which the component
+evolve in the given configuration.
+Such a function is always deterministic (whereas the associated asynchronous dynamics can be
+indeterministic due to concurrent evolution of components).
+In contrast, 
+PH models specify a list of local transitions between the levels (processes) of the components (sorts)
+that are conditioned with the presence of other processes.
+In addition, PH allows the use of intermediate sorts, such as cooperative sorts, that do not refer
+to the components of the network.
+
+Hence, identifying Thomas models from PH requires a step that lump a set of transitions that can be
+applied in a given context into a single process that correspond to the level toward which the
+component evolve.
+This step is detailed in \pref{ssec:focal} in which is defined the $\focals$ function associating 
+the farthest reachable processes, called \emph{focal processes}, of a given sort for a given context.
+It is possible that several different focal processes are identified, indicating an indeterministic
+evolution of the sort;
+and it is also possible possible that no focal process exist, when in presence of terminal cycles of
+transitions.
+In those cases, there is no possible Thomas specification for the PH.
+In that way, necessary conditions for Thomas model identification from PH are described in
+\pref{ssec:dfocals}.
 
 \subsection{Focal Processes}\label{ssec:focal}
 
-\todo{(LP) more explanations, check strict context importance, more examples?}
+Given a sort $a\in\Sigma$ and a context delimited by 
+a sub-set of processes of sort $a$ and a sub-state $\sigma$
+of the sorts having an action on $a$,
+$\focals(a,S_a,\sigma)$ (\pref{def:focals}) is the set of processes of sort $a$ towards which
+$a$ will eventually converge in the scope of the context.
+The context delimits the set of states $s\in L$ where $s[a]\in S_a$, and for all 
+sort $b\in\PHpred a, b\neq a$,
+$s[b]=\sigma[b]$.
+$\focals(a,S_a,\sigma)$ is obtained from the digraph where $a_i\in S_a$ is connected to $a_j\in L_a$ only if there
+exists an action $\PHfrappe{b_k}{a_i}{a_j}$ where either $b_k = a_i$ or $b_k$ is in $\sigma$.
+$\focals(a,S_a,\sigma)$ is empty if there is any cyclic terminal connected components;
+otherwise, it is exactly the leafs of the digraph.
 
-For $S_a\subseteq L_a$ and a context (set of processes) $\ctx$, let us define as $\PHa(S_a,\ctx)$
-the set of actions on the sort $a$ having their hitter in $\ctx$ and target in $S_a$
-(\pref{eq:PHa-ctx});
-and the digraph $(V, E)$ where arcs are the bounces within the sort $a$ triggered by actions
-in $\PHa(S_a,\ctx)$ (\pref{eq:bounce-graph}).
-$\focals(a,S_a,\ctx)$ denotes the set of focal processes of sort $a$ in the scope of
-$\PHa(S_a,\ctx)$ (\pref{def:focals}).
-\begin{align}
-\PHa(S_a,\ctx) & \DEF \{ \PHfrappe{b_i}{a_j}{a_k}\in\PHa \mid b_i\in\ctx \wedge a_j\in S_a \}
-\label{eq:PHa-ctx}
-\\
-\begin{split}
-E  & \DEF \{(a_j,a_k)\in (S_a \times \PHl_a) \mid 
-			\exists\PHfrappe{b_i}{a_j}{a_k}\in \PHa(S_a,\ctx) \}
-\\
-V & \DEF S_a \cup \{ a_k\in L_a\mid \exists (a_j,a_k)\in E\}
-\end{split}
-\label{eq:bounce-graph}
-\end{align}
 
-\begin{definition}[$\focals(a,S_a,\ctx)$]\label{def:focals}
-The set of processes that are focal for processes in $S_a$ in the scope of $\PHa(S_a,\ctx)$
-are given by:
-%$\focals(a,S_a,\ctx)$ is the set of focal processes of sort $a$ in the context $\ctx$:
+\begin{definition}[$\focals(a,S_a,\sigma)$]\label{def:focals}
+Given a sort $a\in\Sigma$, a sub-set of its processes $S_a\subset L_a$ 
+and a sub-state
+$\sigma \in {\prod_{b\in\PHdirectpredec{a}, b\neq a} \PHl_{b}}$,
 \[
-\focals(a,S_a,\ctx) \DEF
+\focals(a,S_a,\sigma) \DEF
 \begin{cases}
-\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{if the digraph $(V,E)$ is acyclic},\\
-\emptyset & \text{otherwise.}\\
+\emptyset & \text{if }\f{tscc}(V,E)\neq\emptyset\\
+\{ a_i \in V \mid \nexists (a_i,a_j)\in E\} & \text{otherwise,}
 \end{cases}
 \]
+where
+\begin{align}
+E  & \DEF \{(a_i,a_j)\in (S_a \times \PHl_a) \mid 
+			\exists\PHfrappe{b_k}{a_i}{a_j}\in \PHa:
+				(b_k = a_i \vee \sigma[b]=k) \}
+\\
+V & \DEF S_a \cup \{ a_j\in L_a\mid \exists (a_i,a_j)\in E\}
+\end{align}
+and $\f{tscc}(V,E)$ are the non-elementary terminal strongly connected components of the digraph
+$(V,E)$:
+\[
+\f{tscc}(V,E) = \{
+W\in\f{scc}(V,E) \mid \card{W}\geq 2\wedge \forall a_i\in W, (a_i,a_j)\in E\Rightarrow a_j\in W\}
+\]
+with $\f{scc}(V,E)$ the strongly connected components of the digraph $(V,E)$.
 \end{definition}
 
-We note $\PHl(\ctx)$ the set of states $s\in L$ such that $\forall a\in\PHsort(\ctx), \PHget{s}{a}\in\ctx$,
-where $\PHsort(\ctx)$ is the set of sorts with processes in $\ctx$.
-We say a sequence of actions $h^1,\dots,h^n$ is \emph{bounce-wise} if and only if
+From \pref{def:focals} can be derived 
+\pref{pps:no-focals} -- if $\focals(a,S_a,\sigma)$ is empty, there exists a limit cycle in the evolution of
+$a$ in the given context;
+and \pref{pps:has-focals} -- if $\focals(a,S_a,\sigma)$ is non empty, all the evolutions of $a$ in the scope
+of the given context eventually terminate, and the resulting processes are in $\focals(a,S_a,\sigma)$.
+In other words, if $\focals(a,S_a,\sigma)$ is empty, there exists a
+sequence of actions that may be played an unbound number of times (cycle) in the given context;
+if it is non-empty, it is ensured that any state in the given context converges 
+in a bounded number of steps to a process in $\focals(a,S_a,\sigma)$.
+
+\begin{proposition}
+\label{pps:no-focals}
+$\focals(a,S_a,\sigma)=\emptyset$ if and only if
+there exists a 
+state $s\in L$
+where
+$s[a]\in S_a$ and
+$\forall b\in \PHpred a, b\neq a, s[b] = \sigma[b]$,
+such that
+$\forall n\in \mathbb N$
+there 
+exists a sequence of actions $h^1,\dots,h^{n+1}$ in $\PHa$
+sequentially playable in $s$ with
+$\PHtarget(h^1)\in S_a$ and
 $\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$.
-From \pref{def:focals}, it derives that:
-\begin{enumerate}
-\item if $\focals(a,S_a,\ctx)=\emptyset$, there exists a 
-state $s\in \PHl(\ctx\cup S_a)$ such that $\forall n\in\mathbb N$ there
-exists a bounce-wise sequence of actions $h^1,\dots,h^{n+1}$ in $\PHa(S_a,\ctx)$ 
-with $\PHtarget(h^1)\in s$.
-\item if $\focals(a,S_a,\ctx)\neq\emptyset$, for all
-state $s\in \PHl(\ctx\cup S_a)$,
-for any bounce-wise sequence of actions $h^1,\dots,h^n$ in $\PHa(S_a,\ctx)$ where $\PHtarget(h^1)\in
-s$,
+\end{proposition}
+
+\begin{proposition}
+\label{pps:has-focals}
+If $\focals(a,S_a,\sigma)\neq\emptyset$, for all
+state $s\in L$
+where
+$s[a]\in S_a$ and
+$\forall b\in \PHpred a, b\neq a, s[b] = \sigma[b]$,
 either
- $\PHbounce(h^n) \in \focals(a,S_a,\ctx)$,
+$\nexists h\in\PHa$ with $\PHtarget(h)\in S_a$  playable in $s$ and
+$s[a]\in\focals(a,S_a,\sigma)$;
 or
-$\exists h^{n+1}\in \PHa(a,\ctx)$ such that $\PHbounce(h^n) = \PHtarget(h^{n+1})$.
-Moreover $n\leq|\PHa(S_a,\ctx)|$ (i.e. no cycle of actions possible).
-\end{enumerate}
+there exists a sequence of actions $h^1,\dots,h^n$ in $\PHa$ sequentially playable in $s$ with
+$\PHtarget(h^1)\in S_a$ and
+$\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$
+where
+ $\PHbounce(h^n) \in \focals(a,S_a,\sigma)$
+ and
+ where 
+$\nexists h^{n+1}\in \PHa$ with $\PHtarget(h^{n+1})=\PHbounce(h^n)$ 
+that is playable in $s\play h^1\play \cdots \play h^n$.
+\end{proposition}
 
-It is worth noticing that those bounce-wise sequences of actions may not be successively playable in
-a state $s\in L(\ctx\cup S_a)$.
-Indeed, nothing impose that the hitters of actions are present in $s$.
-In the general case, the playability of those bounce-wise sequences, referred to as \emph{focals
-reachability} may be hard to prove.
-However, in the scope of this paper, the particular contexts used with $\focals$ ensure this property.
-Notably, the rest of this section uses only \emph{strict} contexts (\pref{def:strict-ctx}) which
-allow at most one hitter per sort in the bounce-wise sequences (and thus are present in $s$).
 
-\begin{definition}[Strict context for $S_a$]\label{def:strict-ctx}
-A context (set of processes) $\ctx$ is strict for $S_a\subseteq L_a$ if and only if
-$\{b_i,b_j\} \subset \ctx \wedge b\neq a \Rightarrow i=j$.
-\end{definition}
-
-In other words, assuming focals reachability, if $\focals(a,S_a,\ctx)$ is empty, there exists a
-sequence of actions that may be played an unbound number of times (cycle);
-if it is non-empty, it is ensured that any state in $\PHl(\ctx\cup S_a)$ converges, in a bounded
-number of steps, either to a process in $S_a$ that is not hit by processes in $\ctx$, or to a process in
-$L_a\setminus S_a$.
 
 \begin{example}
 In the PH of \pref{fig:runningPH-1}, we obtain:
 \begin{align*}
-\focals(a,L_a,\{b_0,c_0\}) &= \{ a_0 \}
+\focals(a,L_a,\state{b_0,c_0}) &= \{ a_0 \}
 &
-\focals(a,L_a,\{b_1,c_1\}) &= \{ a_2 \}
+\focals(a,L_a,\state{b_1,c_1}) &= \{ a_2 \}
 \\
-\focals(a,L_a,\{b_1,c_0\}) &= \emptyset
+\focals(a,L_a,\state{b_1,c_0}) &= \emptyset
 &
-\focals(a,\{a_1\},\{b_1,c_0\}) &= \{ a_0, a_2 \}
+\focals(a,\{a_1\},\state{b_1,c_0}) &= \{ a_0, a_2 \}
 \end{align*}
 \end{example}
 
-
 \subsection{Restrictions for Determinism} % or Well-formed Cooperative Sorts
+\label{ssec:dfocals}
 
 \todo{(LP) redo text}
 
