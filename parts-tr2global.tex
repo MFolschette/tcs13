@@ -24,8 +24,8 @@ evolution of the sort;
 and it is also possible possible that no focal process exist, when in presence of terminal cycles of
 transitions.
 In those cases, there is no possible Thomas specification for the PH.
-In that way, necessary conditions for Thomas model identification from PH are described in
-\pref{ssec:dfocals}.
+The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
+(local) behaviours in PH.
 
 \subsection{Focal Processes}\label{ssec:focal}
 
@@ -72,17 +72,17 @@ with $\f{scc}(V,E)$ the strongly connected components of the digraph $(V,E)$.
 \end{definition}
 
 From \pref{def:focals} can be derived 
-\pref{pps:no-focals} -- if $\focals(a,S_a,\sigma)$ is empty, there exists a limit cycle in the evolution of
+\pref{pro:no-focals} -- if $\focals(a,S_a,\sigma)$ is empty, there exists a limit cycle in the evolution of
 $a$ in the given context;
-and \pref{pps:has-focals} -- if $\focals(a,S_a,\sigma)$ is non empty, all the evolutions of $a$ in the scope
+and \pref{pro:has-focals} -- if $\focals(a,S_a,\sigma)$ is non empty, all the evolutions of $a$ in the scope
 of the given context eventually terminate, and the resulting processes are in $\focals(a,S_a,\sigma)$.
 In other words, if $\focals(a,S_a,\sigma)$ is empty, there exists a
 sequence of actions that may be played an unbound number of times (cycle) in the given context;
 if it is non-empty, it is ensured that any state in the given context converges 
 in a bounded number of steps to a process in $\focals(a,S_a,\sigma)$.
 
-\begin{proposition}
-\label{pps:no-focals}
+\begin{property}
+\label{pro:no-focals}
 $\focals(a,S_a,\sigma)=\emptyset$ if and only if
 there exists a 
 state $s\in L$
@@ -96,10 +96,10 @@ exists a sequence of actions $h^1,\dots,h^{n+1}$ in $\PHa$
 sequentially playable in $s$ with
 $\PHtarget(h^1)\in S_a$ and
 $\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$.
-\end{proposition}
+\end{property}
 
-\begin{proposition}
-\label{pps:has-focals}
+\begin{property}
+\label{pro:has-focals}
 If $\focals(a,S_a,\sigma)\neq\emptyset$, for all
 state $s\in L$
 where
@@ -118,7 +118,7 @@ where
  where 
 $\nexists h^{n+1}\in \PHa$ with $\PHtarget(h^{n+1})=\PHbounce(h^n)$ 
 that is playable in $s\play h^1\play \cdots \play h^n$.
-\end{proposition}
+\end{property}
 
 
 
@@ -143,11 +143,11 @@ in the scope of a given context,
 a PH sort may converge to one among several different processes (indeterminism) or may never converge
 (infinite loop).
 
-We call a \emph{deterministic sort} \pref{pro:deterministic-sort} a sort $a$
+We call a \emph{deterministic sort} \pref{def:deterministic-sort} a sort $a$
 that has a single focal process for each possible configuration of its predecessors in the scope of
 $L_a$.
 
-\begin{property}[Deterministic sort]\label{pro:deterministic-sort}
+\begin{definition}[Deterministic sort]\label{def:deterministic-sort}
 A sort $a\in\PHs$ is a deterministic sort if and only if
 each configuration $\sigma$ of its predecessors leads $a$ to a unique focal process,
 denoted $a(\sigma)$:
@@ -156,7 +156,7 @@ denoted $a(\sigma)$:
 b\in\PHdirectpredec{\upsilon} \wedge b\neq a}}
 \PHl_{b},
 \focals(a,\PHl_a,\sigma) = \{ a(\sigma) \}\]
-\end{property}
+\end{definition}
 
 \todo{examples?}
 
