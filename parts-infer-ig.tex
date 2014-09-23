@@ -213,7 +213,16 @@ $\hat{E}_-$) by
 \modLP{
 \begin{align}
 \begin{split}
- \forall a\in\Gamma: \PHpredecgene{a}\neq \emptyset, &\forall b\in\PHpredecgene{a}\cup\{a\}, \forall s \in \{ +, - \}, \\
+\forall b\in\PHpredecgene{a}, b\neq a, & \forall s \in \{ +, - \}, \\
+  b \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
+  	b \in g, \exists \sigma \in L(g\cup\{a\}), \\
+    \qquad & \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    \qquad & \exists a_j \in \irB_a^g(\sigma), \exists a_k \in \irB_a^g(\sigma\{b_{t+1}\}), \\
+	\qquad & k > j \wedge s=+  \vee j < t \wedge s=-
+\end{split}
+\\
+\begin{split}
+ \forall a\in\Gamma: a\in\PHpredecgene{a}, & \forall s \in \{ +, - \}, \\
   b \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
   	b\neq a \Rightarrow b \in g, \exists \sigma \in L(g\cup\{a\}), \\
     \qquad & \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
