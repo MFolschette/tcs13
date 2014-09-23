@@ -1,0 +1,77 @@
+
+\begin{example}
+\begin{align*}
+  \PHs &= \{ cI, cro, cII, N \} \\
+  \PHl_{cI} &= \{ cI_0, cI_1, cI_2 \} &
+  \PHl_{cro} &= \{ cro_0, cro_1, cro_2, cro_3 \} \\
+  \PHl_{cII} &= \{ cII_0, cII_1 \} &
+  \PHl_{N} &= \{ N_0, N_1 \} \\
+\end{align*}
+  % TODO : figure PH du modèle
+\end{example}
+
+\begin{example}
+  The IG inference of \pref{pps:inference-IG} applied to the PH of \todo{ref}
+  produces the IG given in \pref{fig:phage-lambda-ig}.
+  This IG contains all edges included in the original model except the
+  self-influence on $cI$ : $\GRNedgef{cI}{+}{2}{cI} \notin E$;
+  this is due to the fact that an equivalent dynamics exists without this edge.
+  \begin{figure}[t]
+  \centering
+  \scalebox{1.2}{
+  \begin{tikzpicture}[grn]
+    %\path[use as bounding box] (-1.3,-0.75) rectangle (3.5,1.5);
+    \node[inner sep=0] (cI) at (0,2.5) {cI};
+    \node[inner sep=0] (cro) at (2.5,2.5) {cro};
+    \node[inner sep=0] (cII) at (0,0) {cII};
+    \node[inner sep=0] (N) at (2.5,0) {N};
+    \path[->]
+      (cI) edge[bend right] node[elabel, above=-4pt] {$-2$} (cro)
+           edge[bend right] node[elabel, left=-2pt] {$-2$} (cII)
+           edge[pos=.85] node[elabel, above=-2pt] {$-1$} (N)
+      (cro) edge[bend right] node[elabel, above=-4pt] {$-1$} (cI)
+            edge[loop right] node[elabel, below=-2pt] {$-3$} (cro)
+            edge[pos=.65] node[elabel, below=-2pt] {$-3$} (cII)
+            edge node[elabel, right=-4pt] {$-2$} (N)
+      (cII) edge[bend right] node[elabel, left=-3pt] {$+1$} (cI)
+      (N) edge node[elabel, above=-4pt] {$+1$} (cII);
+  \end{tikzpicture}
+  }
+  \caption{\label{fig:phage-lambda-ig}
+    Result of the IG inference performed on the PH of \todo{ref}.
+  }
+  \end{figure}
+\end{example}
+
+\begin{example}
+  The parameters inference of \pref{pps:param_K} applied to the PH of \todo{ref}
+  is conclusive for all parameters.
+  The complete parametrization produced is available in \pref{tb:phage-lambda-k}.
+  \begin{table}[t]
+  \begin{align*}
+    K_{cI, \emptyset} &= \{2\} &
+    K_{cI, \{cro\}} &= \{0\} \\
+    K_{cI, \{cII\}} &= \{2\} &
+    K_{cI, \{cII;cro\}} &= \{2\} \\
+    K_{N, \emptyset} &= \{1\} &
+    K_{N, \{cro\}} &= \{0\} \\
+    K_{N, \{cI\}} &= \{0\} &
+    K_{N, \{cI;cro\}} &= \{0\} \\
+    K_{cII, \emptyset} &= \{0\} &
+    K_{cII, \{cro\}} &= \{0\} \\
+    K_{cII, \{cI\}} &= \{0\} &
+    K_{cII, \{cI;cro\}} &= \{0\} \\
+    K_{cII, \{N\}} &= \{1\} &
+    K_{cII, \{N;cro\}} &= \{0\} \\
+    K_{cII, \{N;cI\}} &= \{0\} &
+    K_{cII, \{N;cI;cro\}} &= \{0\} \\
+    K_{cro, \emptyset} &= \{3\} &
+    K_{cro, \{cro\}} &= \{2\} \\
+    K_{cro, \{cI\}} &= \{0\} &
+    K_{cro, \{cI;cro\}} &= \{2\}
+  \end{align*}
+  \caption{\label{tb:phage-lambda-k}
+    Result of the parameters inference performed on the PH of \todo{ref}.
+  }
+  \end{table}
+\end{example}
