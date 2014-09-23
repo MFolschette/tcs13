@@ -13,3 +13,4 @@ main.pdf
 *.kilepr
 response.pdf
 .*.swp
+main.fdb_latexmk
