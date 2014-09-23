@@ -7,7 +7,110 @@
   \PHl_{cII} &= \{ cII_0, cII_1 \} &
   \PHl_{N} &= \{ N_0, N_1 \} \\
 \end{align*}
-  % TODO : figure PH du modèle
+
+\begin{figure}[p]
+\centering
+\scalebox{1.3}{
+\begin{tikzpicture}
+  %\path[use as bounding box] (-4,-1.9) rectangle (4.5,3.9);
+  
+  % Sortes
+  \TSort{(0,3.5)}{cI}{3}{l}
+  \TSort{(0,-1.5)}{cro}{4}{l}
+  \TSort{(7,1.5)}{N}{2}{r}
+  
+  % Sorte coopérative
+  \TSetTick{cIcro}{0}{cI~$<$~1\\cro~$<$~2}
+  \TSetTick{cIcro}{1}{cI~$<$~1\\cro~$\geq$~2}
+  \TSetTick{cIcro}{2}{cI~$\geq$~1\\cro~$<$~2}
+  \TSetTick{cIcro}{3}{cI~$\geq$~1\\cro~$\geq$~2}
+  \TSort{(4,0.5)}{cIcro}{4}{r}
+  
+  % Actions de MàJ
+  \THit{cI_1}{}{cIcro_0}{.west}{cIcro_2}
+  \THit{cI_1}{}{cIcro_1}{.160}{cIcro_3}
+  \THit{cI_2}{}{cIcro_0}{.west}{cIcro_2}
+  \THit{cI_2}{}{cIcro_1}{.160}{cIcro_3}
+  \path[bounce,bend left]
+    \TBounce{cIcro_0}{}{cIcro_2}{.240}
+    \TBounce{cIcro_1}{}{cIcro_3}{.south west} ;
+  \THit{cI_0}{}{cIcro_2}{.160}{cIcro_0}
+  \THit{cI_0}{}{cIcro_3}{.150}{cIcro_1}
+  \path[bounce,bend right]
+    \TBounce{cIcro_2}{}{cIcro_0}{.north west}
+    \TBounce{cIcro_3}{}{cIcro_1}{.120} ;
+  \THit{cro_2}{}{cIcro_0}{.210}{cIcro_1}
+  \THit{cro_2}{}{cIcro_2}{.200}{cIcro_3}
+  \THit{cro_3}{}{cIcro_0}{.210}{cIcro_1}
+  \THit{cro_3}{}{cIcro_2}{.200}{cIcro_3}
+  \path[bounce,bend left]
+    \TBounce{cIcro_0}{}{cIcro_1}{.240}
+    \TBounce{cIcro_2}{}{cIcro_3}{.south} ;
+  \THit{cro_0}{}{cIcro_3}{.190}{cIcro_2}
+  \THit{cro_0}{}{cIcro_1}{.200}{cIcro_0}
+  \THit{cro_1}{}{cIcro_3}{.190}{cIcro_2}
+  \THit{cro_1}{}{cIcro_1}{.200}{cIcro_0}
+  \path[bounce,bend right]
+    \TBounce{cIcro_1}{}{cIcro_0}{.north}
+    \TBounce{cIcro_3}{}{cIcro_2}{.120} ;
+  
+  % Actions sortantes
+  \THit{cIcro_3}{}{N_0}{.west}{N_1}
+  \path[bounce,bend left] \TBounce{N_0}{}{N_1}{.south} ;
+  \THit{cIcro_2}{}{N_1}{.west}{N_0}
+  \path[bounce,bend right] \TBounce{N_1}{}{N_0}{.north} ;
+\end{tikzpicture}
+}
+\caption{\label{fig:phage-lambda-cIcro-N}%
+  A portion of the PH model used in this section modeling the phage lambda immunity response.
+  This part of the whole model only depicts the interactions towards $N$ from components
+  $cI$ and $cro$.
+  The processes of the cooperative sort $cIcro$ are labeled by the configuration they represent.
+}
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\scalebox{1.3}{
+\begin{tikzpicture}
+  %\path[use as bounding box] (-4,-1.9) rectangle (4.5,3.9);
+  
+  % Sortes
+  \TSort{(0,1)}{cI}{3}{l}
+  \TSort{(4,0)}{cro}{4}{r}
+  
+  % Actions sortantes
+  \THit{cro_3}{out=north east,in=south east,selfhit,min distance=50pt}{cro_3}{.south east}{cro_2}
+    \path[bounce, bend left] \TBounce{cro_3}{}{cro_2}{.north east} ;
+  
+  \THit{cI_2}{}{cro_3}{.210}{cro_2}
+    \path[bounce,bend right=40] \TBounce{cro_3}{}{cro_2}{.west} ;
+  \THit{cI_2}{}{cro_2}{.210}{cro_1}
+    \path[bounce,bend right=40] \TBounce{cro_2}{}{cro_1}{.west} ;
+  \THit{cI_2}{}{cro_1}{.210}{cro_0}
+    \path[bounce,bend right=40] \TBounce{cro_1}{}{cro_0}{.west} ;
+  
+  \THit{cI_1}{}{cro_0}{.110}{cro_1}
+    \path[bounce,bend left] \TBounce{cro_0}{}{cro_1}{.south} ;
+  \THit{cI_1}{}{cro_1}{.110}{cro_2}
+    \path[bounce,bend left] \TBounce{cro_1}{}{cro_2}{.south} ;
+  \THit{cI_1}{}{cro_2}{.110}{cro_3}
+    \path[bounce,bend left] \TBounce{cro_2}{}{cro_3}{.south} ;
+  
+  \THit{cI_0}{}{cro_0}{.140}{cro_1}
+    \path[bounce,bend left] \TBounce{cro_0}{}{cro_1}{.240} ;
+  \THit{cI_0}{}{cro_1}{.140}{cro_2}
+    \path[bounce,bend left] \TBounce{cro_1}{}{cro_2}{.240} ;
+  \THit{cI_0}{}{cro_2}{.140}{cro_3}
+    \path[bounce,bend left] \TBounce{cro_2}{}{cro_3}{.240} ;
+\end{tikzpicture}
+}
+\caption{\label{fig:phage-lambda-cIcro-cro}%
+  A portion of the PH model used in this section modeling the phage lambda immunity response.
+  This part of the whole model only depicts the interactions towards $cro$ from components
+  $cI$ and $cro$.
+}
+\end{figure}
 \end{example}
 
 \begin{example}
@@ -37,7 +140,7 @@
       (N) edge node[elabel, above=-4pt] {$+1$} (cII);
   \end{tikzpicture}
   }
-  \caption{\label{fig:phage-lambda-ig}
+  \caption{\label{fig:phage-lambda-ig}%
     Result of the IG inference performed on the PH of \todo{ref}.
   }
   \end{figure}
@@ -70,7 +173,7 @@
     K_{cro, \{cI\}} &= \{0\} &
     K_{cro, \{cI;cro\}} &= \{2\}
   \end{align*}
-  \caption{\label{tb:phage-lambda-k}
+  \caption{\label{tb:phage-lambda-k}%
     Result of the parameters inference performed on the PH of \todo{ref}.
   }
   \end{table}

@@ -68,10 +68,10 @@ font=\footnotesize,inner sep=1pt]
 \newcommand{\TTickProc}[2]{ % pos, label
   \ifthenelse{\equal{\currentAlign}{l}}{
     \draw[tick] (-0.6,#1) -- (-0.4,#1);
-    \node[tick label, anchor=east] at (-0.55,#1) {#2};
+    \node[tick label, anchor=east,text width=.2cm,align=right] at (-0.55,#1) {#2};
    }{\ifthenelse{\equal{\currentAlign}{r}}{
     \draw[tick] (0.6,#1) -- (0.4,#1);
-    \node[tick label, anchor=west] at (0.55,#1) {#2};
+    \node[tick label, anchor=west,text width=.2cm,align=left] at (0.55,#1) {#2};
    }{
     \ifthenelse{\equal{\currentAlign}{t}}{
       \draw[tick] (#1,0.6) -- (#1,0.4);
