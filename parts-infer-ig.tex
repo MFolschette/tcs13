@@ -159,6 +159,19 @@ X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
 \label{eq:influence-groups}
 \end{equation}
 
+\def\fp{\Phi}
+
+
+\modLP{
+\begin{equation}
+\fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid \sigma[a] = i \wedge
+					\focals(a, \{a_i\}, \ctx_{\PHpredecgene{a}}(\sigma)) =
+					\{a_i\} \}
+\label{eq:fp}
+\end{equation}
+}
+
+
 To infer influence of a component $b$ on a component $a$,
 we observe the direction of evolution of $a$ for different active processes of $b$.
 The fact that $a$ tends to evolve differently when $b$ changes denotes an influence from $b$.
@@ -170,20 +183,17 @@ $\irB_a(\sigma)$ the set of processes towards which $a$ can bounce (\pref{eq:pos
 %and the set of processes $\ctx$ hitting any process of $a$ (\pref{eq:ctx-sigma}).
 If $a$ cannot be hit by any action in $\sigma$, then $\irB_a(\sigma) = \{ \PHget{\sigma}{a} \}$.
 %
+
+\modLP{
+$\forall g\in X(a), \forall \sigma\in L(g\cup\{a\}), i=\sigma[a]$:
 \begin{align}
-\begin{split}\label{eq:possible-bounces}
-  &\forall g \in X(a), \forall \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c,
-  \irB_a(\sigma) \DEF 
-  \begin{cases}
-    \irF_a(\sigma)
-      & \text{ if } \irF_a(\sigma) \neq \emptyset\\
-    \{ \PHget{\sigma}{a} \}
-      & \text{ if } \irF_a(\sigma) = \emptyset
-  \end{cases}\\
-  &\text{where: } \irF_a(\sigma) \DEF \{ a_k \in \PHl_a \mid \exists b \in \PHs, \exists \PHfrappe{b_i}{a_j}{a_k} \in \PHa,\\
-  & \qquad\qquad\qquad\qquad\qquad\qquad \PHget{\sigma}{a} = a_j \wedge \PHget{(\ctx_{g}(\sigma))}{b} = b_i \}\\
-\end{split}
-\end{align}
+a_i \in \irB_a^g(\sigma) &\EQDEF \exists\sigma'\in\fp(a_i): \sigma\subset\sigma'
+\label{eq:B-no-bounce}
+\\
+\forall a_j\in L_a, j\neq i,
+a_j \in \irB_a^g(\sigma) &\EQDEF \focals(a, \{a_j\}, \ctx_{g}(\sigma)) = \{a_j\}
+\label{eq:B-bounce}
+\end{align}}
 
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
 with a threshold $t$.
@@ -198,73 +208,25 @@ Finally, \pref{eq:edges-inference-noreg} handles the special case where $a$ has 
 We ignore the cases where a component has no visible influence on another.
 %
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
-We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp. $\hat{E}_-$) for any $a\in\Gamma$ by:
-% Arcs a -> b, a ≠ b
+We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp.
+$\hat{E}_-$) by
+\modLP{
 \begin{align}
-\begin{split}\label{eq:edges-inference}
-  \forall b\in\PHpredecgene{a}, \forall s \in \{ +, - \}, \\
-  b \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), b \in g,
-  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
-    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
-    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
-    &\qquad s = \f{sign}(k - j)
+\begin{split}
+ \forall a\in\Gamma: \PHpredecgene{a}\neq \emptyset, &\forall b\in\PHpredecgene{a}\cup\{a\}, \forall s \in \{ +, - \}, \\
+  b \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
+  	b\neq a \Rightarrow b \in g, \exists \sigma \in L(g\cup\{a\}), \\
+    \qquad & \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
+    \qquad & \exists a_j \in \irB_a^g(\sigma), \exists a_k \in \irB_a^g(\sigma\{b_{t+1}\}), \\
+	\qquad & k\geq t+1 \wedge j \leq t \wedge s=+ \\
+	\qquad & \vee k<t+1 \wedge j>t \wedge s=-
 \end{split}
+\\
+\forall a\in\Gamma: \PHpredecgene{a} = \emptyset, &
+	\forall t\in\{0,\cdots,l_a-1\},
+	a \xrightarrow{t+1} a \in \hat{E}_+
 \end{align}
-% Auto-arcs depuis les groupes de régulateurs
-\begin{align}
-\begin{split}\label{eq:edges-inference-auto}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a),
-  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
-    &\qquad \{ a_t, a_{t+1} \} \subset \PHl_a \wedge a_t \in \sigma,\\
-    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{a_{t+1}\}), \\
-    &\qquad s = \f{sign}(k - j)
-\end{split}
-\end{align}
-% Auto-arcs des composants sans prédécesseurs
-\begin{align}
-\begin{split}\label{eq:edges-inference-noreg}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
-    &\qquad \exists a_j \in \irB_a(\PHetat{a_t}), \exists a_k \in \irB_a(\PHetat{a_{t+1}}), \\
-    &\qquad s = \f{sign}(k - j)
-\end{split}
-\end{align}
-\begin{comment}
-% Arcs a -> b, a ≠ b
-\begin{align}
-\begin{split}\label{eq:edges-inference}
-  \forall b\in\PHpredecgene{a}, \forall s \in \{ +, - \}, \\
-  b \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), b \in g,
-  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
-    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
-    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
-    &\qquad s = \f{sign}(k - a)
-\end{split}
-\end{align}
-% Auto-arcs depuis les groupes de régulateurs
-\begin{align}
-\begin{split}\label{eq:edges-inference-auto}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \exists g \in X(a), \exists b \in g,
-  \exists \sigma \in \textstyle\prod_{c\in g \cup \{ a \}} \PHl_c, \\
-    &\qquad \{ b_t, b_{t+1} \} \subset \PHl_b \wedge b_t \in \sigma,\\
-    &\qquad \exists a_j \in \irB_a(\sigma), \exists a_k \in \irB_a(\sigma\{b_{t+1}\}), \\
-    &\qquad s = \f{sign}(a_k - a_j)
-\end{split}
-\end{align}
-% Auto-arcs des composants sans prédécesseurs
-\begin{align}
-\begin{split}\label{eq:edges-inference-noreg}
-  \forall s \in \{ +, - \}, \quad\qquad\qquad \\
-  a \xrightarrow{t+1} a \in \hat{E}_s \Longleftrightarrow\ & \reg{a} = \emptyset \wedge \{ a_t, a_{t+1} \} \subset \PHl_a, \\
-    &\qquad \exists a_j \in \irB_a(\PHetat{a_t}), \exists a_k \in \irB_a(\PHetat{a_{t+1}}), \\
-    &\qquad s = \f{sign}(a_k - a_j)
-\end{split}
-\end{align}
-\end{comment}
-where $\f{sign}(x) = 1$ if $x>0$, $\f{sign}(x) = -1$ if $x < 0$, and
-$\f{sign}(x) = 0$ if $x=0$.
+}
 \end{proposition}
 
 We are now able to infer the edges of the final IG by considering positive and negative influences
