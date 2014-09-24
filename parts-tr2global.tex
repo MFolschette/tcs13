@@ -26,6 +26,7 @@ transitions.
 In those cases, there is no possible Thomas specification for the PH.
 The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
 (local) behaviours in PH.
+\todo{introduce \pref{ssec:split-sorts}}
 
 \subsection{Focal Processes}\label{ssec:focal}
 
@@ -152,9 +153,7 @@ A sort $a\in\PHs$ is a deterministic sort if and only if
 each configuration $\sigma$ of its predecessors leads $a$ to a unique focal process,
 denoted $a(\sigma)$:
 \[
-\forall \sigma \in {\textstyle\prod_{
-b\in\PHdirectpredec{\upsilon} \wedge b\neq a}}
-\PHl_{b},
+\forall \sigma \in L(\PHdirectpredec{\upsilon}),
 \focals(a,\PHl_a,\sigma) = \{ a(\sigma) \}\]
 \end{definition}
 
@@ -163,3 +162,151 @@ b\in\PHdirectpredec{\upsilon} \wedge b\neq a}}
 For the inference of the interaction graph and Thomas parameters from a PH model, the following
 sections assume that \emph{all the cooperative sorts are deterministic}.
 \todo{add more explanation depending on the text of the next sections}
+
+
+\subsection{Separating components from cooperative sorts}
+\label{ssec:split-sorts}
+
+The identification of a BRN from a PH assumes that the PH defines two types of sorts:
+the sorts corresponding to BRN components -- noted $\Gamma$ --, and the cooperative
+\modLP{(intermediate)} sorts -- noted $\Delta$ --
+\modLP{which should not appear in the BRN}.
+\modLP{In this subsection, we first give a criteria for identifying the sorts of a PH
+as either a component or cooperative sort.
+Then, we characterize the \emph{well-formed} PH for IG inference.}
+
+\modLP{The delimitation of sorts modeling components relies on the observation that their processes
+represent (ordered) qualitative levels.
+Hence an action on such a sort cannot make it bounce to a process at a distance more than one.
+This set of sorts in denoted by $\hat\Gamma$ (\pref{eq:PH-components}), whereas the
+set of cooperative sorts is denoted by $\hat\CSorts$ (\pref{eq:PH-coop}).}
+\begin{align}
+\hat\Gamma  &\DEF \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\}
+\label{eq:PH-components}\\
+\hat\CSorts &\DEF \PHs \setminus \hat\Gamma
+\label{eq:PH-coop}
+\end{align}
+
+\modLP{Given a PH and a partition of its sorts in components $\Gamma$ and cooperative
+sorts $\Delta$,
+\pref{pro:wf-ph} establishes conditions for BRN identification:
+in addition of having $\Gamma$ compatible with $\hat\Gamma$ and cooperative
+sorts being deterministic (\pref{def:deterministic-sort})},
+we also require that there is no cycle between cooperative sorts, and that
+sorts being never hit (\ie serving as an invariant environment) are components.
+
+\begin{property}[Well-formed Process Hitting for BRN identification]\label{pro:wf-ph}
+A PH is well-formed for BRN identification with
+$\PHs = \Gamma\cup\CSorts$ only if the following conditions hold:
+\begin{enumerate}
+\item 
+\modLP{$\Gamma\cap\CSorts=\emptyset$, $\Gamma\subseteq\hat\Gamma$ and $\forall \upsilon\in\CSorts$, 
+$\upsilon$ is a deterministic sort (\pref{def:deterministic-sort})};
+\item 
+there is no cycle between cooperative sorts
+(the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \exists \PHfrappe{a_i}{b_j}{b_k}\in\PHa
+\wedge a\neq b\wedge \{a,b\}\cap\Gamma=\emptyset \})$ is
+acyclic);
+\item 
+sorts having no action hitting them belong to $\Gamma$
+($\{ a \in \Sigma\mid \nexists \PHfrappe{b_i}{a_j}{a_k}\in\PHa\} \subset \Gamma$).
+\end{enumerate}
+\end{property}
+
+\begin{example}
+In the PH of \pref{fig:runningPH-2}, $bc$ is a deterministic sort as defined in
+\pref{def:deterministic-sort}:
+\begin{align*}
+\focals(bc, \PHl_{bc}, \state{b_0, c_0}) = \{bc_{00}\} &&
+\focals(bc, \PHl_{bc}, \state{b_0, c_1}) = \{bc_{01}\} \\
+\focals(bc, \PHl_{bc}, \state{b_1, c_0}) = \{bc_{10}\} && 
+\focals(bc, \PHl_{bc}, \state{b_1, c_1}) = \{bc_{11}\}
+\end{align*}
+Hence, both \pref{fig:runningPH-1} and \pref{fig:runningPH-2} are well-formed PH
+for BRN identification with $\Gamma = \{a,b,c\}$ and $\CSorts=\{bc\}$.
+\end{example}
+
+\modLP{Assuming a PH and a partition $\Gamma$ and $\CSorts$ of its sort that satisfy
+\pref{pro:wf-ph}, }
+\pref{def:ph-pred} characterizes the set of predecessors of a sort $a$, that is, the sorts influencing $a$
+by considering direct actions and possible intermediate cooperative sorts.
+The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
+(\pref{eq:regulators}).
+\modLP{%
+\begin{definition}[$\PHpredec{a}$ and $\PHpredecgene{a}$]
+\label{def:ph-pred}
+\label{def:ph-reg}
+Given $a\in\PHs$, $\PHpredec{a}\subseteq\PHs$ is the smallest set satisfying the following
+conditions:
+\begin{align}
+\PHdirectpredec{a} &\subseteq \PHpredec{a}
+\\
+\upsilon\in\PHpredec{a}\cap\CSorts \Rightarrow \PHpredec{\upsilon}&\subseteq\PHpredec{a}
+\end{align}
+The components that are predecessors of $a$ are referred to as $\PHpredecgene{a}$:
+\begin{equation}
+\PHpredecgene{a} \DEF \PHpredec{a} \cap \Gamma
+\label{eq:regulators}
+\end{equation}
+\end{definition}}
+
+\todo{update text}
+This inference mainly focuses on the presence of actions betweens two sorts to conclude on the presence of a regulation.
+To do so, the sets of components cooperating together to hit $a$, called groups of influence of $a$, are studied.
+Such groups are given by $X(a)$ which is the set of connected components in the graph linking two regulators
+$b$ and $c$ of $a$ if they use a common cooperative sort to have an influence on
+$a$ (\pref{def:influence-groups}).
+\modLP{%
+\begin{definition}[Partition $X(a)$ of $\PHpredecgene{a}$]
+\label{def:influence-groups}
+Given $a\in\PHs$,
+$X(a)$ is the finest partition of $\PHpredecgene{a}$ such that
+for any $b,c\in\PHpredecgene{a}$, $b\neq c$, if there exists a cooperative sort
+$\upsilon\in\PHdirectpredec{a}\cap\CSorts$ such that 
+$\{b,c\}\subseteq\PHpredecgene{\upsilon}$ then
+there exists $g\in X(a)$ such that $\{b,c\}\subseteq g$.
+\end{definition}
+}
+
+
+\todo{update text and improve definition}
+Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
+refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
+If $g=\{b\}$, we simply note $\ctx_b(\sigma)$.
+This set is composed of the active processes of sorts in $g$, and the focal process (assumed
+unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
+The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
+relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
+$\upsilon$ are defined in $\sigma$.
+When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
+the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval},
+where $\uplus$ stands for a union of states (which are sets of processes).
+Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
+always terminates.
+\modLP{%
+\begin{definition}[Configuration extension $\ctx_a^g(\sigma)$]
+\label{def:ctx-sigma}
+Given $a\in\PHs$, a group $g\in X(a)$ and a configuration 
+$\sigma\in L(g)$
+\todo{$L(g\cup \{a\})$ ?},
+$\ctx_a^g(\sigma)$ is the configuration $\sigma$ with the corresponding
+processes of the cooperative sorts in $\PHdirectpredec{a}$:
+\begin{align}
+\ctx_a^g(\sigma) & \DEF \sigma \uplus \state{\upsilon(\sigma) \mid\upsilon \in\PHdirectpredec{a} \cap \CSorts} 
+\label{eq:ctx-sigma}
+\\
+\upsilon(\sigma') & \DEF
+\begin{cases}
+\focals(\upsilon,L_\upsilon,\sigma') & \text{if
+$\PHdirectpredec{\upsilon}\subseteq\f{dom}(\sigma')$}
+\\
+\upsilon(\sigma' \uplus \state{\upsilon'(\sigma') \mid 
+  \upsilon'\in\PHdirectpredec{\upsilon} \cap \CSorts })
+  & \text{otherwise.}
+\end{cases}
+\label{eq:cooperative-eval}
+\end{align}
+\end{definition}
+}
+
+

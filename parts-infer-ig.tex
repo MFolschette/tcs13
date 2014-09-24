@@ -28,136 +28,22 @@ non-effective with respect to the dynamics.
 Hence, deriving the IG directly from the dynamical models lead to more concise IGs, enhancing the
 conclusiveness of static analyses based upon this abstract representation.
 
-In this section, we formally derive the IG corresponding to a given PH that is well-formed for BRN
-modeling.
-This section first introduces the notion of focal processes within a PH (\pref{ssec:focal})
-which is used to characterize well-formed PH for IG inference (\pref{ssec:wf}).
-%and as well used by the parametrization inference presented in \pref{sec:infer-K}.
-The rules for inferring the interactions between components from a PH are
-described in \pref{ssec:infer-IG}.
-We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ on which the IG inference is to be
-performed.
-
-
-\subsection{Well-formed Process Hitting for Interaction Graph Inference}\label{ssec:wf}
-
-\todo{rework text with new paper structure (\pref{sec:tr2global})}
-
-The inference of an IG from a PH assumes that the PH defines two types of sorts:
-the sorts corresponding to BRN components, and the cooperative sorts.
-This leads to the characterization of a \emph{well-formed} PH for IG inference.
-
-The identification of sorts modeling components relies on the observation that their processes
-represent (ordered) qualitative levels.
-Hence an action on such a sort cannot make it bounce to a process at a distance more than one.
-The set of sorts satisfying such a condition is referred to as $\Gamma$
-(\pref{eq:PH-components}).
-Therefore, in the rest of this paper, $\Gamma$ denotes the set of components of the BRN to infer.
-
-\begin{equation}
-\Gamma \DEF \{a \in \PHs \mid \nexists \PHfrappe{b_i}{a_j}{a_k} \in \PHa, |j - k| > 1\} \\
-\label{eq:PH-components}
-\end{equation}
-
-\todo{maybe we should also support a user-supplied $\Gamma$ and give the
-constraints (included in the prev. def?)}
-
-
-Finally, \pref{pro:wf-ph} sums up the conditions for a Process Hitting to be suitable for IG
-inference.
-In addition of having either component sorts or well-formed cooperative sorts, we also require that
-there is no cycle between cooperative sorts, and that
-sorts being never hit (\ie serving as an invariant environment) are components.
-
-\begin{property}[Well-formed Process Hitting for IG inference]\label{pro:wf-ph}
-A PH is well-formed for IG inference if and only if the following conditions are verified:
-\begin{itemize}
-\item 
-each sort $a\in\PHs$ either belongs to $\Gamma$, or is a well-formed cooperative sort;
-\item 
-there is no cycle between cooperative sorts
-(the digraph $(\Sigma,\{(a,b)\in(\Sigma\times\Sigma)\mid \exists \PHfrappe{a_i}{b_j}{b_k}\in\PHa
-\wedge a\neq b\wedge \{a,b\}\cap\Gamma=\emptyset \})$ is
-acyclic);
-\item 
-sorts having no action hitting them belong to $\Gamma$
-($\{ a \in \Sigma\mid \nexists \PHfrappe{b_i}{a_j}{a_k}\in\PHa\} \subset \Gamma$).
-\end{itemize}
-\end{property}
-
-\begin{example}
-In the PH of \pref{fig:runningPH-2}, $bc$ is a well-formed cooperative sort as defined in \pref{pro:wf-cooperative-sort}, because:
-\begin{align*}
-\focals(bc, \PHl_{bc}, \{b_0, c_0\} \cup \PHl_{bc}) = \{bc_{00}\} && \focals(bc, \PHl_{bc}, \{b_0, c_1\} \cup \PHl_{bc}) = \{bc_{01}\} \\
-\focals(bc, \PHl_{bc}, \{b_1, c_0\} \cup \PHl_{bc}) = \{bc_{10}\} && \focals(bc, \PHl_{bc}, \{b_1, c_1\} \cup \PHl_{bc}) = \{bc_{11}\}
-\end{align*}
-Hence, both \pref{fig:runningPH-1} and \pref{fig:runningPH-2} are well-formed PH for IG inference
-with $\Gamma = \{a,b,c\}$.
-\end{example}
-
-
-
-\subsection{Interaction Inference}\label{ssec:infer-IG}
-
-At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
-that will not appear in the IG ($\PHs \setminus \Gamma$).
-We define in \pref{eq:ph_predec} the set of predecessors of a sort $a$, that is, the sorts influencing $a$
-by considering direct actions and possible intermediate cooperative sorts.
-The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
-(\pref{eq:regulators}).
-\begin{align}
-\begin{split}
-\forall a \in \PHs, \PHpredec{a} &\DEF \{b \in \PHs \mid \exists n \in \mathbb{N}^*, \exists
-(c^k)_{k \in \segm{0}{n}} \in \PHs^{n+1}, \\
-                                   & \quad \quad c^0 = b \wedge c^n = a \\
-                                   & \quad \quad \wedge \forall k \in \segm{0}{n-1},
-                   c^k \in \PHdirectpredec{c^{k+1}} \cap (\PHs\setminus\Gamma)\}
-\end{split}
-\label{eq:ph_predec}
-\\
-\forall a\in \PHs, \PHpredecgene{a} & \DEF \PHpredec{a} \cap \Gamma
-\label{eq:regulators}
-\end{align}
-
-Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
-refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
-If $g=\{b\}$, we simply note $\ctx_b(\sigma)$.
-This set is composed of the active processes of sorts in $g$, and the focal process (assumed
-unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
-The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
-relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
-$\upsilon$ are defined in $\sigma$.
-When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
-the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval},
-where $\uplus$ stands for a union of states (which are sets of processes).
-Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
-always terminates.
-\begin{align}
-\forall g\subset \Gamma,
-  \ctx_g(\sigma) & \DEF \{ \sigma[b] \mid b\in g \} \cup \{ \upsilon(\sigma) \mid
-\upsilon\in\PHdirectpredec{a} \setminus \Gamma \wedge g\cap \PHpredecgene{\upsilon} \neq \emptyset \}
-\label{eq:ctx-sigma}
-\\
-\upsilon(\sigma) & \DEF
-\upsilon(\sigma \uplus \state{\upsilon'(\sigma) \mid 
-  \upsilon'\in\PHdirectpredec{\upsilon} \wedge
-  \upsilon'\in\PHs\setminus\Gamma })
-\label{eq:cooperative-eval}
-\end{align}
-
-This inference mainly focuses on the presence of actions betweens two sorts to conclude on the presence of a regulation.
 We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
 the level of $b$ makes possible the increase (decrease) of the level of $a$,
 which is directly inspired from the works of~\cite{Richard2010378}.
-To do so, the sets of components cooperating together to hit $a$, called groups of influence of $a$, are studied.
-Such groups are given by $X(a)$ which is the set of connected components in the graph linking two regulators
-$b$ and $c$ of $a$ if they use a common cooperative sort to have an influence on $a$ (\pref{eq:influence-groups}).
-\begin{equation}
-X(a) = \mathcal C\left( (\PHpredecgene{a}, \{ \{b,c\} \mid
-        \exists \upsilon\in \PHdirectpredec{a} \setminus \Gamma,
-        \{b,c\} \subset \PHpredecgene{\upsilon} \}) \right)
-\label{eq:influence-groups}
-\end{equation}
+
+We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ and a parition of sorts
+$\Gamma \cup \Delta=\PHs$ satisfying \pref{pro:wf-ph} on which the IG inference is to be
+performed.
+\todo{outline}
+
+
+\subsection{Inference of Influences}\label{ssec:infer-IG}
+
+\todo{rework text with new paper structure (\pref{sec:tr2global})}
+
+At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
+that will not appear in the IG ($\PHs \setminus \Gamma$).
 
 \def\fp{\Phi}
 
@@ -256,8 +142,8 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 \end{proposition}
 
 
+\subsection{Examples}
 
-\begin{example}
 The IG inference of the PH of \pref{fig:runningPH-2} gives the
 IG in \pref{fig:BRN-inf1}, containing the following edges:
 \begin{align*}
@@ -296,11 +182,6 @@ The inference of the PH of \pref{fig:runningPH-1}
 }
 \end{figure}
 
-\end{example}
-
-
-
-\begin{example}
 If we add the action $\PHfrappe{a_2}{b_0}{b_1}$ to the PH of \pref{fig:runningPH-2},
 then two unsigned edges towards $b$ are inferred instead of the previous signed edges:
 \begin{align*}
@@ -310,4 +191,3 @@ then two unsigned edges towards $b$ are inferred instead of the previous signed 
 \end{align*}
 This is due to the fact that the actions $\PHfrappe{a_2}{b_1}{b_0}$ and $\PHfrappe{a_2}{b_0}{b_1}$
 introduce an oscillation only caused by $a$, which cannot be represented in Thomas modeling.
-\end{example}
