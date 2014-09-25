@@ -14,11 +14,12 @@ that are conditioned with the presence of other processes.
 In addition, PH allows the use of intermediate sorts, such as cooperative sorts, that do not refer
 to the components of the network.
 
-Hence, identifying Thomas models from PH requires a step that lump a set of transitions that can be
-applied in a given context into a single process that correspond to the level toward which the
+Hence, identifying Thomas models from PH requires to lump a set of transitions that can be
+applied in a given configuration into a single process that correspond to the level toward which the
 component evolve.
 This step is detailed in \pref{ssec:focal} in which is defined the $\focals$ function associating 
-the farthest reachable processes, called \emph{focal processes}, of a given sort for a given context.
+the farthest reachable processes, called \emph{focal processes}, of a given sort
+for a given configuration.
 It is possible that several different focal processes are identified, indicating an indeterministic
 evolution of the sort;
 and it is also possible possible that no focal process exist, when in presence of terminal cycles of
@@ -26,16 +27,21 @@ transitions.
 In those cases, there is no possible Thomas specification for the PH.
 The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
 (local) behaviours in PH.
-\todo{introduce \pref{ssec:split-sorts}}
+
+Finally, \pref{ssec:split-sorts} addresses the separation of PH sorts into
+components and intermediate cooperate sorts, the latter having to be masked in Thomas models.
+It notably defines the predecessors, (group of) regulators of a
+sort, and the extension of a configuration to incorporate the state of the
+cooperative sorts.
 
 \subsection{Focal Processes}\label{ssec:focal}
 
-Given a sort $a\in\Sigma$ and a context delimited by 
+Given a sort $a\in\Sigma$ and a configuration delimited by 
 a sub-set of processes of sort $a$ and a sub-state $\sigma$
 of the sorts having an action on $a$,
 $\focals(a,S_a,\sigma)$ (\pref{def:focals}) is the set of processes of sort $a$ towards which
-$a$ will eventually converge in the scope of the context.
-The context delimits the set of states $s\in L$ where $s[a]\in S_a$, and for all 
+$a$ will eventually converge in the scope of the configuration.
+The configuration delimits the set of states $s\in L$ where $s[a]\in S_a$, and for all 
 sort $b\in\PHpred a, b\neq a$,
 $s[b]=\sigma[b]$.
 $\focals(a,S_a,\sigma)$ is obtained from the digraph where $a_i\in S_a$ is connected to $a_j\in L_a$ only if there
@@ -74,12 +80,13 @@ with $\f{scc}(V,E)$ the strongly connected components of the digraph $(V,E)$.
 
 From \pref{def:focals} can be derived 
 \pref{pro:no-focals} -- if $\focals(a,S_a,\sigma)$ is empty, there exists a limit cycle in the evolution of
-$a$ in the given context;
+$a$ in the given configuration;
 and \pref{pro:has-focals} -- if $\focals(a,S_a,\sigma)$ is non empty, all the evolutions of $a$ in the scope
-of the given context eventually terminate, and the resulting processes are in $\focals(a,S_a,\sigma)$.
+of the given configuration eventually terminate, and the resulting processes are in $\focals(a,S_a,\sigma)$.
 In other words, if $\focals(a,S_a,\sigma)$ is empty, there exists a
-sequence of actions that may be played an unbound number of times (cycle) in the given context;
-if it is non-empty, it is ensured that any state in the given context converges 
+sequence of actions that may be played an unbound number of times (cycle) in the
+given configuration;
+if it is non-empty, it is ensured that any state in the configuration converges 
 in a bounded number of steps to a process in $\focals(a,S_a,\sigma)$.
 
 \begin{property}
@@ -140,7 +147,7 @@ In the PH of \pref{fig:runningPH-1}, we obtain:
 \label{ssec:dfocals}
 
 As discussed at the beginning of this section, and as formally described in the above sub-section, 
-in the scope of a given context,
+in the scope of a given configuration,
 a PH sort may converge to one among several different processes (indeterminism) or may never converge
 (infinite loop).
 
@@ -156,8 +163,6 @@ denoted $a(\sigma)$:
 \forall \sigma \in L(\PHdirectpredec{\upsilon}),
 \focals(a,\PHl_a,\sigma) = \{ a(\sigma) \}\]
 \end{definition}
-
-\todo{examples?}
 
 For the inference of the interaction graph and Thomas parameters from a PH model, the following
 sections assume that \emph{all the cooperative sorts are deterministic}.
@@ -226,10 +231,10 @@ Hence, both \pref{fig:runningPH-1} and \pref{fig:runningPH-2} are well-formed PH
 for BRN identification with $\Gamma = \{a,b,c\}$ and $\CSorts=\{bc\}$.
 \end{example}
 
-\modLP{Assuming a PH and a partition $\Gamma$ and $\CSorts$ of its sort that satisfy
+\modLP{Assuming a PH and a split $\Gamma$ and $\CSorts$ of its sort that satisfy
 \pref{pro:wf-ph}, }
-\pref{def:ph-pred} characterizes the set of predecessors of a sort $a$, that is, the sorts influencing $a$
-by considering direct actions and possible intermediate cooperative sorts.
+\pref{def:ph-pred} characterizes the set of predecessors of a sort $a$ as the sorts influencing $a$
+through direct actions or intermediate cooperative sorts.
 The predecessors of $a$ that are components are the regulators of $a$, denoted $\PHpredecgene{a}$
 (\pref{eq:regulators}).
 \modLP{%
@@ -250,13 +255,19 @@ The components that are predecessors of $a$ are referred to as $\PHpredecgene{a}
 \end{equation}
 \end{definition}}
 
-\todo{update text}
-This inference mainly focuses on the presence of actions betweens two sorts to conclude on the presence of a regulation.
-To do so, the sets of components cooperating together to hit $a$, called groups of influence of $a$, are studied.
-Such groups are given by $X(a)$ which is the set of connected components in the graph linking two regulators
-$b$ and $c$ of $a$ if they use a common cooperative sort to have an influence on
-$a$ (\pref{def:influence-groups}).
 \modLP{%
+As described in the introduction of this section, the identification of Thomas
+models from PH relies on the inference of focal processes in the
+different configurations of the regulators of each component.
+In order to reduce the scope of the configurations that need to be enumerated, 
+we introduce the notion of \emph{group of regulators} of sort $a$ as a set of
+components that have a joint influence on $a$.
+More precisely, $b$ and $c$ are in the same group of regulators of $a$ if there exists
+an intermediate cooperative sort $\upsilon$ that hits $a$ such that $b$ and $c$
+are regulators of $\upsilon$.
+Those groups form a partition of $\PHpredecgene{a}$.
+We denote $X(a)$ the finest partition in groups of
+regulators (\pref{def:influence-groups}), i.e. where each group is minimal.
 \begin{definition}[Partition $X(a)$ of $\PHpredecgene{a}$]
 \label{def:influence-groups}
 Given $a\in\PHs$,
@@ -269,27 +280,20 @@ there exists $g\in X(a)$ such that $\{b,c\}\subseteq g$.
 }
 
 
-\todo{update text and improve definition}
-Given a set $g$ of components and a configuration (\ie a sub-state) $\sigma$, $\ctx_g(\sigma)$
-refers to the set of processes hitting $a$ regulated by any sort in $g$ (\pref{eq:ctx-sigma}).
-If $g=\{b\}$, we simply note $\ctx_b(\sigma)$.
-This set is composed of the active processes of sorts in $g$, and the focal process (assumed
-unique) of the cooperative sorts $\upsilon$ hitting $a$ that have a predecessor in $g$.
-The evaluation of the focal process of $\upsilon$ in context $\sigma$, denoted $\upsilon(\sigma)$,
-relies on \pref{pro:wf-cooperative-sort}, which gives its value when all the direct predecessors of
-$\upsilon$ are defined in $\sigma$.
-When a predecessor $\upsilon'$ is not in $\sigma$, we extend the evaluation by recursively computing
-the focal value of $\upsilon'$ is $\sigma$, as stated in \pref{eq:cooperative-eval},
-where $\uplus$ stands for a union of states (which are sets of processes).
-Because there is no cycle between cooperative sorts, this recursive evaluation of $\upsilon(\sigma)$
-always terminates.
 \modLP{%
+If the cooperative sorts are all deterministic (\pref{def:deterministic-sort}),
+it is sufficient to specify the configuration $\sigma$ of a group $g$ of regulators of a sort $a$
+to obtain the configuration of all the sorts hitting $a$ directly.
+Indeed, because of the absence of cycles between cooperative sorts
+(\pref{pro:wf-ph}), one can recursively
+evaluate the focal process of each cooperative sort that hit $a$ with respect to
+the configuration $\sigma$ of the regulators $g$.
+Such an extended configuration is denoted by $\ctx_a^g(\sigma)$, formalized in
+\pref{def:ctx-sigma}
 \begin{definition}[Configuration extension $\ctx_a^g(\sigma)$]
 \label{def:ctx-sigma}
 Given $a\in\PHs$, a group $g\in X(a)$ and a configuration 
-$\sigma\in L(g)$
-\todo{$L(g\cup \{a\})$ ?},
-$\ctx_a^g(\sigma)$ is the configuration $\sigma$ with the corresponding
+$\sigma\in L(g)$, $\ctx_a^g(\sigma)$ is the configuration $\sigma$ with the corresponding
 processes of the cooperative sorts in $\PHdirectpredec{a}$:
 \begin{align}
 \ctx_a^g(\sigma) & \DEF \sigma \uplus \state{\upsilon(\sigma) \mid\upsilon \in\PHdirectpredec{a} \cap \CSorts} 
