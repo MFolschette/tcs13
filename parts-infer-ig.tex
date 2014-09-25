@@ -1,15 +1,6 @@
 % vim:spell spelllang=en:
 \section{Interaction Graph Inference from Process Hitting}\label{sec:infer-IG}
 
-\todo{In this while section: add informal explanations and maybe more examples.\\
-Especially:
-\begin{itemize}
-  \item Intuitively detail the motivations
-  \item Give the intuition of the methods (esp. $\focals$)
-  \item Insist on the use/motivation of the definitions
-\end{itemize}
-The reviewer also proposes to use a biological running example (such as $\lambda$-phage).}
-
 The Interaction Graph (IG) is an abstract representation of the direct qualitative influences,
 positive and/or negative, between the components of the system.
 As discussed in \pref{sec:intro}, the IG allows to efficiently characterize global dynamical
@@ -28,71 +19,66 @@ non-effective with respect to the dynamics.
 Hence, deriving the IG directly from the dynamical models lead to more concise IGs, enhancing the
 conclusiveness of static analyses based upon this abstract representation.
 
-We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
-the level of $b$ makes possible the increase (decrease) of the level of $a$,
-which is directly inspired from the works of~\cite{Richard2010378}.
-
-We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ and a parition of sorts
+We consider hereafter a global PH $(\PHs,\PHl,\PHa)$ and a split of sorts
 $\Gamma \cup \Delta=\PHs$ satisfying \pref{pro:wf-ph} on which the IG inference is to be
 performed.
-\todo{outline}
+The inference of the IG is described in \pref{ssec:infer-IG}, and is illustrated
+on small examples in \pref{ssec:infer-ig-examples}.
 
 
 \subsection{Inference of Influences}\label{ssec:infer-IG}
 
-\todo{rework text with new paper structure (\pref{sec:tr2global})}
-
-At this point we can divide the set of sorts $\PHs$ into components ($\Gamma$, see \pref{eq:PH-components}) and cooperative sorts
-that will not appear in the IG ($\PHs \setminus \Gamma$).
-
 \def\fp{\Phi}
 
+We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
+the level of $b$ makes possible the increase (decrease) of the level of $a$,
+following the standard IG inference from Boolean and discrete networks \cite{Richard2010378}.
 
 \modLP{
+Given a process $a_i$ and a configuration $\sigma$ of a group $g$ of regulators of $a$,
+we denote by
+$\irB_a^g(\sigma)$ (\pref{def:B-bounce}) the set of processes of sort $a$ towards which $a_i$ can bounce
+in the configuration $\sigma$.
+$\irB_a^g(\sigma)$ matches with the focal processes of $a$ in the scope of $a_i$
+(\pref{eq:B-bounce})
+except when no bounce can occur in $\sigma$:
+in such a case, we need to ensure that there exists a configuration of the other
+groups of regulators of $a$ where $a_i$ is never hit (\pref{eq:B-no-bounce}).
+The set of configuration of regulators of $a$ where $a_i$ is never hit is given
+by $\fp(a_i)$ (\pref{eq:fp}).
+\begin{definition}[$\irB_a^g(\sigma)$]
+\label{def:B-bounce}
+Given $a\in\PHs$, $g\in X(a)$ and $\sigma\in L(\PHpredecgene{a}\cup\{a\})$
+such that $a_i\in\sigma$,
+$\irB_a^g(\sigma)\subseteq L_a$ is defined as follows:
+\begin{align}
+\forall a_j\in L_a, j\neq i,
+a_j \in \irB_a^g(\sigma) &\EQDEF
+a_j \in \focals(a, \{a_i\}, \ctx_a^g(\sigma))
+%\exists b_k\in\ctx_{g}(\sigma): \PHfrappe{b_k}{a_i}{a_j}\in\PHa
+\label{eq:B-bounce}
+\\
+a_i \in \irB_a^g(\sigma) &\EQDEF \exists\sigma'\in\fp(a_i): \sigma\subset\sigma'
+\label{eq:B-no-bounce}
+\end{align}
+where $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\}$ is defined as follows:
 \begin{equation}
 \fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid a_i\in\sigma \wedge
 					\focals(a, \{a_i\}, \ctx_a^{\PHpredecgene{a}}(\sigma)) =
 					\{a_i\} \}
 \label{eq:fp}
 \end{equation}
-}
-
-
-To infer influence of a component $b$ on a component $a$,
-we observe the direction of evolution of $a$ for different active processes of $b$.
-The fact that $a$ tends to evolve differently when $b$ changes denotes an influence from $b$.
-Formally, for a given group $g$ of regulators of a component $a$
-(that is, a minimal set of components regulating $a$ through common cooperative sorts),
-and a configuration $\ctx$ on $g$, we note
-$\irB_a(\sigma)$ the set of processes towards which $a$ can bounce (\pref{eq:possible-bounces}).
-%This set is defined using the set $\irF_a(\sigma)$ of action hitting $\PHget{\sigma}{a}$ in $\sigma$ (\pref{eq:possible-actions})
-%and the set of processes $\ctx$ hitting any process of $a$ (\pref{eq:ctx-sigma}).
-If $a$ cannot be hit by any action in $\sigma$, then $\irB_a(\sigma) = \{ \PHget{\sigma}{a} \}$.
-%
-
-\modLP{
-$\forall g\in X(a), \forall \sigma\in L(g\cup\{a\}), i=\sigma[a]$:
-\begin{align}
-a_i \in \irB_a^g(\sigma) &\EQDEF \exists\sigma'\in\fp(a_i): \sigma\subset\sigma'
-\label{eq:B-no-bounce}
-\\
-\forall a_j\in L_a, j\neq i,
-a_j \in \irB_a^g(\sigma) &\EQDEF
-\exists b_k\in\ctx_{g}(\sigma): \PHfrappe{b_k}{a_i}{a_j}\in\PHa
-\label{eq:B-bounce}
-\end{align}}
+\end{definition}}
 
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
 with a threshold $t$.
-The main idea of this inference is that
-the presence of a positive (negative) influence of a component $b$ on $a$ denotes the fact that
-there exists a state in which increasing the level of $b$ tends to make the future level of $a$ rise (drop)
-(\pref{eq:edges-inference}).
+\modLP{The inference relies on finding configurations $\sigma$ of group of regulators of $a$
+such that the increase of one of the regulator $b\in g$ from $b_t$ to $b_{t+1}$
+makes possible the increase (decrease) of $a$ (\pref{eq:edges-inference} when
+$b\neq a$ and \pref{eq:edges-inference-auto} when $b=a$)}.
 Therefore, these influences are split into positive and negative ones, and represent possible edges in the final IG.
-Furthermore, studying the influences of the groups of regulators of $a$
-allows to study its auto-influences, and thus infer auto-edges on $a$ in the IG (\pref{eq:edges-inference-auto}).
-Finally, \pref{eq:edges-inference-noreg} handles the special case where $a$ has no regulators.
-We ignore the cases where a component has no visible influence on another.
+When $a$ has no regulators, it derives that there is a positive self-influence
+of $a$ for each level above $1$ (\pref{eq:edges-inference-noreg}).
 %
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp.
@@ -106,6 +92,7 @@ $\hat{E}_-$) by
     \qquad & \exists a_j \in \irB_a^g(\sigma\{b_t\}), \exists a_k \in \irB_a^g(\sigma\{b_{t+1}\}), \\
 	\qquad & k > j \wedge s=+  \vee j < t \wedge s=-
 \end{split}
+\label{eq:edges-inference}
 \\
 \begin{split}
  \forall a\in\Gamma: a\in\PHpredecgene{a}, & \forall s \in \{ +, - \}, \forall t < l_a\\
@@ -115,10 +102,12 @@ $\hat{E}_-$) by
 	\qquad & k\geq t+1 \wedge j \leq t \wedge s=+ \\
 	\qquad & \vee k<t+1 \wedge j>t \wedge s=-
 \end{split}
+\label{eq:edges-inference-auto}
 \\
 \forall a\in\Gamma: \PHpredecgene{a} = \emptyset, &
 	\forall t\in\{0,\cdots,l_a-1\},
 	a \xrightarrow{t+1} a \in \hat{E}_+
+\label{eq:edges-inference-noreg}
 \end{align}
 }
 \end{proposition}
@@ -132,9 +121,9 @@ In the end, the threshold of each edge is the minimum threshold for which an inf
 \begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
 We infer $\IG = (\Gamma,E)$ using \pref{pps:inference-edges} as follows:
 \begin{align*}
-E_+ &= \{ \GRNedge{a}{+}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
+E_+ &= \{ \GRNedge{a}{+}{t}{b} \in \hat E_+ \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
-E_- &= \{ \GRNedge{a}{-}{t}{b} \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
+E_- &= \{ \GRNedge{a}{-}{t}{b} \in \hat E_- \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
   \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
 E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t''} b \in \hat{E}_- \\
   & \qquad\qquad\qquad \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_- \cup \hat{E}_+\}\}
@@ -143,6 +132,7 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 
 
 \subsection{Examples}
+\label{ssec:infer-ig-examples}
 
 The IG inference of the PH of \pref{fig:runningPH-2} gives the
 IG in \pref{fig:BRN-inf1}, containing the following edges:
