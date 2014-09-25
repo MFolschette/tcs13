@@ -4,9 +4,8 @@
 As regulatory phenomena play a crucial role in biological systems, they need to be studied accurately.
 Biological Regulatory Networks (BRNs) consist in sets of either positive or negative mutual effects between the components.
 With the purpose of analyzing these systems, they are often modeled as graphs which make it possible to determine the possible evolutions of all the interacting components of the system.
-Indeed, besides continuous models of physicists, often designed through systems of ordinary
-differential equations, a discrete modeling approach was initiated by René Thomas in 1973
-\cite{Thomas73}.
+\modOR{Besides continuous models of physicists, generally designed through systems of ordinary differential equations, modeling regulatory networks by means of Boolean networks has become popular in the wake of Kauffman work \cite{kauffman1969metabolic}.
+We based our work on a logical formalism developed by Ren\'e Thomas from 1973 \cite{Thomas73} that generalizes upon Boolean networks in the sense that it allows variables to have more than two values and transitions between states to occur asynchronously.}
 
 In this approach, the different levels of a component, such as concentration or expression levels, are abstractly represented by (positive) integer values and transitions between these levels may be considered as instantaneous.
 Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states.
@@ -25,25 +24,25 @@ and the incorporation of time (e.g., \cite{Siebert06,Ahmad08}) and probability
 
 While the formal checking of dynamical properties is often limited to small networks because of the
 state graph explosion, an other major drawback of this framework is the difficulty to
-specify Thomas' parameters, especially for large networks.
-\todo{The reviewer proposes to nuance this with several papers:
-\begin{itemize}
-  \item Corblin, F., Tripodi, S., Fanchon, E., Ropers, D., \& Trilling, L. (2009).
-    A declarative constraint-based method for analyzing discrete genetic
-    regulatory networks. Bio Systems, 98(2), 91104.
-  \item Bollman, D., Coln-Reyes, O., \& Orozco, E. (2007). Fixed points in
-    discrete models for regulatory genetic networks. EURASIP journal on
-    bioinformatics \& systems biology, 2007, 97356.
-  \item Delaplace, F., Klaudel, H., Melliti, T., \& Sen, S. (2012). Analysis
-    of modular organisation of interaction networks based on asymptotic
-    dynamics. In D. Gilbert \& M. Heiner (Eds.), CMSB 2012
-  \item Scalable Steady State Analysis of Boolean Biological Regulatory Net-
-    works Ay F, Xu F, Kahveci T (2009) Scalable Steady State Analysis
-    of Boolean Biological Regulatory Networks. PLoS ONE 4(12): e7992.
-\end{itemize}
-This can be in turn be nuanced as some papers only focus on rather specific aspects (like steady-states for instance).}
+specify Thomas' parameters, especially for large networks. \modOR{Other works have also been carried out with the aim of dealing with large systems (e.g. \cite{Corblin200991,Bollman2007,Delaplace2012, 10.1371/journal.pone.0007992}).} \modMM{Because of the complexity of such systems, these works generaly focus on some restricted properties,} \modOR{as finding out steady states.} 
+%\todo{The reviewer proposes to nuance this with several papers:
+%\begin{itemize}
+%  \item Corblin, F., Tripodi, S., Fanchon, E., Ropers, D., \& Trilling, L. (2009).
+%    A declarative constraint-based method for analyzing discrete genetic
+%    regulatory networks. Bio Systems, 98(2), 91104.
+%  \item Bollman, D., Coln-Reyes, O., \& Orozco, E. (2007). Fixed points in
+%    discrete models for regulatory genetic networks. EURASIP journal on
+%    bioinformatics \& systems biology, 2007, 97356.
+%  \item Delaplace, F., Klaudel, H., Melliti, T., \& Sen, S. (2012). Analysis
+%    of modular organisation of interaction networks based on asymptotic
+%    dynamics. In D. Gilbert \& M. Heiner (Eds.), CMSB 2012
+%  \item Scalable Steady State Analysis of Boolean Biological Regulatory Net-
+%    works Ay F, Xu F, Kahveci T (2009) Scalable Steady State Analysis
+%    of Boolean Biological Regulatory Networks. PLoS ONE 4(12): e7992.
+%\end{itemize}
+%This can be in turn be nuanced as some papers only focus on rather specific aspects (like steady-states for instance).}
 
-In order to address the formal analysis of dynamical properties within very large BRNs, we recently
+In order to address the formal analysis of additional dynamical properties \modMM{(e.g., state reachabilities)} within very large BRNs, we recently
 introduced in \cite{PMR10-TCSB} a new formalism, named the \emph{Process Hitting} (PH), to model
 concurrent systems having components with a few qualitative levels.
 A PH model describes, in an atomic manner, the possible evolutions of a process (representing one
@@ -55,10 +54,14 @@ Thanks to the particular structure of interactions within a PH, very efficient s
 methods have been developed to over- and under-approximate reachability properties making tractable
 the formal analysis of the qualitative dynamics of BRNs with hundreds or thousands of components,
 which was impossible with other state-of-the-art approaches \cite{PMR12-MSCS,PAK13-CAV,FPMR13-CS2Bio}.
-
+ 
 The PH is suitable to model BRNs with different levels of abstraction in the specification of
-cooperations (associated influences) between components.
-\todo{Explain the notion of “cooperation” (informally) to be understandable until the definition of cooperative sorts.}
+cooperations (associated influences) between components. \modOR{The concept of cooperation refers to the} \modMM{way two (or more) components jointly influence a third one. In other words, it captures the logical functions stating how} \modOR{various elements coalesce and act together upon an other element among the network.}
+%\todo{Explain the notion of “cooperation” (informally) to be understandable until the definition of cooperative sorts.}
+
+The modeling and analysis of the qualitative dynamics of large interaction net- works face two important challenges. For modeling, it is very rare that all logical functions governing the dynamics are known, even if the interaction graph is con- sidered as prior knowledge. One technique would then be to enumerate all logical networks that are compatible with the prior knowledge on the interaction graph and partial logical functions. But, with large networks, such an enumeration suffers from high combinatorics. For analysis, because the size of the state transition graph grows exponentially with the number of components, proving dynamical properties becomes intractable for networks with hundreds or thousands of elements.
+In order to illustrate the challenge of modeling interactions with partial knowledge,
+
 This allows to model BRNs with a partial knowledge on precise evolution functions for components
 by capturing the largest (the most general) dynamics.
 
