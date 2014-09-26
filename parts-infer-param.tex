@@ -31,16 +31,18 @@ A PH is well-formed for parameter inference if and only if
 it is well-formed for BRN identification (\pref{pro:wf-ph}) and
 that the associated IG $(\Gamma, E)$ verifies the following property:
 \modLP{
-\begin{align*}
-\forall b\rightarrow a\in E&, b\neq a,
+\begin{align}
+\begin{split}
+\forall b\rightarrow a&\in E, b\neq a,
 	\forall \sigma\in L(\PHpredecgene{a}),\\
     \forall (i,j & \in \levels{b}{a} \vee i,j \in \ulevels{b}{a}),
 	\forall a_k \in L_a,
 	\\
 &	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
 	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
-\end{align*}
-\begin{align*}
+\end{split}
+\\
+\begin{split}
 \forall a\in\Gamma, &\forall b\in\PHpredecgene{a},
 b\neq a \wedge b\rightarrow a\notin E,\\
 	\forall \sigma&\in L(\PHpredecgene{a}), 
@@ -49,7 +51,8 @@ b\neq a \wedge b\rightarrow a\notin E,\\
 	\\
 &	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
 	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
-\end{align*}
+\end{split}
+\end{align}
 }
 \todo{Define $c(\sigma)$ for $\sigma \in \textstyle\prod_{d \in \PHpredec{c}} \PHl_d$
 (\ie the unique focal point)}
