@@ -246,19 +246,24 @@ allows to find the global trends of regulations between components,
 which may turn out to be difficult to perform by hand.
 As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
-\paragraph{Discussion on interval parameters}
-Whereas most of the literature use single value parameters (e.g., $K_{a,\omega} = i$), we introduce
-in this paper intervals as parameter values (e.g., $K_{a,\omega} = \segm{i}{j}$) for specifying
-the discrete functions for components.
-These interval parameters are mainly introduced for convenience, and it is worth noticing that they
-do not add extra expressivity for modeling multivalued networks in the general case.
-However, interval parameters are more expressive than Thomas' parameters with single value.
-First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, necessarily there exists
-a positive edge from $a$ to $a$ in the interaction graph of the dynamics.
-Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and
-let $s$ be a state such that $\GRNres{a}{s} = \omega$.
-From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ cannot evolve in $s$;
-therefore, $a$ has three (local) fixed points ($i$, $i+1$ and $i+2$).
-This behavior cannot be reproduced with single value parameters, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
-At most two steady-states can be modeled by using a self-regulation $\GRNedge{a}{s}{t}{a}$, allowing to distinguish two cases ($\GRNget{s}{a} < t$ and $\GRNget{s}{a} \geq t$), which is not enough.
+\todo{(LP) parameters equivalence:
+if $\GRNedge{a}{+}{t}{a}$,
+$K_{a,R\setminus \{a\}} = t
+\equiv
+K_{a,R\setminus \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\cup \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \leq u < t$.
+If $\GRNedge{a}{-}{t}{a}$,
+$K_{a,R\cup \{a\}} = t
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\setminus \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \setminus u < t$.
+- any other equivalence?}
 
