@@ -34,53 +34,31 @@ on small examples in \pref{ssec:infer-ig-examples}.
 We aim at inferring that $b$ activates (inhibits) $a$ if there exists a configuration where increasing
 the level of $b$ makes possible the increase (decrease) of the level of $a$,
 following the standard IG inference from Boolean and discrete networks \cite{Richard2010378}.
-
-\modLP{
-Given a process $a_i$ and a configuration $\sigma$ of a group $g$ of regulators of $a$,
-we denote by
-$\irB_a^g(\sigma)$ (\pref{def:B-bounce}) the set of processes of sort $a$ towards which $a_i$ can bounce
-in the configuration $\sigma$.
-$\irB_a^g(\sigma)$ matches with the focal processes of $a$ in the scope of $a_i$
-(\pref{eq:B-bounce})
-except when no bounce can occur in $\sigma$:
-in such a case, we need to ensure that there exists a configuration of the other
-groups of regulators of $a$ where $a_i$ is never hit (\pref{eq:B-no-bounce}).
-The set of configuration of regulators of $a$ where $a_i$ is never hit is given
-by $\fp(a_i)$ (\pref{eq:fp}).
-\begin{definition}[$\irB_a^g(\sigma)$]
-\label{def:B-bounce}
-Given $a\in\PHs$, $g\in X(a)$ and $\sigma\in L(\PHpredecgene{a}\cup\{a\})$
-such that $a_i\in\sigma$,
-$\irB_a^g(\sigma)\subseteq L_a$ is defined as follows:
-\begin{align}
-\forall a_j\in L_a, j\neq i,
-a_j \in \irB_a^g(\sigma) &\EQDEF
-a_j \in \focals(a, \{a_i\}, \ctx_a^g(\sigma))
-%\exists b_k\in\ctx_{g}(\sigma): \PHfrappe{b_k}{a_i}{a_j}\in\PHa
-\label{eq:B-bounce}
-\\
-a_i \in \irB_a^g(\sigma) &\EQDEF \exists\sigma'\in\fp(a_i): \sigma\subset\sigma'
-\label{eq:B-no-bounce}
-\end{align}
-where $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\}$ is defined as follows:
-\begin{equation}
-\fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid a_i\in\sigma \wedge
-					\focals(a, \{a_i\}, \ctx_a^{\PHpredecgene{a}}(\sigma)) =
-					\{a_i\} \}
-\label{eq:fp}
-\end{equation}
-\end{definition}}
+This can be seen as looking for changes of derivatives in the dynamics of $a$
+when the configuration changes.
 
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
 with a threshold $t$.
-\modLP{The inference relies on finding configurations $\sigma$ of group of regulators of $a$
+\modLP{The inference relies on finding configurations $\sigma$ of groups $g$ of regulators of $a$
 such that the increase of one of the regulator $b\in g$ from $b_t$ to $b_{t+1}$
-makes possible the increase (decrease) of $a$ (\pref{eq:edges-inference} when
-$b\neq a$ and \pref{eq:edges-inference-auto} when $b=a$)}.
-Therefore, these influences are split into positive and negative ones, and represent possible edges in the final IG.
-When $a$ has no regulators, it derives that there is a positive self-influence
+changes the sign of the evolution of $a$.
+If $b\neq a$ (\pref{eq:edges-inference}), this is achieved by finding a configuration $\sigma$ of $g$ and $a$ such
+that there exists a bounce $a_j$ from $a_i$ in $\sigma\{b_t\}$ which is different
+from a bounce $a_k$ from $a_i$ in $\sigma\{b_{t+1}\}$.
+If so, $b$ regulates $a$ at threshold $t+1$ with the sign of $k-j$.
+The case where  $b = a$ (\pref{eq:edges-inference-auto}) is similar: we look for
+$a_t$ such that there exists a bounce in opposite direction in $\sigma\{a_t\}$
+than in $\sigma\{a_{t+1}\}$.
+If there is no bounce in one of these two configurations, we also need to ensure
+that the configuration corresponds to a local fixed point between all the
+regulators of $a$ (instead of in scope of $g$).
+The set of configuration where no bounce occur on $a_i$ is given given by
+$\fp(a_i)$ (\pref{eq:fp}).
+In \pref{eq:edges-inference} and \pref{eq:edges-inference-auto} we use
+$\irB_a^g(\sigma)$ as a shortcut for $\focals$, which returns the set of
+possible bounces of $a$ in the configuration $\sigma$.}
+Finally, when $a$ has no regulators, it derives that there is a positive self-influence
 of $a$ for each level above $1$ (\pref{eq:edges-inference-noreg}).
-%
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp.
 $\hat{E}_-$) by
@@ -91,7 +69,7 @@ $\hat{E}_-$) by
   b \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
   	b \in g, \exists \sigma \in L(g\cup\{a\}), \\
     \qquad & \exists a_j \in \irB_a^g(\sigma\{b_t\}), \exists a_k \in \irB_a^g(\sigma\{b_{t+1}\}), \\
-	\qquad & k > j \wedge s=+  \vee j < t \wedge s=-
+	\qquad & k > j \wedge s=+  \vee k < j \wedge s=-
 \end{split}
 \label{eq:edges-inference}
 \\
@@ -100,7 +78,11 @@ $\hat{E}_-$) by
   a \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
   	 \exists \sigma \in L(g\cup\{a\}), \\
     \qquad & \exists a_j \in \irB_a^g(\sigma\{a_t\}), \exists a_k \in \irB_a^g(\sigma\{a_{t+1}\}), \\
-	\qquad & k\geq t+1 \wedge j \leq t \wedge s=+ \\
+	\qquad & 
+	(j=t \Rightarrow \exists \sigma'\in\fp(a_t): \sigma\{a_t\}\subseteq \sigma') \\
+	\qquad & \wedge 
+	(k=t+1 \Rightarrow \exists \sigma'\in\fp(a_{t+1}): \sigma\{a_{t+1}\}\subseteq \sigma') \\
+	\qquad & \wedge k\geq t+1 \wedge j \leq t \wedge s=+ \\
 	\qquad & \vee k<t+1 \wedge j>t \wedge s=-
 \end{split}
 \label{eq:edges-inference-auto}
@@ -110,6 +92,15 @@ $\hat{E}_-$) by
 	a \xrightarrow{t+1} a \in \hat{E}_+
 \label{eq:edges-inference-noreg}
 \end{align}
+where $\irB_a^g(\sigma) \DEF \focals(a, \{a_i\}, \ctx_a^g(\sigma))$ with
+$a_i\in\sigma$,
+and where $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
+\begin{equation}
+\fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid a_i\in\sigma \wedge
+					\focals(a, \{a_i\}, \ctx_a^{\PHpredecgene{a}}(\sigma)) =
+					\{a_i\} \}
+\label{eq:fp}
+\end{equation}
 }
 \end{proposition}
 
@@ -118,14 +109,21 @@ We are now able to infer the edges of the final IG by considering positive and n
 We infer a positive (resp. negative) edge if there only exist corresponding influences with the same sign.
 If an influence is both positive and negative, we infer an unsigned edge.
 In the end, the threshold of each edge is the minimum threshold for which an influence has been found.
+\modLP{Note that as regulations matches with sign changes of the evolution of the
+regulated components,
+if two positive (negative) regulations from $b$ to $a$ have been inferred,
+necessarily, a third regulation of opposite sign has been inferred in between.
+The only exception is when $a$ is never hit ($\PHpredecgene{a} = \emptyset$), in
+such a case, we arbitrarily pick the minimum threshold (1) for the
+self-activation.}
 %
 \begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
 We infer $\IG = (\Gamma,E)$ using \pref{pps:inference-edges} as follows:
 \begin{align*}
+E_- &= \{ \GRNedge{a}{-}{t}{b} \in \hat E_- \mid \nexists a \xrightarrow{t'} b
+\in \hat{E}_+ \} \\
 E_+ &= \{ \GRNedge{a}{+}{t}{b} \in \hat E_+ \mid \nexists a \xrightarrow{t'} b \in \hat{E}_-
   \wedge t = \min \{ l \mid a \xrightarrow{l} b \in \hat{E}_+\}\} \\
-E_- &= \{ \GRNedge{a}{-}{t}{b} \in \hat E_- \mid \nexists a \xrightarrow{t'} b \in \hat{E}_+
-  \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_-\}\} \\
 E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E}_+ \wedge \exists a \xrightarrow{t''} b \in \hat{E}_- \\
   & \qquad\qquad\qquad \wedge t = \min \{l \mid a \xrightarrow{l} b \in \hat{E}_- \cup \hat{E}_+\}\}
 \end{align*}
