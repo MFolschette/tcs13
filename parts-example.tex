@@ -1,8 +1,18 @@
 \section{Examples}\label{sec:examples}
 
-This section details the implementation and usage of the piece of software developed for this work.
-\pref{ssec:appli} gives a practical and detailed application of our results on a biological model taken from the literature,
-while \pref{ssec:cpu} gives data related to the results and computation times of our software when applied to several large biological models.
+This section aims at giving several applications of our work in order to
+understand its results and range of applications.
+First, \pref{ssec:phage-lambda} gives a detailed application of our IG inference method
+by studying parts of a model of the phage lambda immunity control.
+% the functioning of our method
+% and the implementation of the software developed for this work.
+% First, \pref{ssec:phage-lambda} aims at giving a detailed example of the application of our method
+% on parts of a model of the phage lambda immunity control.
+%We then explain the use of the implementation and usage of the software developed for this work:
+Then, \pref{ssec:appli} gives a practical application of our results on a biological model
+of epithelial growth factor receptor taken from the literature.
+Finally, \pref{ssec:cpu} gives data related to the results and computation times of our software
+when applied to several large biological models.
 
 \medskip
 
@@ -17,6 +27,11 @@ and \texttt{ig.dot} is an output file to write the inferred IG in DOT format.
 The (possibly partial) inferred parametrization will be returned on the standard output.
 The admissible parametrizations enumeration is performed when adding the \texttt{-{}-full-enumerate} parameter to the command,
 or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
+\todo{Remove \texttt{full-enumerate}?}
+
+
+
+\input{parts-phage-lambda}
 
 
 
