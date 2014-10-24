@@ -76,29 +76,17 @@ not enter in the interpretation, why they are included in the formalism as
 necessary ``comments''?}
 
 \DISCUSS{LP}
-We have to clarify this point, while insisting that we want to stick with this
-standard definition (due to Thomas). Arguments:
-\begin{enumerate}
-\item this design allows to decouple the IG from the dynamics, which is
-interesting for modelling biological systems as the IG is often a prior
-knowledge with possible inconsistencies with the dynamics we want to encode
-with.
-A further step may then infer back the IG of the actual dynamics (here, an
-abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior
-one, we have consistency.
-\item Additional constraints (as discussed in sect XX) on parameters can also
-ensure consistency between the prior IG and the encoded dynamics.
-For instance, monotonicity (which imposes an ordering between the value of
-parameters), but also lighter constraints (like imposing minimum and maximum
-values).
-Hence, the K definition is very generic, ranging from totally decoupled
-specification to very constrained valuation w.r.t to the prior IG.
-\item Several alternative definition exist, with various degree of equivalency.
-We picked this definition as it the original and standard one in the Thomas
-community (give reference to Thomas' articles).
-\end{enumerate}
+Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to the set of nodes and the corresponding logical parameters. The single parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t to the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
 
-\TODO{Answer inc. text modification}
+Moreover signs and edges have been an inspiration for numerous works with regard to the analysis of networks. As showed for example in THOMAS, R. \& D'ARI, R., "Biological feedback", CRC Press, Boca Raton , Florida, USA, (1990), 316 pp), the analysis of some dynamical properties (e.g. sustained oscillations) can derive from the study of positive or negative circuits. 
+
+In addition, having both the interaction graph and the parametrization in the model allows to decouple the IG from the dynamics, which is interesting for modeling biological systems as the IG is often a prior knowledge with possible inconsistencies with the dynamics we want to encode with. A further step may then infer back the IG of the actual dynamics (here, an abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior one, we have consistency.
+
+Finally, several alternative definitions exist, with various degree of equivalency. As a consequence, we chose here to stick to the original formalism and picked this definition as it the original and standard one in the Thomas' community.
+
+Nevertheless, to remove ambiguity and comply with the reviewer's suggestions, we redesigned section 2.2, emphasizing such a choice. 
+
+%\TODO{Answer inc. text modification}
 
 \question{
 (P.1) Abstract: the following sentence is not understandable. Either more explanations

@@ -1,138 +1,129 @@
 \section{Parametrization inference}\label{sec:infer-K}
 
-\todo{In this while section: add informal explanations and maybe more examples (see previous section).}
+\modLP{
+Given a PH and an IG (either arbitrary, or inferred following the previous section), this section
+addresses the identification of the parametrization for the corresponding Thomas model.}
 
-Given the IG inferred from a PH as presented in the previous section, one can find the discrete parameters
-that model the behavior of the studied PH using the method presented in the following.
-It relies on an exhaustive enumeration of all predecessors of each component in order to find attractor processes
-and returns a possibly incomplete parametrization, given the exhaustiveness of the cooperations (\pref{ssec:infer-K}).
-The last step consists of the enumeration of all compatible complete parametrizations (\pref{ssec:admissible-K}) given this
-set of inferred parameters, the PH dynamics and some biological constraints on parameters.
+\modLP{
+As described in \pref{ssec:infer-K}, this identifcation relies on the computation of the focal
+processes for each configuration of the parameters.
+When there is a unique focal process of a component for a given configuration of its regulators,
+the focal process matches with the value of the associated Thomas parameter.}
 
-\todo{(LP) parameters equivalence:
-if $\GRNedge{a}{+}{t}{a}$,
-$K_{a,R\setminus \{a\}} = t
-\equiv
-K_{a,R\setminus \{a\}} = u$
-for $t \leq u \leq l_a$;
-$K_{a,R\cup \{a\}} = t-1
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $0 \leq u < t$.
-If $\GRNedge{a}{-}{t}{a}$,
-$K_{a,R\cup \{a\}} = t
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $t \leq u \leq l_a$;
-$K_{a,R\setminus \{a\}} = t-1
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $0 \setminus u < t$.
-- any other equivalence?}
+\modLP{
+However, in the general case, as described in \pref{sec:tr2global} and even when the PH is
+well-formed for parameter inference (characterized in the next subsection by \pref{pro:wf-ph-K}),
+there maybe several focal processes (non-deterministic behaviour) or none (cyclic behaviour).  Such
+a case occurs notably when the PH encodes the union of several Boolean or discrete networks, as
+described in \cite{PMR10-TCSB,PCFMR14-chapterLMBS}.}
+
+\modLP{
+Hence, we propose in \pref{ssec:admissible-K} the notion of \emph{compatible} parametrization with respect
+ot the PH dynamics: a Thomas model is compatible with a PH if Thomas dynamics is included in the PH
+dynamics, i.e., all the transitions in the Thomas model are possible transitions in the PH.
+This relaxed notion of parameterization compatibility allows to enumerate all parametrizations
+compatible with a given PH, i.e. all Thomas model whose dynamics is included in the PH dynamics.}
 
 
 \subsection{Parameters inference}\label{ssec:infer-K}
 
-This subsection presents some results related to the inference of independent discrete parameters from a given PH.
-These results are equivalent to those presented in \cite{PMR10-TCSB}, with notation adapted to be shared with the previous section.
-In addition, we introduce the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
+This subsection addresses the inference of independent discrete parameters from a given PH.
+The inference is equivalent to the one in \cite{PMR10-TCSB}.
+In addition, we characterize the well-formed PH for parameter inference property (\pref{pro:wf-ph-K}),
 which implies that %the inferred IG does not contain any unsigned interactions, and thus can be seen as the
 %regular IG $(\Gamma, E)$,
 %and that 
-any process in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior
-regarding $a$.
-
-\todo{makes it standalone: repeat the constraints for IG inference that are
-actually necessary + check that we can do if if the IG is provided (then what
-are the constraints on this IG)}
+any process in $\levels{b}{a}$ (resp. $\ulevels{b}{a}$) share the same behavior regarding $a$.
 
 \begin{property}[Well-formed PH for parameter inference]\label{pro:wf-ph-K}
 A PH is well-formed for parameter inference if and only if
-it is well-formed for IG inference, and
-the IG $(\Gamma, E)$ inferred by \pref{pps:inference-IG}
-verifies the following property:
-\todo{Define $c(\sigma)$ for $\sigma \in \textstyle\prod_{d \in \PHpredec{c}} \PHl_d$
-(\ie the unique focal point)}
-\modMF{
-\begin{align*}
-  \begin{split}
-%   \forall a \in \Gamma&, \forall b\in \GRNreg{a},
-%           \forall (i,j\in\levels{b}{a} \vee i,j\in\ulevels{b}{a}), \\
-%   & \quad \forall c \in \PHs, ( (b\neq a\wedge c=a) \vee (c\in\PHpredec{a}\setminus \Gamma \wedge b\in\PHdirectpredec{c})), \\
-%   & \qquad
-%                           \PHfrappe{b_i}{c_k}{c_l}\in\PHa \Leftrightarrow
-%                                   \PHfrappe{b_j}{c_k}{c_l}\in\PHa
-      &
-    \forall a \in \Gamma,
-    \forall g \in X(a),
-    \forall \sigma, \sigma' \in \textstyle\prod_{d \in g} \PHl_d,
-    \forall b \in g,
-    b \in \GRNreg{c},
-    \forall c \in \PHdirectpredec{a} \setminus \Gamma,
-      \\&\qquad
-    b \in \reg{c},
-    \forall (i,j \in \levels{b}{a} \vee i,j \in \ulevels{b}{a}),
-%    \forall b_i \in \PHl_b,
-    b_i \in \sigma,
-%    b_i \in \levels{b}{a},
-%    \forall b_j \in \levels{b}{a},
-      \\&\qquad\qquad
-    \sigma' = \sigma\{b_j\},
-    %c_{\sigma} \in \PHl_c \wedge c_{\sigma'} \in \PHl_c,  %facultatif
-    \PHfrappe{c(\sigma)}{a_i}{a_j} \in \PHa \Leftrightarrow
-    \PHfrappe{c(\sigma')}{a_i}{a_j} \in \PHa
-  \end{split}\\
-  \begin{split}
-    & \forall a \in \Gamma, \forall b \in \GRNreg{a},
-      \forall (i,j \in \levels{b}{a} \vee i,j \in \ulevels{b}{a}), \\
-    & \qquad \forall c \in \PHs, b \neq a,
-      \PHfrappe{b_i}{a_k}{a_l} \in \PHa \Leftrightarrow
-      \PHfrappe{b_j}{a_k}{a_l} \in \PHa
-  \end{split}
-\end{align*}
+it is well-formed for BRN identification (\pref{pro:wf-ph}) and
+that the associated IG $(\Gamma, E)$ verifies that:
+\modLP{
+\begin{align}
+\begin{split}
+\forall b\rightarrow a&\in E, b\neq a,
+	\forall \sigma\in L(\PHpredecgene{a}),\\
+    \forall (i,j & \in \levels{b}{a} \vee i,j \in \ulevels{b}{a}),
+	\forall a_k \in L_a,
+	\\
+&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
+	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
+\end{split}
+\\
+\begin{split}
+\forall a\in\Gamma, &\forall b\in\PHpredecgene{a},
+b\neq a \wedge b\rightarrow a\notin E,\\
+	\forall \sigma&\in L(\PHpredecgene{a}), 
+    \forall b_i,b_j \in L_b,
+	\forall a_k \in L_a,
+	\\
+&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
+	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
+\end{split}
+\end{align}
 }
 \end{property}
 
-Let $K_{a,\omega}$ be the parameter we want to infer for a given component $a \in \Gamma$
-and $\omega \subset \GRNreg{a}$ a set of its regulators.
-This inference, as for the IG inference, relies on the search of focal processes of the component for the given configuration of its regulators.
+Let $K_{a,\omega}$ be a Thomas parameter for a given component $a \in \Gamma$ 
+with $\omega \subset \GRNreg{a}$ a set of its regulators.
+As described in \pref{ssec:thomas}, $K_{a,\omega}$ specifies to which values $a$ eventually evolves
+in the configuration matching with $\omega$.
 
-For each sort $b \in \GRNreg{a}$, we define a context $C^b_{a,\omega}$ in \pref{eq:param_context} that contains all processes representing the influence of the resources in the configuration modeled by $\omega$.
-The context of a cooperative sort $\upsilon$ that regulates $a$ is given in
-\pref{eq:param_context_coop} as the set of focal processes matching the current configuration.
-$C_{a,\omega}$ refers to the union of all these contexts (\pref{eq:K-ctx}).
+\modLP{The configuration of the PH corresponding to $\omega$ is given as follows.
+For each component $b \in \GRNreg{a}$, we define $\sigma^b_{a,\omega}$ (\pref{eq:param_context}) as 
+the process of $b$ with the level in 
+$\levels{b}{a}$ if $b\in\omega$, or in $\ulevels{b}{a}$ if $b\not\omega$.
+Because of \pref{pro:wf-ph-K}, if several possible levels exist, this process can be chosen
+arbitrarily.
+If $b$ does not regulate $a$ in the IG, all processes of sort $b$ should have the same action on
+$a$, so the process $b_0$ is arbitrarily selected (\pref{eq:param_context_free}).
+The configuration $\sigma_{a,\omega}$ corresponding to $\omega$ (\pref{eq:K-ctx})
+is then obtained by extending the configuration of the
+regulators of $a$ to the (deterministic) cooperative sorts (\pref{def:ctx-sigma} in
+\pref{ssec:split-sorts}).
+Finally, we denote by $S_a(\sigma)$ (\pref{eq:K-domain}) the set of processes of sort $a$ that are
+compatible with a configuration $\sigma$: if $a$ is specified in $\ctx$, then $S_a(\sigma) = \{a_i\}$
+where $a_i\in\sigma$; otherwise $S_a(\sigma)$ is the all the processes of sort $a$, $L_a$.}
 \begin{align}
   \label{eq:param_context}
-  \forall b\in\Gamma,~
-  C_{a,\omega}^b & \DEF \begin{cases}
-    \levels{b}{a} & \text{if $b \in \omega$,}\\
-    \ulevels{b}{a} & \text{if $b \notin \omega$,}\\
-    L_b            & \text{otherwise;}\\
+  \forall b\rightarrow a\in E,~
+  \sigma_{a,\omega}^b & \DEF \begin{cases}
+    \modLP{\min}(\levels{b}{a}) & \text{if $b \in \omega$,}\\
+    \modLP{\min}(\ulevels{b}{a}) & \text{if $b \notin \omega$}
   \end{cases}
   \\
-  \label{eq:param_context_coop}
-  \forall \upsilon \in \PHpredec{a}\setminus\Gamma,~
-  C_{a,\omega}^\upsilon & \DEF \{
-  \upsilon(\sigma) \mid \sigma \in \textstyle\prod_{c\in\PHdirectpredec{\upsilon}}C_{a,\omega}^c \}
+  \modLP{
+  \forall b\in\PHpredecgene a, b\rightarrow a\notin E,~
+  \sigma_{a,\omega}^b} & \modLP{\DEF b_0}
+  \label{eq:param_context_free}
   \\
-  C_{a,\omega} & \DEF \textstyle\bigcup_{b\in\PHpredec{a}} C^b_{a,\omega}
+  \sigma_{a,\omega} & \DEF
+  \modLP{\ctx_a^{\PHpredecgene{a}}(
+  	\state{\sigma^b_{a,\omega} \mid  b\in\PHpredecgene{a}})}
   \label{eq:K-ctx}
+  \\
+  \modLP{
+  \forall a\in\Gamma,~
+  S_a(\sigma)} &\modLP{\DEF
+	\begin{cases}
+	\{a_i\} & \text{if }a_i\in \ctx\\
+	L_a & \text{otherwise.}
+	\end{cases}}
+\label{eq:K-domain}
 \end{align}
 
-The parameter $K_{a,\omega}$ specifies to which values $a$ eventually evolves as long as the context
-$C_{a,\omega}$ holds, which is precisely the definition of the $\focals$ function
-(\pref{def:focals} in \pref{ssec:focal}),
-where the focals reachability property can be derived from \pref{pro:wf-ph-K} and
-\pref{eq:param_context_coop}.
-Hence $K_{a,\omega} = \focals(a,C^a_{a,\omega},C_{a,\omega})$ if this latter is a non-empty interval
-(\pref{pps:param_K}).
+Therefore, we obtain that
+\modLP{$K_{a,\omega} = \focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})$ if this latter is
+a singleton, denoting a deterministic behaviour (\pref{pps:param_K})}.
 
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
-Let $(\PHs, \PHl, \PHh)$ be a Process Hitting well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting \modLP{with $\PHs=\Gamma\cup\CSorts$} 
+well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
 Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
 $a$.
-If $\focals(a,C^a_{a,\omega},C_{a,\omega})=\segm{a_i}{a_j}$ is a non-empty interval, then $K_{a,\omega} = \segm{i}{j}$.
+If $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP{$K_{a,\omega} = i$}.
 \end{proposition}
 
 \begin{example}
@@ -140,18 +131,18 @@ If $\focals(a,C^a_{a,\omega},C_{a,\omega})=\segm{a_i}{a_j}$ is a non-empty inter
 
 Applied to the PH in \pref{fig:runningPH-1}, we infer the following parameters:
 \begin{align*}
-K_{a, \emptyset} &= \segm{0}{0} &
-K_{b, \emptyset} &= \segm{0}{0} \\
-K_{a, \{a\}} &= \segm{0}{0} &
-K_{b, \{a\}} &= \segm{0}{0} \\
-K_{a, \{c\}} &= \segm{1}{1} &
-K_{b, \{b\}} &= \segm{1}{1} \\
-K_{a, \{b\}} &= \segm{1}{1} &
-K_{b, \{a,b\}} &= \segm{0}{0} \\
-K_{a, \{b,c\}} &= \segm{1}{1} &
-K_{c, \emptyset} &= \segm{0}{0} \\
-K_{a, \{a,b,c\}} &= \segm{2}{2} &
-K_{c, \{c\}} &= \segm{1}{1}
+K_{a, \emptyset} &= 0&
+K_{b, \emptyset} &= 0 \\
+K_{a, \{a\}} &= 0 &
+K_{b, \{a\}} &= 0 \\
+K_{a, \{c\}} &= 1 &
+K_{b, \{b\}} &= 1 \\
+K_{a, \{b\}} &= 1 &
+K_{b, \{a,b\}} &= 0 \\
+K_{a, \{b,c\}} &= 1 &
+K_{c, \emptyset} &= 0 \\
+K_{a, \{a,b,c\}} &= 2 &
+K_{c, \{c\}} &= 1
 %K_{a, \{a,b\}} = ?
 %K_{a, \{a,c\}} = ?
 \end{align*}
@@ -164,8 +155,8 @@ Regarding the refined PH of \pref{fig:runningPH-2}, all parameters can be inferr
 We obtain the same value for the inferred parameters of \pref{ex:infer-param-runningPH-1},
 together with the following results:
 \begin{align*}
-  K_{a,\{a,b\}} &= \segm{1}{1} &
-  K_{a,\{a,c\}} &= \segm{1}{1}
+  K_{a,\{a,b\}} &= 1 &
+  K_{a,\{a,c\}} &= 1
 \end{align*}
 \end{example}
 
@@ -193,6 +184,7 @@ Thus, assuming \pref{pro:wf-ph-K} holds, any transition in the inferred BRN corr
 one transition in the PH, proving the correctness of our inference.
 We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
 
+\todo{update notations}
 \begin{property}[Parameter validity]\label{pro:K-valid}
 A parameter $K_{a,\omega}$ is valid w.r.t. the PH if and only if the following equation is verified:
 \begin{align*}

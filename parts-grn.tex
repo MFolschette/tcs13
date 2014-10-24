@@ -1,9 +1,13 @@
 % vim:spell spelllang=en
 \subsection{Thomas' modeling}
+\label{ssec:thomas}
 
-\todo{Name Kaufman as the creator of BRNs.}
+%\todo{Name Kaufman as the creator of BRNs.}
 
-We concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
+\modMM{
+The principle of qualitative modeling was introduced as synchronous Boolean networks by Stuart Kauffman on the one hand \cite{kauffman1969metabolic}, asynchronous Ren\'e Thomas’ networks on the other \cite{Thomas73}. Both models have been considered of interest and led to numerous works. In the following, we choose to focus on  Thomas' modelling, with its asynchronous, unitary and multi-level semantics.}
+
+\modMM{In this paragraph, we} concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
 \cite{Richard06,BernotSemBRN}.
 In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
 inference),
@@ -15,9 +19,9 @@ We briefly discuss these additions.
 
 Thomas' formalism lies on two complementary descriptions of the system. First, the
 \emph{Interaction Graph} (IG) models the structure of the system by defining the components'
-mutual influences and the conditions of these influences.
-The \emph{parametrization} then specifies the levels towards which tends a component when a given
-configuration of its regulators applies.
+mutual influences and the conditions of these influences. \modMM{
+Then t}he \emph{parametrization} \modMM{
+removes the ambiguity when a component is targeted by (at least) two different influences. In other words, it} specifies the levels towards which a component tends when a given configuration of its regulators applies.
 
 The IG is composed of nodes ($a$, $b$, $c$, …) that represent components,
 and edges ($\GRNedge{a}{s}{t}{b}$, …) labeled with a sign ($s$) and a threshold ($t$) that stand for regulations between these components (\pref{def:ig}).
@@ -27,6 +31,10 @@ The sign of an edge denotes the kind of regulation it models: it can be positive
 the latter meaning that the nature of the regulation cannot be reduced to a simple activation or inhibition.
 Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influences the evolution of $b$ in a certain way when its expression level is above or equal to the threshold $t$;
 when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
+
+\modMM{The IG is not sufficient to unambiguously define the dynamics of the system. In particular, a component may be regulated by both a positive and negative interaction derived from two different components. To refine the dynamics, a parametrization had been added to the model \cite{snoussi1989qualitative}. This parametrization allows to define focal points, i.e. it clarifies the level towards which a component evolves depending on the expression of its regulators.
+Some of the information included in the IG and the parametrization may appear as slighltly redundant. Especially, if the single parametrization were enriched with additional constraints (e.g., monotonicity requiring an ordering on the value of parameters), then it may directly capture the signs. However, distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (e.g., necessary condition on sustained oscillations) solely based on the structure of the IG, e.g., the analysis of positive or negative circuits.}
+
 %For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
 %otherwise, the opposite influence is expressed.
 The uniqueness of each regulation is forced, in order to make the following sections simpler.
@@ -243,19 +251,24 @@ allows to find the global trends of regulations between components,
 which may turn out to be difficult to perform by hand.
 As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
-\paragraph{Discussion on interval parameters}
-Whereas most of the literature use single value parameters (e.g., $K_{a,\omega} = i$), we introduce
-in this paper intervals as parameter values (e.g., $K_{a,\omega} = \segm{i}{j}$) for specifying
-the discrete functions for components.
-These interval parameters are mainly introduced for convenience, and it is worth noticing that they
-do not add extra expressivity for modeling multivalued networks in the general case.
-However, interval parameters are more expressive than Thomas' parameters with single value.
-First, we remark that if  $K_{a,\omega} = \segm{i}{j}$ with $i < j$, then, necessarily there exists
-a positive edge from $a$ to $a$ in the interaction graph of the dynamics.
-Then, let us consider the case where $K_{a,\omega} = \segm{i}{i+2}$ (interval of three values), and
-let $s$ be a state such that $\GRNres{a}{s} = \omega$.
-From \pref{def:dynamics}, if $\GRNget{s}{a} \in K_{a,\omega}$, then $a$ cannot evolve in $s$;
-therefore, $a$ has three (local) fixed points ($i$, $i+1$ and $i+2$).
-This behavior cannot be reproduced with single value parameters, because it is impossible to distinguish three different sets of resources corresponding to the three involved states.
-At most two steady-states can be modeled by using a self-regulation $\GRNedge{a}{s}{t}{a}$, allowing to distinguish two cases ($\GRNget{s}{a} < t$ and $\GRNget{s}{a} \geq t$), which is not enough.
+\todo{(LP) parameters equivalence:
+if $\GRNedge{a}{+}{t}{a}$,
+$K_{a,R\setminus \{a\}} = t
+\equiv
+K_{a,R\setminus \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\cup \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \leq u < t$.
+If $\GRNedge{a}{-}{t}{a}$,
+$K_{a,R\cup \{a\}} = t
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\setminus \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \setminus u < t$.
+- any other equivalence?}
 
