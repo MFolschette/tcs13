@@ -1,6 +1,6 @@
 
 \modMF{
-\subsection{Detailed example on the bacteriophage lambda immunity control model}
+\subsection{Detailed example: the bacteriophage lambda immunity control}
 }
 \label{ssec:phage-lambda}
 
@@ -80,9 +80,9 @@ then a negative local influence of $\cI$ on $\N$ is inferred.
   \newcommand{\ttable}[3]{\scriptsize%
     $#1\left\{\begin{array}{@{}l}\cI #2 1\\\cro #3 2\end{array}\right.$}
   \TSetTick{cIcro}{0}{\ttable{FF}{<}{<}}
-  \TSetTick{cIcro}{1}{\ttable{FT}{<}{\leq}}
-  \TSetTick{cIcro}{2}{\ttable{TF}{\leq}{<}}
-  \TSetTick{cIcro}{3}{\ttable{TT}{\leq}{\leq}}
+  \TSetTick{cIcro}{1}{\ttable{FT}{<}{\geq}}
+  \TSetTick{cIcro}{2}{\ttable{TF}{\geq}{<}}
+  \TSetTick{cIcro}{3}{\ttable{TT}{\geq}{\geq}}
   \TSetSortLabel{cIcro}{$\cIcro$}
   \TSort{(4,0.5)}{cIcro}{4}{r}
   
@@ -140,17 +140,20 @@ We first note that in the case where $\cro_3$ is present, we have from \pref{eq:
   \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \cI_1, \cro_3, \cIcro_{TT} \} \\
   \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \cI_2, \cro_3, \cIcro_{TT} \}
 \end{align*}
-We can then deduce the following directions of evolution:
+We can then deduce the following directions of evolution from \pref{eq:irB}:
 \begin{align*}
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \N_1 \} &&
-    \text{as } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) &&
-    \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \N_0 \} && &&
-    \text{(from \pref{eq:B-bounce})} \\
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \N_0 \} && &&
-    \text{(from \pref{eq:B-bounce})}
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \N_1 \} \\
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \N_0 \} \\
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \N_0 \}
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-bounce})}
 \end{align*}
-Therefore, \pref{eq:inference-edges-ba} gives: $\cI \xrightarrow{1} \N \in \hat{E}_-$.
+          %      eq:inference-edges-ba
+Therefore, \pref{eq:edges-inference} gives: $\cI \xrightarrow{1} \N \in \hat{E}_-$.
 The configurations using the other processes of $\cro$ ($\cro_0$, $\cro_1$ and $\cro_2$)
 do not add more information on the influences towards $\N$.
 Thus, given \pref{pps:inference-IG}, it comes: $\GRNedgef{\cI}{-}{1}{\N} \in E$.
@@ -216,41 +219,43 @@ The interactions of $\cro$ and $\cI$ on $\cro$ have been represented in
 \end{figure}
 
 Let us first focus on the group of regulators $\{ \cro \}$.
-Of course, $\forall \cro_i \in \PHl_{\cro}, \ctx_{\{ \cro \}}(\PHetat{\cro_i}) = \{ \cro_i \}$.
-However, we note that all processes of $\cI$ can hit $\cro_1$ and $\cro_2$;
-therefore $\Phi(\cro_1) = \Phi(\cro_2) = \emptyset$, and:
-%, there exist no sub-state $\sigma \in \Phi(\cro_1)$
+Of course, $\forall \cro_i \in \PHl_{\cro}, \ctx_{\{ \cro \}}(\PHetat{\cro_i}) = \{ \cro_i \}$,
+and from \pref{eq:irB} and \eqref{eq:fp}:
 \begin{align*}
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_3}) &= \{ \cro_2 \} && &&
-    \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_2}) &= \emptyset &&
-    \text{because } \Phi(\cro_2) = \emptyset &&
-    \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_1}) &= \emptyset &&
-    \text{because } \Phi(\cro_1) = \emptyset &&
-    \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_0}) &= \{ \cro_0 \} &&
-    \text{because } \PHetat{\cI_2, \cro_0} \in \Phi(\cro_0) &&
-    \text{(from \pref{eq:B-no-bounce})}
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_3}) &= \{ \cro_2 \} && \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_2}) &= \{ \cro_1 \} && \text{and} &
+    \Phi&(\cro_2) = \emptyset \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_1}) &= \{ \cro_1 \} && \text{and} &
+    \Phi&(\cro_1) = \emptyset \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_0}) &= \{ \cro_0 \} && \text{and} &
+    \PHetat{\cI_2, \cro_0} \in \Phi&(\cro_0)
+%     \text{(from \pref{eq:B-no-bounce})}
 \end{align*}
+We thus cannot infer any local influence from \pref{eq:edges-inference-auto}
+by observing the group of regulators $\{ \cro \}$,
+because $\Phi(\cro_1) = \Phi(\cro_2) = \emptyset$.
+This is due to the fact that all processes of $\cI$ can hit $\cro_1$ and $\cro_2$;
+these processes can therefore not be considered stable in any configuration.
 
-We thus cannot infer any local influence by observing the group of regulators $\{ \cro \}$.
 Let us now focus instead on the group of regulators $\{ \cI \}$.
 One again, we trivially have:
 $\forall \cI_i \in \PHl_{\cI}, \forall \cro_j \in \PHl_{\cro},
   \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_i, \cro_j}) = \{ \cI_i, \cro_j \}$.
-Furthermore:
+Furthermore, from \pref{eq:irB}, we especially find:
 \begin{align*}
 %   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_0}) &= \{ \cro_1 \} &&
 %   \text{(from \pref{eq:B-bounce})} \\
 %   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_1}) &= \{ \cro_2 \} &&
 %   \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_2}) &= \{ \cro_3 \} &&
-    \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3}) &= \{ \cro_2 \} &&
-    \text{(from \pref{eq:B-bounce})}
+  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_2}) &= \{ \cro_3 \} \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3}) &= \{ \cro_2 \}
+%     \text{(from \pref{eq:B-bounce})}
 \end{align*}
-Therefore, \pref{eq:inference-edges-aa} gives: $\cro \xrightarrow{3} \cro \in \hat{E}_-$.
+Therefore, \pref{eq:edges-inference} gives: $\cro \xrightarrow{3} \cro \in \hat{E}_-$.
 % The configurations using the other processes of $\cro$ ($\cro_0$, $\cro_1$ and $\cro_2$)
 % do not add more information on the influences towards $\N$.
 Finally, as no more information is added by observing the other levels of $\cro$ and $\cI$,
@@ -301,25 +306,26 @@ The complete parametrization produced is available in \pref{tb:phage-lambda-k}.
 \begin{table}[t]
 \begin{align*}
   K_{\cI, \emptyset} &= \{2\} &
-  K_{\cI, \{\cro\}} &= \{0\} \\
-  K_{\cI, \{\cII\}} &= \{2\} &
-  K_{\cI, \{\cII;cro\}} &= \{2\} \\
-  K_{\N, \emptyset} &= \{1\} &
+  K_{\N, \emptyset} &= \{1\} \\
+  K_{\cI, \{\cro\}} &= \{0\} &
   K_{\N, \{\cro\}} &= \{0\} \\
-  K_{\N, \{\cI\}} &= \{0\} &
+  K_{\cI, \{\cII\}} &= \{2\} &
+  K_{\N, \{\cI\}} &= \{0\} \\
+  K_{\cI, \{\cII;cro\}} &= \{2\} &
   K_{\N, \{\cI;cro\}} &= \{0\} \\
+  \\
   K_{\cII, \emptyset} &= \{0\} &
-  K_{\cII, \{\cro\}} &= \{0\} \\
-  K_{\cII, \{\cI\}} &= \{0\} &
-  K_{\cII, \{\cI;cro\}} &= \{0\} \\
-  K_{\cII, \{\N\}} &= \{1\} &
-  K_{\cII, \{\N;cro\}} &= \{0\} \\
-  K_{\cII, \{\N;cI\}} &= \{0\} &
-  K_{\cII, \{\N;cI;cro\}} &= \{0\} \\
-  K_{\cro, \emptyset} &= \{3\} &
+  K_{\cro, \emptyset} &= \{3\} \\
+  K_{\cII, \{\cro\}} &= \{0\} &
   K_{\cro, \{\cro\}} &= \{2\} \\
-  K_{\cro, \{\cI\}} &= \{0\} &
-  K_{\cro, \{\cI;cro\}} &= \{2\}
+  K_{\cII, \{\cI\}} &= \{0\} &
+  K_{\cro, \{\cI\}} &= \{0\} \\
+  K_{\cII, \{\cI;cro\}} &= \{0\} &
+  K_{\cro, \{\cI;cro\}} &= \{2\} \\
+  K_{\cII, \{\N\}} &= \{1\} \\
+  K_{\cII, \{\N;cro\}} &= \{0\} \\
+  K_{\cII, \{\N;cI\}} &= \{0\} \\
+  K_{\cII, \{\N;cI;cro\}} &= \{0\}
 \end{align*}
 \caption{\label{tb:phage-lambda-k}%
   Result of the parameters inference performed on the Process Hitting model
