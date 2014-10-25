@@ -47,8 +47,8 @@ that the associated IG $(\Gamma, E)$ verifies that:
     \forall (i,j & \in \levels{b}{a} \vee i,j \in \ulevels{b}{a}),
 	\forall a_k \in L_a,
 	\\
-&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
-	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
+&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\}))
+	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\}))
 \end{split}
 \\
 \begin{split}
@@ -58,8 +58,8 @@ b\neq a \wedge b\rightarrow a\notin E,\\
     \forall b_i,b_j \in L_b,
 	\forall a_k \in L_a,
 	\\
-&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\})))
-	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\})))
+&	\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_i\}))
+	=\focals(a,\{a_k\},\ctx_a^{\PHpredecgene{a}}(\sigma\{b_j\}))
 \end{split}
 \end{align}
 }
@@ -73,7 +73,7 @@ in the configuration matching with $\omega$.
 \modLP{The configuration of the PH corresponding to $\omega$ is given as follows.
 For each component $b \in \GRNreg{a}$, we define $\sigma^b_{a,\omega}$ (\pref{eq:param_context}) as 
 the process of $b$ with the level in 
-$\levels{b}{a}$ if $b\in\omega$, or in $\ulevels{b}{a}$ if $b\not\omega$.
+$\levels{b}{a}$ if $b\in\omega$, or in $\ulevels{b}{a}$ if $b\notin\omega$.
 Because of \pref{pro:wf-ph-K}, if several possible levels exist, this process can be chosen
 arbitrarily.
 If $b$ does not regulate $a$ in the IG, all processes of sort $b$ should have the same action on
@@ -84,7 +84,7 @@ regulators of $a$ to the (deterministic) cooperative sorts (\pref{def:ctx-sigma}
 \pref{ssec:split-sorts}).
 Finally, we denote by $S_a(\sigma)$ (\pref{eq:K-domain}) the set of processes of sort $a$ that are
 compatible with a configuration $\sigma$: if $a$ is specified in $\ctx$, then $S_a(\sigma) = \{a_i\}$
-where $a_i\in\sigma$; otherwise $S_a(\sigma)$ is the all the processes of sort $a$, $L_a$.}
+where $a_i\in\sigma$; otherwise $S_a(\sigma)$ contains all the processes of sort $a$, $L_a$.}
 \begin{align}
   \label{eq:param_context}
   \forall b\rightarrow a\in E,~
