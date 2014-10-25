@@ -40,15 +40,6 @@ Some of the information included in the IG and the parametrization may appear as
 The uniqueness of each regulation is forced, in order to make the following sections simpler.
 The purpose of unsigned edges is discussed at the end of the current section.
 
-\todo{Discuss about the meaning of signs (especially $+$ and $-$) and their link with parameters.
-Especially, these signs introduce redundancy (and possibly contradiction) with the parameters.
-\begin{itemize}
-  \item We can discuss more about the choice we made here: the signs are only informative
-    (it eases the read of the IG), but are used as a basis for the parameters enumeration;
-  \item The reviewer suggests to remove signs, or only present them as an abstraction of the monotonicity assumption, given the levels and parameters of a BRN;
-  \item It is also possible to add the monotonicity assumption in the definition of a BRN to avoid contradictions.
-\end{itemize}}
-
 \begin{definition}[Interaction Graph]
 \label{def:ig}
 An \emph{Interaction Graph} (IG) is a couple $\IG = (\Gamma, E)$ with $\Gamma$ the finite set of \emph{components},
@@ -57,8 +48,6 @@ $$E \DEF \{ \GRNedge{a}{s}{t}{b}, \ldots \mid a, b \in \Gamma \wedge s \in \{ +,
 where a regulation from $a$ to $b$ is uniquely referenced:
 $$\forall \GRNedge{a}{s}{t}{b} \in E, \forall \GRNedge{a}{s'}{t'}{b} \in E, s = s' \wedge t = t' \enspace.$$
 \end{definition}
-
-\todo{The notation $\GRNreg{b}$ is poorly chosen; should be replaced by $E^{-1}(b)$ for instance.}
 
 Given this definition, we denote as a shortcut:
 $E_s \DEF \{ \GRNedge{a}{s}{t}{b} \in E \}$ for $s \in \{ +, -, \uns \}$.
@@ -190,9 +179,6 @@ with: $\delta^a(s) =
     -1 & \text{if } \GRNget{s}{a} > K_{a, \GRNres{a}{s}} \\
   \end{cases}$
 \end{definition}
-The notations “$<$” and “$>$” comparing an integer and an interval were defined at the end of \pref{sec:intro}.
-
-
 
 \begin{example}
 \pref{fig:runningBRN}(right) gives a Parametrization on the IG of \pref{fig:runningBRN}(left).
@@ -220,36 +206,6 @@ $f^a(s\{b_i\}) < \text{(resp. $>$) } f^a(s\{b_{i+1}\})$,
 where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
 Then, such an IG can be used to derive global properties on the dynamics
 (e.g., \cite{Richard2010378,PR11-SASB}).
-
-\paragraph{Discussion on maximum level restrictions}
-\todo{The reviewer says that the discussion on the number of maximum levels has
-already been fully developed in other articles related to Thomas and that it is not
-necessary to develop this just to state that a PH may accept any number of levels.}
-The maximum level $l_a$ of a component $a$ is usually chosen equal to the number of outgoing edges of $a$ in the IG, \ie the number of components that $a$ regulates.
-Indeed, each discrete expression level in $\segm{0}{l_a}$ stands for an arbitrary set of concentration levels of the protein coded by $a$
-and for which it has a certain influence on several other components that it regulates.
-Allowing more expression levels makes several levels useless as they represent the same influence of $a$ than some other levels;
-on the contrary, reducing the maximum level requires that several thresholds on outgoing edges of $a$ share the same value, which is biologically unlikely.
-However, these considerations are usually taken into account when one has to directly build a model in this framework, but are not mandatory.
-In the scope of this paper, we allow any number of levels for components, without considering the number of outgoing edges,
-as the number of processes in a PH sort is not constrained in any way.
-For instance, in the example of \pref{fig:runningBRN},
-it would be more relevant to have $l_a = 1$ and $\GRNedgef{a}{-}{1}{b} \in E$, as $a$ has only one outgoing edge,
-but the value $l_a = 2$ makes the example more interesting; this is why $\GRNedgef{a}{-}{2}{b} \in E$ can be arbitrarily chosen.
-
-\paragraph{Discussion on unsigned edges}
-\todo{Discuss the meaning of signs (cf. supra).
-Also, the reviewer proposes to move this discussion before in the text,
-and to define unsigned IGs before signed IGs as the latter is just a consequence of the monotonicity assumption.}
-Unsigned edges allow to model regulations whose trend is more complex than a simple activation or inhibition.
-It has to be noted that using unsigned edges in addition to the regular positive and negative ones does not add expressivity to the framework.
-Indeed, signs have no impact on the parametrization (\pref{def:param}) or the dynamics (\pref{def:dynamics}).
-They do have an impact later in this paper, when admissible parametrizations are enumerated (\pref{ssec:admissible-K}).
-However, signs in an IG are useful to understand the trend of a regulation.
-PH actions are very atomistic and the inference of the underlying BRN proposed in \pref{sec:infer-IG}
-allows to find the global trends of regulations between components,
-which may turn out to be difficult to perform by hand.
-As signs have no direct influence on the semantics, unsigned edges can be convenient to model an IG with partial knowledge on some regulations.
 
 \todo{(LP) parameters equivalence:
 if $\GRNedge{a}{+}{t}{a}$,
