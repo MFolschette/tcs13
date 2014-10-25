@@ -76,14 +76,15 @@ $\hat{E}_-$) by
 \begin{split}
  \forall a\in\Gamma: a\in\PHpredecgene{a}, & \forall s \in \{ +, - \}, \forall t < l_a\\
   a \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
-  	 \exists \sigma \in L(g\cup\{a\}), \\
-    \qquad & \exists a_j \in \irB_a^g(\sigma\{a_t\}), \exists a_k \in \irB_a^g(\sigma\{a_{t+1}\}), \\
-	\qquad & 
-	(j=t \Rightarrow \exists \sigma'\in\fp(a_t): \sigma\{a_t\}\subseteq \sigma') \\
-	\qquad & \wedge 
-	(k=t+1 \Rightarrow \exists \sigma'\in\fp(a_{t+1}): \sigma\{a_{t+1}\}\subseteq \sigma') \\
-	\qquad & \wedge k\geq t+1 \wedge j \leq t \wedge s=+ \\
-	\qquad & \vee k<t+1 \wedge j>t \wedge s=-
+    \exists \sigma \in L(g\cup\{a\}), \\
+  \qquad & \exists a_j \in \irB_a^{g \modMF{\cup \{a\}}}(\sigma\{a_t\}),
+    \exists a_k \in \irB_a^{g \modMF{\cup \{a\}}}(\sigma\{a_{t+1}\}), \\
+  \qquad & 
+    (j=t \Rightarrow \exists \sigma'\in\fp(a_t): \sigma\{a_t\}\subseteq \sigma') \\
+  \qquad & \wedge 
+    (k=t+1 \Rightarrow \exists \sigma'\in\fp(a_{t+1}): \sigma\{a_{t+1}\}\subseteq \sigma') \\
+  \qquad & \wedge k\geq t+1 \wedge j \leq t \wedge s=+ \\
+    \qquad & \vee k<t+1 \wedge j>t \wedge s=-
 \end{split}
 \label{eq:edges-inference-auto}
 \\
@@ -92,9 +93,14 @@ $\hat{E}_-$) by
 	a \xrightarrow{t+1} a \in \hat{E}_+
 \label{eq:edges-inference-noreg}
 \end{align}
-where $\irB_a^g(\sigma) \DEF \focals(a, \{a_i\}, \ctx_a^g(\sigma))$ with
-$a_i\in\sigma$,
-and where $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
+\modMF{where $\irB_a^g(\sigma) \subset \PHl_a$ is defined as follows:}
+\begin{equation}
+  \irB_a^g(\sigma) \DEF \focals(a, \{\modMF{\PHget{\sigma}{a}}\}, \ctx_a^g(\sigma))
+\label{eq:irB}
+\end{equation}
+% with
+% $a_i\in\sigma$,
+and $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
 \begin{equation}
 \fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid a_i\in\sigma \wedge
 					\focals(a, \{a_i\}, \ctx_a^{\PHpredecgene{a}}(\sigma)) =

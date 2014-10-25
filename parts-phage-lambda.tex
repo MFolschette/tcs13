@@ -1,12 +1,66 @@
 
-\begin{example}
+\modMF{
+\subsection{Detailed example: the bacteriophage lambda immunity control}
+}
+\label{ssec:phage-lambda}
+
+\newcommand{\cI}{\f{cI}}
+\newcommand{\cro}{\f{cro}}
+\newcommand{\cII}{\f{cII}}
+\newcommand{\N}{\f{N}}
+
+\newcommand{\tcIcrocII}{cI\mbox{-}cro\mbox{-}cII}
+\newcommand{\tcIcroN}{cI\mbox{-}cro\mbox{-}N}
+\newcommand{\tcIcro}{cI\mbox{-}cro}
+\newcommand{\cIcrocII}{\f{\tcIcrocII}}
+\newcommand{\cIcroN}{\f{\tcIcroN}}
+\newcommand{\cIcro}{\f{\tcIcro}}
+
+In order to illustrate the IG inference developed as \pref{sec:infer-IG},
+this first subsection focuses on a model of the lambda phage immunity control,
+which has been widely studied mainly for its particular switch mechanism,
+allowing this virus to “chose” between lysis and lysogenization.
+These two possible responses are characterized by different dynamics that lead to two
+separate attractors.
+
+We consider here the model with four genes proposed in \cite{thieffry_dynamical_1995},
+which will serve as example to detail the inference method proposed in the previous sections.
+This model can be straightforwardly represented under the form of a Process Hitting
+with 4 components %($\Gamma = \{ \cI, \cro, \cII, \N \}$)
+and 3 cooperative sorts: %($\PHs \setminus \Gamma = \{ \cIcrocII, \cIcroN, \cIcro \}$).
+$$\PHs = \{ \underbrace{\cI, \cro, \cII, \N}_{\Gamma}, \cIcrocII, \cIcroN, \cIcro \}$$
+The four components have respectively 3, 4 2 and 2 expression levels,
+which we denote:
 \begin{align*}
-  \PHs &= \{ cI, cro, cII, N \} \\
-  \PHl_{cI} &= \{ cI_0, cI_1, cI_2 \} &
-  \PHl_{cro} &= \{ cro_0, cro_1, cro_2, cro_3 \} \\
-  \PHl_{cII} &= \{ cII_0, cII_1 \} &
-  \PHl_{N} &= \{ N_0, N_1 \} \\
+  \PHl_{\cI} &= \{ \cI_0, \cI_1, \cI_2 \} &
+  \PHl_{\cro} &= \{ \cro_0, \cro_1, \cro_2, \cro_3 \} \\
+  \PHl_{\cII} &= \{ \cII_0, \cII_1 \} &
+  \PHl_{\N} &= \{ \N_0, \N_1 \} \\
 \end{align*}
+
+The full Process Hitting model is not represented here due to a lack of space,
+but excerpts are given in \pref{fig:phage-lambda-cIcro-N} and \pref{fig:phage-lambda-cIcro-cro}.
+
+
+
+\subsubsection{Regulation of $\cI$ on $\N$}
+
+We first study the influence of $\cI$ on $\N$.
+The relevant part of the Process Hitting model for this problem is depicted in
+\pref{fig:phage-lambda-cIcro-N}.
+It involves a third component $\cro$ and the cooperative sort $\cIcro$;
+indeed, by studying the full model, we find:
+\[\PHpredec{\N} = \{ \cI, \cro, \cIcro \} \qquad
+  \PHpredecgene{\N} = \{ \cI, \cro \} \qquad
+  X(\N) = \{ \{ \cI, \cro \} \}\]
+Thus, we only have to focus on the group of regulators $\{ \cI, \cro \}$
+in order to analyze the regulation $\cI \rightarrow \N$.
+The idea behind the IG inference developed in \pref{sec:infer-IG}
+is to make the level of the considered regulator vary (here, $\cI$)
+while keeping constant all the other regulators in the same group (here, only $\cro$)
+and to observe the results on the evolution of the observed component (here, $\N$).
+In other words, if increasing the sole level of $\cI$ makes $\N$ tend to decrease,
+then a negative local influence of $\cI$ on $\N$ is inferred.
 
 \begin{figure}[p]
 \centering
@@ -15,15 +69,21 @@
   %\path[use as bounding box] (-4,-1.9) rectangle (4.5,3.9);
   
   % Sortes
+  \TSetSortLabel{cI}{$\cI$}
   \TSort{(0,3.5)}{cI}{3}{l}
+  \TSetSortLabel{cro}{$\cro$}
   \TSort{(0,-1.5)}{cro}{4}{l}
-  \TSort{(7,1.5)}{N}{2}{r}
+  \TSetSortLabel{N}{$\N$}
+  \TSort{(7.5,1.5)}{N}{2}{r}
   
   % Sorte coopérative
-  \TSetTick{cIcro}{0}{cI~$<$~1\\cro~$<$~2}
-  \TSetTick{cIcro}{1}{cI~$<$~1\\cro~$\geq$~2}
-  \TSetTick{cIcro}{2}{cI~$\geq$~1\\cro~$<$~2}
-  \TSetTick{cIcro}{3}{cI~$\geq$~1\\cro~$\geq$~2}
+  \newcommand{\ttable}[3]{\scriptsize%
+    $#1\left\{\begin{array}{@{}l}\cI #2 1\\\cro #3 2\end{array}\right.$}
+  \TSetTick{cIcro}{0}{\ttable{FF}{<}{<}}
+  \TSetTick{cIcro}{1}{\ttable{FT}{<}{\geq}}
+  \TSetTick{cIcro}{2}{\ttable{TF}{\geq}{<}}
+  \TSetTick{cIcro}{3}{\ttable{TT}{\geq}{\geq}}
+  \TSetSortLabel{cIcro}{$\cIcro$}
   \TSort{(4,0.5)}{cIcro}{4}{r}
   
   % Actions de MàJ
@@ -55,19 +115,65 @@
     \TBounce{cIcro_3}{}{cIcro_2}{.120} ;
   
   % Actions sortantes
-  \THit{cIcro_3}{}{N_0}{.west}{N_1}
-  \path[bounce,bend left] \TBounce{N_0}{}{N_1}{.south} ;
-  \THit{cIcro_2}{}{N_1}{.west}{N_0}
+  \THit{cIcro_3}{}{N_1}{.west}{N_0}
   \path[bounce,bend right] \TBounce{N_1}{}{N_0}{.north} ;
+  \THit{cIcro_2}{}{N_0}{.north west}{N_1}
+  \path[bounce,bend left] \TBounce{N_0}{}{N_1}{.260} ;
+  \THit{cIcro_1}{}{N_0}{.west}{N_1}
+  \path[bounce,bend left] \TBounce{N_0}{}{N_1}{.230} ;
+  \THit{cIcro_0}{}{N_0}{.south west}{N_1}
+  \path[bounce,bend left=40] \TBounce{N_0}{}{N_1}{.200} ;
 \end{tikzpicture}
 }
 \caption{\label{fig:phage-lambda-cIcro-N}%
   A portion of the PH model used in this section modeling the phage lambda immunity response.
-  This part of the whole model only depicts the interactions towards $N$ from components
-  $cI$ and $cro$.
-  The processes of the cooperative sort $cIcro$ are labeled by the configuration they represent.
+  This part of the whole model only depicts the interactions towards $\N$ from components
+  $\cI$ and $\cro$.
+  The processes of the cooperative sort $\cIcro$ are labeled by the configuration they represent,
+  given the values of $\cI$ and $\cro$ regarding their respective thresholds.
 }
 \end{figure}
+
+We first note that in the case where $\cro_3$ is present, we have from \pref{eq:ctx-sigma}:
+\begin{align*}
+  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \cI_0, \cro_3, \cIcro_{FT} \} \\
+  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \cI_1, \cro_3, \cIcro_{TT} \} \\
+  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \cI_2, \cro_3, \cIcro_{TT} \}
+\end{align*}
+We can then deduce the following directions of evolution from \pref{eq:irB}:
+\begin{align*}
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \N_1 \} \\
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \N_0 \} \\
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \N_0 \}
+%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+%     \text{(from \pref{eq:B-bounce})}
+\end{align*}
+          %      eq:inference-edges-ba
+Therefore, \pref{eq:edges-inference} gives: $\cI \xrightarrow{1} \N \in \hat{E}_-$.
+The configurations using the other processes of $\cro$ ($\cro_0$, $\cro_1$ and $\cro_2$)
+do not add more information on the influences towards $\N$.
+Thus, given \pref{pps:inference-IG}, it comes: $\GRNedgef{\cI}{-}{1}{\N} \in E$.
+
+We note that an equivalent work on $\cro$ also gives the second influence on $\N$:
+$\GRNedgef{\cro}{-}{2}{\N} \in E$.
+
+
+
+\subsubsection{Self-regulation of $\cro$ due to $\cI$}
+
+We now wish to study the self-regulation of $\cro$.
+For this, we will show that studying only the actions self-hitting $\cro$ is not enough;
+indeed, it is required to also study the interactions with $\cI$.
+We have the following results from the whole model:
+\[\PHpredec{\cro} = \{ \cI, \cro \} \qquad
+  \PHpredecgene{\cro} = \{ \cI, \cro \} \qquad
+  X(\cro) = \{ \{ \cI \}, \{ \cro \} \}\]
+The interactions of $\cro$ and $\cI$ on $\cro$ have been represented in
+\pref{fig:phage-lambda-cIcro-cro}.
 
 \begin{figure}[p]
 \centering
@@ -107,74 +213,134 @@
 }
 \caption{\label{fig:phage-lambda-cIcro-cro}%
   A portion of the PH model used in this section modeling the phage lambda immunity response.
-  This part of the whole model only depicts the interactions towards $cro$ from components
-  $cI$ and $cro$.
+  This part of the whole model only depicts the interactions towards $\cro$ from components
+  $\cI$ and $\cro$.
 }
 \end{figure}
-\end{example}
 
-\begin{example}
-  The IG inference of \pref{pps:inference-IG} applied to the PH of \todo{ref}
-  produces the IG given in \pref{fig:phage-lambda-ig}.
-  This IG contains all edges included in the original model except the
-  self-influence on $cI$ : $\GRNedgef{cI}{+}{2}{cI} \notin E$;
-  this is due to the fact that an equivalent dynamics exists without this edge.
-  \begin{figure}[t]
-  \centering
-  \scalebox{1.2}{
-  \begin{tikzpicture}[grn]
-    %\path[use as bounding box] (-1.3,-0.75) rectangle (3.5,1.5);
-    \node[inner sep=0] (cI) at (0,2.5) {cI};
-    \node[inner sep=0] (cro) at (2.5,2.5) {cro};
-    \node[inner sep=0] (cII) at (0,0) {cII};
-    \node[inner sep=0] (N) at (2.5,0) {N};
-    \path[->]
-      (cI) edge[bend right] node[elabel, above=-4pt] {$-2$} (cro)
-           edge[bend right] node[elabel, left=-2pt] {$-2$} (cII)
-           edge[pos=.85] node[elabel, above=-2pt] {$-1$} (N)
-      (cro) edge[bend right] node[elabel, above=-4pt] {$-1$} (cI)
-            edge[loop right] node[elabel, below=-2pt] {$-3$} (cro)
-            edge[pos=.65] node[elabel, below=-2pt] {$-3$} (cII)
-            edge node[elabel, right=-4pt] {$-2$} (N)
-      (cII) edge[bend right] node[elabel, left=-3pt] {$+1$} (cI)
-      (N) edge node[elabel, above=-4pt] {$+1$} (cII);
-  \end{tikzpicture}
-  }
-  \caption{\label{fig:phage-lambda-ig}%
-    Result of the IG inference performed on the PH of \todo{ref}.
-  }
-  \end{figure}
-\end{example}
+Let us first focus on the group of regulators $\{ \cro \}$.
+Of course, $\forall \cro_i \in \PHl_{\cro}, \ctx_{\{ \cro \}}(\PHetat{\cro_i}) = \{ \cro_i \}$,
+and from \pref{eq:irB} and \eqref{eq:fp}:
+\begin{align*}
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_3}) &= \{ \cro_2 \} && \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_2}) &= \{ \cro_1 \} && \text{and} &
+    \Phi&(\cro_2) = \emptyset \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_1}) &= \{ \cro_1 \} && \text{and} &
+    \Phi&(\cro_1) = \emptyset \\
+%     \text{(from \pref{eq:B-no-bounce})} \\
+  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_0}) &= \{ \cro_0 \} && \text{and} &
+    \PHetat{\cI_2, \cro_0} \in \Phi&(\cro_0)
+%     \text{(from \pref{eq:B-no-bounce})}
+\end{align*}
+We thus cannot infer any local influence from \pref{eq:edges-inference-auto}
+by observing the group of regulators $\{ \cro \}$,
+because $\Phi(\cro_1) = \Phi(\cro_2) = \emptyset$.
+This is due to the fact that all processes of $\cI$ can hit $\cro_1$ and $\cro_2$;
+these processes can therefore not be considered stable in any configuration.
 
-\begin{example}
-  The parameters inference of \pref{pps:param_K} applied to the PH of \todo{ref}
-  is conclusive for all parameters.
-  The complete parametrization produced is available in \pref{tb:phage-lambda-k}.
-  \begin{table}[t]
-  \begin{align*}
-    K_{cI, \emptyset} &= \{2\} &
-    K_{cI, \{cro\}} &= \{0\} \\
-    K_{cI, \{cII\}} &= \{2\} &
-    K_{cI, \{cII;cro\}} &= \{2\} \\
-    K_{N, \emptyset} &= \{1\} &
-    K_{N, \{cro\}} &= \{0\} \\
-    K_{N, \{cI\}} &= \{0\} &
-    K_{N, \{cI;cro\}} &= \{0\} \\
-    K_{cII, \emptyset} &= \{0\} &
-    K_{cII, \{cro\}} &= \{0\} \\
-    K_{cII, \{cI\}} &= \{0\} &
-    K_{cII, \{cI;cro\}} &= \{0\} \\
-    K_{cII, \{N\}} &= \{1\} &
-    K_{cII, \{N;cro\}} &= \{0\} \\
-    K_{cII, \{N;cI\}} &= \{0\} &
-    K_{cII, \{N;cI;cro\}} &= \{0\} \\
-    K_{cro, \emptyset} &= \{3\} &
-    K_{cro, \{cro\}} &= \{2\} \\
-    K_{cro, \{cI\}} &= \{0\} &
-    K_{cro, \{cI;cro\}} &= \{2\}
-  \end{align*}
-  \caption{\label{tb:phage-lambda-k}%
-    Result of the parameters inference performed on the PH of \todo{ref}.
-  }
-  \end{table}
-\end{example}
+Let us now focus instead on the group of regulators $\{ \cI \}$.
+One again, we trivially have:
+$\forall \cI_i \in \PHl_{\cI}, \forall \cro_j \in \PHl_{\cro},
+  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_i, \cro_j}) = \{ \cI_i, \cro_j \}$.
+Furthermore, from \pref{eq:irB}, we especially find:
+\begin{align*}
+%   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_0}) &= \{ \cro_1 \} &&
+%   \text{(from \pref{eq:B-bounce})} \\
+%   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_1}) &= \{ \cro_2 \} &&
+%   \text{(from \pref{eq:B-bounce})} \\
+  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_2}) &= \{ \cro_3 \} \\
+%     \text{(from \pref{eq:B-bounce})} \\
+  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3}) &= \{ \cro_2 \}
+%     \text{(from \pref{eq:B-bounce})}
+\end{align*}
+Therefore, \pref{eq:edges-inference} gives: $\cro \xrightarrow{3} \cro \in \hat{E}_-$.
+% The configurations using the other processes of $\cro$ ($\cro_0$, $\cro_1$ and $\cro_2$)
+% do not add more information on the influences towards $\N$.
+Finally, as no more information is added by observing the other levels of $\cro$ and $\cI$,
+and given \pref{pps:inference-IG}, it comes: $\GRNedgef{\cro}{-}{3}{\cro} \in E$.
+
+
+
+\subsubsection{Conclusion on the phage lambda immunity control}
+
+The IG inference of \pref{pps:inference-IG} applied to the whole Process Hitting modeling
+the phage lambda immunity response produces the IG given in \pref{fig:phage-lambda-ig}.
+This IG contains all edges included in the original model except the
+self-influence on $\cI$ (namely, $\GRNedgef{\cI}{+}{2}{\cI} \notin E$);
+this is due to the fact that an equivalent dynamics exists without this edge.
+
+\begin{figure}[t]
+\centering
+\scalebox{1.2}{
+\begin{tikzpicture}[grn]
+  %\path[use as bounding box] (-1.3,-0.75) rectangle (3.5,1.5);
+  \node[inner sep=0] (cI) at (0,2.5) {$\cI$};
+  \node[inner sep=0] (cro) at (2.5,2.5) {$\cro$};
+  \node[inner sep=0] (cII) at (0,0) {$\cII$};
+  \node[inner sep=0] (N) at (2.5,0) {$\N$};
+  \path[->]
+    (cI) edge[bend right] node[elabel, above=-4pt] {$-2$} (cro)
+          edge[bend right] node[elabel, left=-2pt] {$-2$} (cII)
+          edge[pos=.85] node[elabel, above=-2pt] {$-1$} (N)
+    (cro) edge[bend right] node[elabel, above=-4pt] {$-1$} (cI)
+          edge[loop right] node[elabel, below=-2pt] {$-3$} (cro)
+          edge[pos=.65] node[elabel, below=-2pt] {$-3$} (cII)
+          edge node[elabel, right=-4pt] {$-2$} (N)
+    (cII) edge[bend right] node[elabel, left=-3pt] {$+1$} (cI)
+    (N) edge node[elabel, above=-4pt] {$+1$} (cII);
+\end{tikzpicture}
+}
+\caption{\label{fig:phage-lambda-ig}%
+  Result of the IG inference performed on the Process Hitting model
+  of the phage lambda immunity response
+  taken from \cite{thieffry_dynamical_1995}.
+}
+\end{figure}
+
+Finally, we note that the parameters inference of \pref{pps:param_K} applied to the same model,
+and using the output of the previous IG inference is conclusive for all parameters.
+The complete parametrization produced is available in \pref{tb:phage-lambda-k}.
+
+\begin{table}[t]
+\begin{align*}
+  K_{\cI, \emptyset} &= \{2\} &
+  K_{\N, \emptyset} &= \{1\} \\
+  K_{\cI, \{\cro\}} &= \{0\} &
+  K_{\N, \{\cro\}} &= \{0\} \\
+  K_{\cI, \{\cII\}} &= \{2\} &
+  K_{\N, \{\cI\}} &= \{0\} \\
+  K_{\cI, \{\cII;cro\}} &= \{2\} &
+  K_{\N, \{\cI;cro\}} &= \{0\} \\
+  \\
+  K_{\cII, \emptyset} &= \{0\} &
+  K_{\cro, \emptyset} &= \{3\} \\
+  K_{\cII, \{\cro\}} &= \{0\} &
+  K_{\cro, \{\cro\}} &= \{2\} \\
+  K_{\cII, \{\cI\}} &= \{0\} &
+  K_{\cro, \{\cI\}} &= \{0\} \\
+  K_{\cII, \{\cI;cro\}} &= \{0\} &
+  K_{\cro, \{\cI;cro\}} &= \{2\} \\
+  K_{\cII, \{\N\}} &= \{1\} \\
+  K_{\cII, \{\N;cro\}} &= \{0\} \\
+  K_{\cII, \{\N;cI\}} &= \{0\} \\
+  K_{\cII, \{\N;cI;cro\}} &= \{0\}
+\end{align*}
+\caption{\label{tb:phage-lambda-k}%
+  Result of the parameters inference performed on the Process Hitting model
+  of the phage lambda immunity response
+  taken from \cite{thieffry_dynamical_1995}.
+  \todo{Remove the curly brackets $\{\}$?}
+}
+\end{table}
+
+We note two main differences between the parametrization obtained by our inference
+and the one proposed in \cite{thieffry_dynamical_1995}:
+\begin{itemize}
+  \item The absence of the self-regulation of $\cI$ automatically reduces the size
+    of the parametrization, but this does not modify the dynamics, as mentioned previously;
+  \item Our inference returns $K_{\cro, \{\cI;cro\}} = 2$ instead of originally $0$;
+    once again, this does not change the dynamics, and $1$ would also have been
+    an acceptable value.
+\end{itemize}
