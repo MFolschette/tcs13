@@ -170,7 +170,7 @@ We note that labeling the sets of resources of a component is obviously equivale
 Then, suppose that:
 \begin{itemize}
   \item $\paramlabel(a, p)$ states that $p$ is a valid label for a set of resources of component $a$ (and therefore $K_{a,\omega_p}$ is a valid parameter);
-  \item $\param(a, p, i)$ states that: $i \in K_{a, \omega_p}$;
+  \item $\param(a, p, i)$ states that: $K_{a, \omega_p} = i$;
   \item $\inferedparam(a, p)$ states that the parameter inference of $K_{a, \omega_p}$ was conclusive (\pref{pps:param_K}).
 \end{itemize}
 It is thereby possible to enumerate the possible values of all parameters for which \pref{pps:param_K} was not conclusive, with the following cardinality rule:
@@ -179,19 +179,22 @@ It is thereby possible to enumerate the possible values of all parameters for wh
   & \qquad\qquad\qquad \paramlabel(\var{A}, \var{P}), \nota \inferedparam(\var{A}, \var{P}).
 \end{align*}
 Indeed, this rule applies to any possible parameter $\var{P}$ of any component $\var{A}$ ($\paramlabel$) whose value is still unknown ($\nota \inferedparam$),
-and states that any expression level $\var{I}$ of this component ($\componentlevels$) can belong to the value of the parameter ($\param$).
-Furthermore, the lower bound is $1$, which forces each enumerated parameter to contain at least one value,
-but no upper bound is specified ($\infty$) for the size of each parameter
-(which is in fact already bounded by the number of possible expression levels of the related component).
+and states that any expression level $\var{I}$ of this component ($\componentlevels$)
+is a candidate value for the parameter ($\param$).
+Furthermore, both the lower and upper bounds are $1$,
+which force each enumerated parameter to have exactly one value.
+%but no upper bound is specified ($\infty$) for the size of each parameter
+%(which is in fact already bounded by the number of possible expression levels of the related component).
 %each parameter contains at least $1$ value, as stated by the lower bound, and has no upper bound ($\infty$) but the number of expression levels of its component.
 In other worlds, this cardinality rule creates as many answer sets as there are \emph{candidate} parametrizations
 so that if $K_{a, \omega_p}$ could not be inferred by \pref{pps:param_K}, then
-$K_{a, \omega_p} \subset \segm{0}{l_a} \wedge K_{a, \omega_p} \neq \emptyset$
-(thus completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K} or the fact that parameters have to be intervals).
+$K_{a, \omega_p} \in \segm{0}{l_a}$
+(thus completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K}).
 
 
 
 \begin{example}\label{ex:cardinality}
+\todo{Refresh this example with integer parameters}
 In the scope of \pref{ex:infer-param-runningPH-1}, $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ could not be inferred by \pref{pps:param_K}.
 The previous cardinality rule allows to produce 49 parametrizations, in which these two parameters can take all possible values:
 %The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values:
@@ -214,12 +217,12 @@ Finally, a \emph{constraint} is a rule with no $head$ part:
 \end{align*}
 A constraint is satisfied only if its $body$ is not satisfied,
 which thus allows to invalidate answer sets containing some unwanted combinations of atoms.
-In the scope of parameters enumeration, for example, constraints are especially useful to filter parametrizations
-that contain non-interval parameters, or that do not respect the assumptions of \pref{ssec:admissible-K}.
+In the scope of parameters enumeration, for example, constraints are especially useful
+to filter out parametrizations that do not respect the assumptions of \pref{ssec:admissible-K}.
 Indeed, suppose that:
 \begin{itemize}
   \item $\lessactive(a, p, q)$ states that $\omega_p$ is a set of resources of $a$ with (loosely) less activators and more inhibitors than $\omega_q$;
-  \item $\paraminf(a, p, q)$ states that: $K_{a,\omega_p} \leqsegm K_{a,\omega_q}$.
+  \item $\paraminf(a, p, q)$ states that: $K_{a,\omega_p} \leq K_{a,\omega_q}$.
 \end{itemize}
 Then, the monotonicity assumption (\pref{pro:param_enum_monotonicity}) is formulated as the following constraint:
 \begin{align*}
@@ -227,11 +230,12 @@ Then, the monotonicity assumption (\pref{pro:param_enum_monotonicity}) is formul
 \end{align*}
 Indeed, this constraint removes all parametrization results where parameters $K_{\var{A},\omega_\var{P}}$ and $K_{\var{A},\omega_\var{Q}}$ exist
 such that $\var{A}$ is less activated by the set of resources $\omega_\var{P}$ than it is by $\omega_\var{Q}$,
-but $K_{\var{A},\omega_\var{Q}} \ltsegm K_{\var{A},\omega_\var{P}}$,
+but $K_{\var{A},\omega_\var{Q}} < K_{\var{A},\omega_\var{P}}$,
 thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 \begin{example}
+\todo{Refresh this example with integer parameters}
 The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
 For example, a constraint was written in order to obtain only interval parameters
 (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).

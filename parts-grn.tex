@@ -150,30 +150,33 @@ $$\GRNres{a}{s} \DEF \{ b \in \GRNreg{a} \mid \GRNget{s}{b} \in \levels{b}{a} \}
 
 \begin{definition}[Parameter $K_{a,\omega}$ and Parametrization $K$]\label{def:param}
 For a given component $a \in \Gamma$, and $\omega \subset \GRNreg{a}$ a set of regulators of $a$,
-the \emph{parameter} $K_{a,\omega} = \segm{i}{j}$ is a non-empty interval with with $0 \leq i \leq j \leq l_a$.
+the \emph{parameter} \modMF{$K_{a,\omega} \in \segm{0}{l_a}$ is a non-negative integer}.
 The complete map $K$ of parameters on $\IG$ is called a \emph{parametrization} on $\IG$.
 \end{definition}
 
 %\todo{Discuss on the widespread use of discrete parameters + binary resources}
 An IG and a parametrization make up a complete BRN.
-The purpose of intervals as parameters is discussed at the end of this section.
-Regarding the dynamics, an interval parameter $K_{a,\omega}$ is the set of values towards which $a$ will tend
-in the states where its resources are exactly the regulators in $\omega$.
+%The purpose of intervals as parameters is discussed at the end of this section.
+%Regarding the dynamics, an interval parameter $K_{a,\omega}$ is the set of values towards which $a$ will tend
+%in the states where its resources are exactly the regulators in $\omega$.
+\modMF{Regarding the dynamics, a parameter $K_{a,\omega}$ is the value towards which $a$ will tend
+in the states where its resources are exactly the regulators in $\omega$.}
 %as defined in the asynchronous dynamics of \pref{def:dynamics}.
 %At last, \pref{def:dynamics} gives the asynchronous dynamics of a BRN using Thomas' parameters.
 Indeed, from a given state $s$, a transition to another state $s'$ is possible provided that
-exactly one component $a$ evolves of one expression level towards the closest value of the interval $K_{a,\GRNres{a}{s}}$,
+exactly one component $a$ evolves of one expression level \modMF{towards} $K_{a,\GRNres{a}{s}}$,
 as stated by the definition of the transition relation $\GRNtrans{s}{s'}$ (\pref{def:dynamics}).
-However, $a$ cannot evolve if its expression level already belongs to the interval $K_{a,\GRNres{a}{s}}$.
+However, $a$ cannot evolve if its expression level already \modMF{equals}
+the parameter $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
 The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
   \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma,
-  \GRNget{s}{a} \notin K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + \delta^a(s) \\
+  \GRNget{s}{a} \neq K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + \delta^a(s) \\
     & \qquad\quad \wedge \forall b \in \Gamma, b \neq a \Rightarrow \GRNget{s}{b} = \GRNget{s'}{b}
 \end{align*}
-with: $\delta^a(s) = 
+with: $\delta^a(s) =
   \begin{cases}
     +1 & \text{if } \GRNget{s}{a} < K_{a, \GRNres{a}{s}} \\
     -1 & \text{if } \GRNget{s}{a} > K_{a, \GRNres{a}{s}} \\
@@ -188,6 +191,8 @@ $$\GRNstate{a_0, b_1, c_1} \rightarrow \GRNstate{a_1, b_1, c_1} \rightarrow \GRN
 where $a_i$ denotes the component $a$ at level $i$.
 This sequence of states ends in a steady state: no evolution is possible in $\GRNstate{a_1, b_0, c_1}$.
 Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1}$, no auto-regulation on $b$ is needed to prevent its evolution when $a$ is not at level $2$.
+\todo{Remove interval parameter}
+\todo{Change example to preserve the dynamics?}
 \end{example}
 
 
@@ -196,7 +201,7 @@ Due to the semantics of interval parameters and as $K_{b,\emptyset} = \segm{0}{1
 From the dynamics specification of a BRN, one can infer back the IG that contain only the functional
 regulations.
 Let us define
-$f^a(s) = s[a]$ if $s[a]\in K_{a, \GRNres{a}{s}}$
+$f^a(s) = s[a]$ if $s[a] = K_{a, \GRNres{a}{s}}$
 and
 $f^a(s) = s[a]+\delta^a(s)$ otherwise.
 A positive (resp. negative) interaction from $b$ to $a$ is inferred if there exists a state $s$ such
