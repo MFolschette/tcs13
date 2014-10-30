@@ -16,6 +16,9 @@
 \newcommand{\cIcroN}{\f{\tcIcroN}}
 \newcommand{\cIcro}{\f{\tcIcro}}
 
+\newcommand{\tcrocII}{cro\mbox{-}cII}
+\newcommand{\crocII}{\f{\tcrocII}}
+
 In order to illustrate the IG inference developed as \pref{sec:infer-IG},
 this first subsection focuses on a model of the lambda phage immunity control,
 which has been widely studied mainly for its particular switch mechanism,
@@ -27,8 +30,9 @@ We consider here the model with four genes proposed in \cite{thieffry_dynamical_
 which will serve as example to detail the inference method proposed in the previous sections.
 This model can be straightforwardly represented under the form of a Process Hitting
 with 4 components %($\Gamma = \{ \cI, \cro, \cII, \N \}$)
-and 3 cooperative sorts: %($\PHs \setminus \Gamma = \{ \cIcrocII, \cIcroN, \cIcro \}$).
-$$\PHs = \{ \underbrace{\cI, \cro, \cII, \N}_{\Gamma}, \cIcrocII, \cIcroN, \cIcro \}$$
+and 4 cooperative sorts: %($\PHs \setminus \Gamma = \{ \cIcrocII, \cIcroN, \cIcro \}$).
+\[\PHs = \{ \underbrace{\cI, \cro, \cII, \N}_{\Gamma},
+  \underbrace{\cIcrocII, \cIcroN, \cIcro, \crocII}_{\Delta} \}\]
 The four components have respectively 3, 4 2 and 2 expression levels,
 which we denote:
 \begin{align*}
