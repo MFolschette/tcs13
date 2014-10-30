@@ -1,3 +1,4 @@
+(* Running example without cooperative sort *)
 
 process a 2
 process b 1
