@@ -291,7 +291,7 @@ Such an extended configuration is denoted by $\ctx_a^g(\sigma)$, formalized in
 \pref{def:ctx-sigma}
 \begin{definition}[Configuration extension $\ctx_a^g(\sigma)$]
 \label{def:ctx-sigma}
-Given $a\in\PHs$, a group $g\in X(a)$ and a configuration 
+Given $a\in\PHs$, a sub-set of regulators $g\subset \PHpredecgene{a}$ and a configuration 
 $\sigma\in L(g)$, $\ctx_a^g(\sigma)$ is the configuration $\sigma$ with the corresponding
 processes of the cooperative sorts in $\PHdirectpredec{a}$:
 \begin{align}
@@ -305,10 +305,11 @@ $\PHdirectpredec{\upsilon}\subseteq\f{dom}(\sigma')$}
 \\
 \upsilon(\sigma' \uplus \state{\upsilon'(\sigma') \mid 
   \upsilon'\in\PHdirectpredec{\upsilon} \cap \CSorts })
-  & \text{otherwise.}
+  & \text{otherwise,}
 \end{cases}
 \label{eq:cooperative-eval}
 \end{align}
+where $\f{dom}(\sigma')$ is the set of sorts defined in $\sigma'$.
 \end{definition}
 }
 
