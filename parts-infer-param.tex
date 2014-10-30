@@ -128,36 +128,39 @@ If $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP
 
 \begin{example}
 \label{ex:infer-param-runningPH-1}
-
-Applied to the PH in \pref{fig:runningPH-1}, we infer the following parameters:
-\begin{align*}
-K_{a, \emptyset} &= 0&
-K_{b, \emptyset} &= 0 \\
-K_{a, \{a\}} &= 0 &
-K_{b, \{a\}} &= 0 \\
-K_{a, \{c\}} &= 1 &
-K_{b, \{b\}} &= 1 \\
-K_{a, \{b\}} &= 1 &
-K_{b, \{a,b\}} &= 0 \\
-K_{a, \{b,c\}} &= 1 &
-K_{c, \emptyset} &= 0 \\
-K_{a, \{a,b,c\}} &= 2 &
-K_{c, \{c\}} &= 1
-%K_{a, \{a,b\}} = ?
-%K_{a, \{a,c\}} = ?
-\end{align*}
-$K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ cannot be inferred,
-which is a direct consequence of the lack of cooperation between $b$ and $c$ on $a$.
+When applied to the refined PH in \pref{fig:runningPH-2},
+and with the IG of \pref{fig:runningBRN}(left)
+(which is the result of the IG inference on this PH model,
+as explained in \pref{ssec:infer-ig-examples}),
+\label{pps:param_K} infers the parametrization of \pref{fig:runningBRN}(right).
+In other words, the inference of parameters allows to find back all parameters
+of the original model when the cooperations are fully defined.
 \end{example}
 
+$K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ cannot be inferred,
+which is a direct consequence of the lack of cooperation between $b$ and $c$ on $a$.
+
 \begin{example}
-Regarding the refined PH of \pref{fig:runningPH-2}, all parameters can be inferred.
-We obtain the same value for the inferred parameters of \pref{ex:infer-param-runningPH-1},
-together with the following results:
+Regarding the non-refined PH of \pref{fig:runningPH-1},
+with the IG produced by the IG inference described in \pref{ssec:infer-ig-examples}
+(that is, the same as \pref{fig:runningBRN}(left)
+without the self-influence $\GRNedgef{b}{+}{1}{b}$)
+the following parameters are inferred:
 \begin{align*}
-  K_{a,\{a,b\}} &= 1 &
-  K_{a,\{a,c\}} &= 1
+  K_{a,\emptyset} &= 0 &
+  K_{b,\{a\}} &= 0 \\
+%  K_{a,\{b\}} &= 0 \\
+%  K_{a,\{c\}} &= 0 &
+  K_{a,\{b,c\}} &= 2 \\ \\
+%  K_{b,\emptyset} &= 0
+  K_{c,\emptyset} &= 0 &
+  K_{c,\{c\}} &= 1
 \end{align*}
+The parameters $K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$
+could not be inferred,
+mainly due to the lack of precision in the cooperation between $b$ and $c$.
+Note that the parameters $K_{b,\{b\}}$ and $K_{b,\{a,b\}}$ do not exist for this IG,
+because of the absence of any self-influence $b \rightarrow b$.
 \end{example}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.

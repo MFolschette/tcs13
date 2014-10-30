@@ -144,44 +144,28 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 \subsection{Examples}
 \label{ssec:infer-ig-examples}
 
+\modMF{
 The IG inference of the PH of \pref{fig:runningPH-2} gives the
-IG in \pref{fig:BRN-inf1}, containing the following edges:
+IG in \pref{fig:runningBRN}(left), that is, allows to find back all the edges
+and their signs and thresholds.
+This is mainly due to the fact that the cooperation between $b$ and $c$ is well-defined,
+using a (deterministic) cooperative sort.
+}
+
+\modMF{
+Indeed, the inference of the PH of \pref{fig:runningPH-1},
+that is, without refinement with a cooperative sort, gives the following IG:
 \begin{align*}
-  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{b}{+}{1}{b}, \GRNedgef{c}{+}{1}{c}\}\\
+  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{c}{+}{1}{c}\}\\
   E_- &= \{\GRNedgef{a}{-}{2}{b}\} \qquad\qquad\qquad\qquad\qquad
   E_\uns = \emptyset
 \end{align*}
-This IG is close to the one in \pref{fig:runningBRN} but not equivalent,
-as each component has an additional auto-action.
-The auto-actions on $b$ and $c$ are the consequence of a global stability
-in some configurations: $c$ never evolves, and neither does $b$ when $a_2$ is not active.
-The auto-action on $a$ is mainly caused by its multi-valued nature.
-
-The inference of the PH of \pref{fig:runningPH-1}
-(without refinement with cooperative sort) gives the same IG.
-
-\begin{figure}[t]
-\centering
-\scalebox{1.2}{
-\begin{tikzpicture}[grn]
-  \path[use as bounding box] (-1.3,-0.75) rectangle (3.5,1.5);
-  \node[inner sep=0] (a) at (2,0) {a};
-  \node[inner sep=0] (b) at (0,0) {b};
-  \node[inner sep=0] (c) at (2,1.2) {c};
-  \path[->]
-    (b) edge[bend right] node[elabel, below=-2pt] {$+1$} (a)
-    (c) edge node[elabel, right=-2pt] {$+1$} (a)
-    (a) edge[bend right] node[elabel, above=-5pt] {$-2$} (b)
-    (b) edge[in=-15+180, out=15+180, loop] node[elabel, left=-2pt] {+1} (b)
-    (c) edge[in=15, out=-15, loop] node[elabel, right=-2pt] {+1} (c)
-    (a) edge[in=15, out=-15, loop] node[elabel, right=-2pt] {+1} (a);
-\end{tikzpicture}
+This IG is close to the one in \pref{fig:runningBRN} but misses the self-influence
+$\GRNedgef{b}{+}{1}{b}$.
+\todo{Detail why?}
 }
-\caption{\label{fig:BRN-inf1}
-  Result of the IG inference performed on the PH of \pref{fig:runningPH-2}.
-}
-\end{figure}
 
+\modMF{
 If we add the action $\PHfrappe{a_2}{b_0}{b_1}$ to the PH of \pref{fig:runningPH-2},
 then two unsigned edges towards $b$ are inferred instead of the previous signed edges:
 \begin{align*}
@@ -191,4 +175,4 @@ then two unsigned edges towards $b$ are inferred instead of the previous signed 
 \end{align*}
 This is due to the fact that the actions $\PHfrappe{a_2}{b_1}{b_0}$ and $\PHfrappe{a_2}{b_0}{b_1}$
 introduce an oscillation only caused by $a$, which cannot be represented in Thomas modeling.
-\todo{Refresh this example for the new inference}
+}
