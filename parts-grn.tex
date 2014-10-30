@@ -199,6 +199,21 @@ where $a_i$ denotes the component $a$ at level $i$.
 This sequence of states ends in a steady state: no evolution is possible in $\GRNstate{a_1, b_0, c_1}$.
 \end{example}
 
+\begin{remark}[Parameters equivalence]
+\label{rem:K-equiv}
+
+\todo{(LP) parameters equivalence:
+if $\GRNedge{a}{s}{t}{a}$,
+$K_{a,R\setminus \{a\}} = t
+\equiv
+K_{a,R\setminus \{a\}} = u$
+for $t \leq u \leq l_a$;
+$K_{a,R\cup \{a\}} = t-1
+\equiv
+K_{a,R\cup \{a\}} = u$
+for $0 \leq u < t$.  }
+
+\end{remark}
 
 
 \paragraph{Interaction Graph of the dynamics}
@@ -215,25 +230,4 @@ $f^a(s\{b_i\}) < \text{(resp. $>$) } f^a(s\{b_{i+1}\})$,
 where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
 Then, such an IG can be used to derive global properties on the dynamics
 (e.g., \cite{Richard2010378,PR11-SASB}).
-
-\todo{(LP) parameters equivalence:
-if $\GRNedge{a}{+}{t}{a}$,
-$K_{a,R\setminus \{a\}} = t
-\equiv
-K_{a,R\setminus \{a\}} = u$
-for $t \leq u \leq l_a$;
-$K_{a,R\cup \{a\}} = t-1
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $0 \leq u < t$.
-If $\GRNedge{a}{-}{t}{a}$,
-$K_{a,R\cup \{a\}} = t
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $t \leq u \leq l_a$;
-$K_{a,R\setminus \{a\}} = t-1
-\equiv
-K_{a,R\cup \{a\}} = u$
-for $0 \setminus u < t$.
-- any other equivalence?}
 
