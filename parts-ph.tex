@@ -50,6 +50,10 @@ $\PHsort(h) = \{\PHsort(\PHhitter(h)),\PHsort(\PHtarget(h))\}$.
 Given a state $s\in \PHl$, the process of sort $a\in\PHs$ present in $s$ is
 denoted by $\PHget{s}{a}$, that is the $a$-coordinate of the state $s$.
 If $a_i\in \PHl_a$, we define the notation $a_i\in s \EQDEF \PHget{s}{a}=a_i$.
+\modLP{%
+Given a set of sorts $g\subset\PHs$,
+$L(g)$ denotes the set of all the sub-states of the sorts in $g$:
+$L(g) \DEF \prod_{b\in g} L_b$.}
 
 \modLP{
 The set of sorts having an action on a given sort $a$ is noted $\PHdirectpredec{a}$
@@ -68,12 +72,6 @@ $\PHget{(s\play h)}{b} = b_k$ and
 $\forall c\in\PHs, c\neq b, \PHget{(s\play h)}{c} = \PHget{s}{c}$.
 For the sake of clarity, $((s\play h)\play h')$, $h'\in\PHa$ is abbreviated as
 $(s\play h\play h')$.
-
-%A sequence of actions $h^1,\dots,h^n$ is \emph{bounce-wise} if and only if
-%$\forall m\in\segm{1}{n-1}, \PHbounce(h^m)=\PHtarget(h^{m+1})$.
-
-\todo{define $L(g) = \prod_{b\in g} L_b$}
-\todo{check state notations}
 
 \medskip
 

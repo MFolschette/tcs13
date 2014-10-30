@@ -94,12 +94,17 @@ $\hat{E}_-$) by
 \label{eq:edges-inference-noreg}
 \end{align}
 \modMF{where $\irB_a^g(\sigma) \subset \PHl_a$ is defined as follows:}
-\begin{equation}
-  \irB_a^g(\sigma) \DEF \focals(a, \{\modMF{\PHget{\sigma}{a}}\}, \ctx_a^g(\sigma))
+\begin{align}
+\bar\irB_a^g(\sigma) &\DEF \{ a_j \mid \PHfrappe{b_k}{a_i}{a_j}\in\PHa, b\in g \wedge b_k\in\ctx_a^g(\sigma)
+\wedge a_i\in\sigma \}
+\\
+\irB_a^g(\sigma) &\DEF
+\begin{cases}
+\bar\irB_a^g(\sigma) & \text{if }\bar\irB_a^g(\sigma)\neq\emptyset \\
+\{\PHget{\sigma}{a}\} & \text{otherwise}
 \label{eq:irB}
-\end{equation}
-% with
-% $a_i\in\sigma$,
+\end{cases}
+\end{align}
 and $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
 \begin{equation}
 \fp(a_i) \DEF \{\sigma\in L(\PHpredecgene{a}\cup\{a\}) \mid a_i\in\sigma \wedge
