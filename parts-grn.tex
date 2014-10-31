@@ -9,11 +9,11 @@ The principle of qualitative modeling was introduced as synchronous Boolean netw
 
 \modMM{In this paragraph, we} concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
 \cite{thomas1990biological, Richard06,BernotSemBRN}.
-In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
-inference),
-we propose the notion of unsigned edge modeling an interaction whose nature (activation or inhibition) is undetermined,
-and we extend the classical parametrization formalism by setting parameters to intervals of values instead of single values.
-We briefly discuss these additions.
+%In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
+%inference),
+%we propose the notion of unsigned edge modeling an interaction whose nature (activation or inhibition) is undetermined,
+%and we extend the classical parametrization formalism by setting parameters to intervals of values instead of single values.
+%We briefly discuss these additions.
 
 \medskip
 
@@ -27,8 +27,9 @@ The IG is composed of nodes ($a$, $b$, $c$, …) that represent components,
 and edges ($\GRNedge{a}{s}{t}{b}$, …) labeled with a sign ($s$) and a threshold ($t$) that stand for regulations between these components (\pref{def:ig}).
 The activity, concentration rate or presence of each component in a given state of the system is modeled by an abstract discrete value called \emph{expression level}.
 The maximum expression level of a component $a$ is denoted $l_a$.
-The sign of an edge denotes the kind of regulation it models: it can be positive ($+$), negative ($-$) or unsigned ($\uns$),
-the latter meaning that the nature of the regulation cannot be reduced to a simple activation or inhibition.
+The sign of an edge denotes the kind of regulation it models: it can be positive
+($+$), negative ($-$) or \modLP{non-monotonous} ($\uns$),
+the latter meaning that \modLP{the regulation have different sign depending on the context \cite{Sene13-TCS}}.
 Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influences the evolution of $b$ in a certain way when its expression level is above or equal to the threshold $t$;
 when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
 
@@ -37,8 +38,8 @@ Some of the information included in the IG and the parametrization may appear as
 
 %For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
 %otherwise, the opposite influence is expressed.
-The uniqueness of each regulation is forced, in order to make the following sections simpler.
-The purpose of unsigned edges is discussed at the end of the current section.
+%The uniqueness of each regulation is forced, in order to make the following sections simpler.
+%The purpose of unsigned edges is discussed at the end of the current section.
 
 \begin{definition}[Interaction Graph]
 \label{def:ig}

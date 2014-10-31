@@ -118,7 +118,8 @@ and $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
 We are now able to infer the edges of the final IG by considering positive and negative influences
 (\pref{pps:inference-IG}).
 We infer a positive (resp. negative) edge if there only exist corresponding influences with the same sign.
-If an influence is both positive and negative, we infer an unsigned edge.
+If an influence is both positive and negative, we infer an
+\modLP{non-monotonous} edge.
 In the end, the threshold of each edge is the minimum threshold for which an influence has been found.
 \modLP{Note that as regulations matches with sign changes of the evolution of the
 regulated components,
@@ -167,7 +168,7 @@ $\GRNedgef{b}{+}{1}{b}$.
 
 \modMF{
 If we add the action $\PHfrappe{a_2}{b_0}{b_1}$ to the PH of \pref{fig:runningPH-2},
-then two unsigned edges towards $b$ are inferred instead of the previous signed edges:
+then two \modLP{non-monotonous} edges towards $b$ are inferred instead of the previous signed edges:
 \begin{align*}
   E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{c}{+}{1}{c}\}\\
   E_- &= \emptyset \qquad\qquad\qquad\qquad
