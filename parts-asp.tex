@@ -55,7 +55,7 @@ while variables are always denoted by a single capital letter (e.g.~$\var{A}$, $
 We do not use function symbols as arguments in this work.
 
 \begin{example}\label{ex:asp-atom}
-Consider a PH model such as \pref{ex:infer-param-runningPH-1}:
+Consider a PH model such as depicted in \pref{fig:runningPH-1}:
 in order to state the existence of each component, we use a predicate called $\component$ with two arguments:
 \begin{align*}
   &\component(x, n).
@@ -98,7 +98,7 @@ Such a rule is called a \emph{fact}, and its $head$ atom consequently has to bel
 For instance, the information describing the studied model (the original PH model and the inferred IG and parameters) are expressed in ASP using facts.
 
 \begin{example}\label{ex:asp-component}
-In order to define the 3 components of \pref{ex:infer-param-runningPH-1}, we use the following program:
+In order to define the 3 components of \pref{fig:runningPH-1}, we use the following program:
 \begin{align*}
   &\component(a, 2). \\
   &\component(b, 1). \\
@@ -123,7 +123,7 @@ The following rule, for example, contains three variables ($\var{A}$, $\var{K}$ 
 where the notation “$\leq$” stands for a shortcut in ASP which has the same meaning as the mathematical operator.
 
 \begin{example}
-Regarding \pref{ex:infer-param-runningPH-1}, the previous rule together with the facts of \pref{ex:asp-component}
+Regarding \pref{fig:runningPH-1}, the previous rule together with the facts of \pref{ex:asp-component}
 will give the following answer set:
 \begin{align*}
   &\{&&\component(a, 2),
@@ -194,18 +194,28 @@ $K_{a, \omega_p} \in \segm{0}{l_a}$
 
 
 \begin{example}\label{ex:cardinality}
-\todo{Refresh this example with integer parameters}
-In the scope of \pref{ex:infer-param-runningPH-1}, $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ could not be inferred by \pref{pps:param_K}.
-The previous cardinality rule allows to produce 49 parametrizations, in which these two parameters can take all possible values:
+\modMF{%
+In the scope of \pref{ex:infer-param-runningPH-1},
+$K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$
+could not be inferred by \pref{pps:param_K}.
+The previous cardinality rule allows to produce 18 parametrizations,
+in which these three parameters can take all possible values:
 %The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values:
 %(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
 \begin{align*}
-  (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2}, \{ 0, 2 \} \}^2
+  (K_{a,\{b\}}; K_{a,\{c\}}; K_{b,\emptyset}) \in
+    \{ 0, 1, 2 \} \times \{ 0, 1, 2 \} \times \{ 0, 1 \}
+%   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2}, \{ 0, 2 \} \}^2
 \end{align*}
 and all the other parameters keep their inferred values.
+Note that $0$ belongs to the set of candidate values for parameter $K_{b,\emptyset}$
+because the extreme values assumption (\pref{pro:param_enum_extreme})
+has not been taken into account yet.
 %These parametrizations take the form of sets of $\param$ atoms.
-Note that $\{ 0, 2 \}$ belongs to the set of candidate parametrizations
-as no rule specifying that a parameter has to be an interval has been defined yet.
+% Note that $\{ 0, 2 \}$ belongs to the set of candidate parametrizations
+% as no rule specifying that a parameter has to be an interval has been defined yet.
+}%
+\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
 \end{example}
 
 
@@ -235,24 +245,33 @@ thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
 \begin{example}
-\todo{Refresh this example with integer parameters}
+\modMF{%
 The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
-For example, a constraint was written in order to obtain only interval parameters
-(thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
-Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
+% For example, a constraint was written in order to obtain only interval parameters
+% (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
+% Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
+% \begin{align*}
+%   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
+% \end{align*}
+% }%
+% 
+% \modMF{%
+For example,
+% , due to the fact that the parameters $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ could be inferred,
+the extreme values assumption (\pref{pro:param_enum_extreme}) removes all parametrizations with
+$K_{b,\emptyset} = 0$,
+thus reducing the set of candidate values to 9 possible values:
 \begin{align*}
-  (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
+  (K_{a,\{b\}}; K_{a,\{c\}}; K_{b,\emptyset}) \in
+    \{ 0, 1, 2 \} \times \{ 0, 1, 2 \} \times \{ 1 \}
 \end{align*}
-
-Then, due to the fact that the parameters $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ could be inferred,
-the monotonicity assumption (\pref{pro:param_enum_monotonicity} and expressed in ASP above) removes all parametrizations with:
-$0 \in K_{a,\{a,b\}} \vee 0 \in K_{a,\{a,c\}}$.
-In the end, the remaining possible values for the two parameters that were not inferred are:
-\begin{align*}
-  (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{1}{1} , \segm{2}{2} , \segm{1}{2} \}^2
-\end{align*}
-All these candidates respect the other properties of \pref{ssec:admissible-K} and no more candidates are filtered.
-We thus obtain the results of \pref{ex:enum-param-runningPH-1}.
+Furthermore, parameter $K_{b,\emptyset} = 1$ doest not respect \pref{pro:K-valid},
+because no action in the model of \pref{fig:runningPH-1} allows to bounce from $b_0$ to $b_1$.
+Therefore, this parameter is removed from all returned parametrizations.
+In the end, 9 partial parametrizations are therefore produced.
+}%
+\todo{Find an example to apply the monotonicity assumption?}
+\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
 \end{example}
 
 

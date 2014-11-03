@@ -16,7 +16,7 @@ when applied to several large biological models.
 
 \medskip
 
-The inference methods described in this paper have been implemented as part of
+The inference \modMF{and enumeration} methods described in this paper have been implemented as part of
 \textsc{Pint}\footnote{Available at \url{http://loicpauleve.name/pint}}, which gathers PH related tools.
 Our implementation mainly consists in ASP programs that are solved using
 Clingo\footnote{Available at \url{http://potassco.sourceforge.net}}.
@@ -25,9 +25,15 @@ The IG and parameter inferences can be performed using the following command:\\
 where \texttt{model.ph} is the PH model file in \textsc{Pint} format,
 and \texttt{ig.dot} is an output file to write the inferred IG in DOT format.
 The (possibly partial) inferred parametrization will be returned on the standard output.
-The admissible parametrizations enumeration is performed when adding the \texttt{-{}-full-enumerate} parameter to the command,
-or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
-\todo{Remove \texttt{full-enumerate}?}
+\modMF{%
+Instead of the \texttt{-{}-dot ig.dot} option, it is possible to specify
+an alternative IG to perform the parameters inference on
+(instead of using the inferred IG) with the \texttt{-{}-ig model.ig} option,
+where \texttt{model.ig} is an IG model file in \textsc{Pint} format.
+The admissible parametrizations enumeration is performed by adding the \texttt{-{}-enumerate}
+option to the command.
+%or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
+}%
 
 
 
