@@ -255,7 +255,7 @@ ship2 1 -> ship2d 0 1
 COOPERATIVITY(
 	    [pi3kr] in [[1]]
 	and not ([erbb13;erbb23;erbb34] in [[0;0;0]]
-				and [pi3kr;gab1;ras] in [[0;0;0]]),
+				and [gab1;ras] in [[0;0]]),
 	pi3k, 1, 0)
 
 akt 1 -> tsc1_tsc2 1 0
