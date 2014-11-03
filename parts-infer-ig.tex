@@ -57,8 +57,6 @@ $\fp(a_i)$ (\pref{eq:fp}).
 In \pref{eq:edges-inference} and \pref{eq:edges-inference-auto} we use
 $\irB_a^g(\sigma)$ as a shortcut for $\focals$, which returns the set of
 possible bounces of $a$ in the configuration $\sigma$.}
-Finally, when $a$ has no regulators, it derives that there is a positive self-influence
-of $a$ for each level above $1$ (\pref{eq:edges-inference-noreg}).
 \begin{proposition}[Influences inference]\label{pps:inference-edges}
 We define the set of positive (resp. negative) influences $\hat{E}_+$ (resp.
 $\hat{E}_-$) by
@@ -74,7 +72,7 @@ $\hat{E}_-$) by
 \label{eq:edges-inference}
 \\
 \begin{split}
- \forall a\in\Gamma: a\in\PHpredecgene{a}, & \forall s \in \{ +, - \}, \forall t < l_a\\
+ \forall a\in\Gamma, & \forall s \in \{ +, - \}, \forall t < l_a\\
   a \xrightarrow{t+1} a \in \hat{E}_s \EQDEF & \exists g \in X(a), 
     \exists \sigma \in L(g\cup\{a\}), \\
   \qquad & \exists a_j \in \irB_a^{g \modMF{\cup \{a\}}}(\sigma\{a_t\}),
@@ -87,11 +85,6 @@ $\hat{E}_-$) by
     \qquad & \vee k<t+1 \wedge j>t \wedge s=-
 \end{split}
 \label{eq:edges-inference-auto}
-\\
-\forall a\in\Gamma: \PHpredecgene{a} = \emptyset, &
-	\forall t\in\{0,\cdots,l_a-1\},
-	a \xrightarrow{t+1} a \in \hat{E}_+
-\label{eq:edges-inference-noreg}
 \end{align}
 \modMF{where $\irB_a^g(\sigma) \subset \PHl_a$ is defined as follows:}
 \begin{align}
