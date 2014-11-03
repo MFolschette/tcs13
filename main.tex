@@ -32,10 +32,12 @@
 \newrefformat{eq}{Eq.~\eqref{#1}}
 \newrefformat{ex}{Example~\ref{#1}}
 \newrefformat{tb}{Table~\ref{#1}}
+\newrefformat{rem}{Remark~\ref{#1}}
 \def\pref{\prettyref}
 
 \newdefinition{definition}{Definition}
 \newdefinition{property}{Property}
+\newdefinition{remark}{Remark}
 \newdefinition{proposition}{Proposition}
 \newdefinition{example}{Example}
 
@@ -126,11 +128,6 @@ answer set programming
 \end{frontmatter}
 
 
-\noindent
-\todo{make clear that PH allows any number of levels for components}\\
-\todo{Remove any reference to interval values for parameters}\\
-\todo{double-check all examples}
-
 \input{parts-intro}
 
 \section{Frameworks}\label{sec:frameworks}
@@ -147,6 +144,7 @@ answer set programming
 \bibliographystyle{elsarticle-num}
 \bibliography{biblio}
 
-%\input{parts/contributions}
+\appendix
+\input{annex-phage-lambda}
 
 \end{document}

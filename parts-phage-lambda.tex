@@ -1,8 +1,8 @@
 
 \modMF{
 \subsection{Detailed example: the bacteriophage lambda immunity control}
-}
 \label{ssec:phage-lambda}
+}
 
 \newcommand{\cI}{\f{cI}}
 \newcommand{\cro}{\f{cro}}
@@ -16,6 +16,9 @@
 \newcommand{\cIcroN}{\f{\tcIcroN}}
 \newcommand{\cIcro}{\f{\tcIcro}}
 
+\newcommand{\tcrocII}{cro\mbox{-}cII}
+\newcommand{\crocII}{\f{\tcrocII}}
+
 In order to illustrate the IG inference developed as \pref{sec:infer-IG},
 this first subsection focuses on a model of the lambda phage immunity control,
 which has been widely studied mainly for its particular switch mechanism,
@@ -27,8 +30,9 @@ We consider here the model with four genes proposed in \cite{thieffry_dynamical_
 which will serve as example to detail the inference method proposed in the previous sections.
 This model can be straightforwardly represented under the form of a Process Hitting
 with 4 components %($\Gamma = \{ \cI, \cro, \cII, \N \}$)
-and 3 cooperative sorts: %($\PHs \setminus \Gamma = \{ \cIcrocII, \cIcroN, \cIcro \}$).
-$$\PHs = \{ \underbrace{\cI, \cro, \cII, \N}_{\Gamma}, \cIcrocII, \cIcroN, \cIcro \}$$
+and 4 cooperative sorts: %($\PHs \setminus \Gamma = \{ \cIcrocII, \cIcroN, \cIcro \}$).
+\[\PHs = \{ \underbrace{\cI, \cro, \cII, \N}_{\Gamma},
+  \underbrace{\cIcrocII, \cIcroN, \cIcro, \crocII}_{\Delta} \}\]
 The four components have respectively 3, 4 2 and 2 expression levels,
 which we denote:
 \begin{align*}
@@ -40,6 +44,7 @@ which we denote:
 
 The full Process Hitting model is not represented here due to a lack of space,
 but excerpts are given in \pref{fig:phage-lambda-cIcro-N} and \pref{fig:phage-lambda-cIcro-cro}.
+The whole set of actions is given in appendix.
 
 
 
@@ -136,20 +141,23 @@ then a negative local influence of $\cI$ on $\N$ is inferred.
 
 We first note that in the case where $\cro_3$ is present, we have from \pref{eq:ctx-sigma}:
 \begin{align*}
-  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \cI_0, \cro_3, \cIcro_{FT} \} \\
-  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \cI_1, \cro_3, \cIcro_{TT} \} \\
-  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \cI_2, \cro_3, \cIcro_{TT} \}
+  \ctx_\N^{\{ \cI, \cro \}}(\state{\cI_0, \cro_3, \N_0})
+    &= \{ \cI_0, \cro_3, \N_0, \cIcro_{FT} \} \\
+  \ctx_\N^{\{ \cI, \cro \}}(\state{\cI_1, \cro_3, \N_0})
+    &= \{ \cI_1, \cro_3, \N_0, \cIcro_{TT} \} \\
+  \ctx_\N^{\{ \cI, \cro \}}(\state{\cI_2, \cro_3, \N_0})
+    &= \{ \cI_2, \cro_3, \N_0, \cIcro_{TT} \}
 \end{align*}
 We can then deduce the following directions of evolution from \pref{eq:irB}:
 \begin{align*}
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3, \N_0}) &= \{ \N_1 \} \\
-%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+  \irB_\N^{\{ \cI, \cro \}}(\state{\cI_0, \cro_3, \N_0}) &= \{ \N_1 \} \\
+%     \text{because } \state{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
 %     \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_1, \cro_3, \N_0}) &= \{ \N_0 \} \\
-%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+  \irB_\N^{\{ \cI, \cro \}}(\state{\cI_1, \cro_3, \N_0}) &= \{ \N_0 \} \\
+%     \text{because } \state{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
 %     \text{(from \pref{eq:B-bounce})} \\
-  \irB_\N^{\{ \cI, \cro \}}(\PHetat{\cI_2, \cro_3, \N_0}) &= \{ \N_0 \}
-%     \text{because } \PHetat{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
+  \irB_\N^{\{ \cI, \cro \}}(\state{\cI_2, \cro_3, \N_0}) &= \{ \N_0 \}
+%     \text{because } \state{\cI_0, \cro_3, \N_0} \in \Phi(\N_0) \\
 %     \text{(from \pref{eq:B-bounce})}
 \end{align*}
           %      eq:inference-edges-ba
@@ -219,19 +227,20 @@ The interactions of $\cro$ and $\cI$ on $\cro$ have been represented in
 \end{figure}
 
 Let us first focus on the group of regulators $\{ \cro \}$.
-Of course, $\forall \cro_i \in \PHl_{\cro}, \ctx_{\{ \cro \}}(\PHetat{\cro_i}) = \{ \cro_i \}$,
+Of course:
+\[\forall \cro_i \in \PHl_{\cro}, \ctx_{\cro}^{\{ \cro \}}(\state{\cro_i}) = \{ \cro_i \}\]
 and from \pref{eq:irB} and \eqref{eq:fp}:
 \begin{align*}
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_3}) &= \{ \cro_2 \} && \\
+  \irB_{\cro}^{\{ \cro \}}(\state{\cro_3}) &= \{ \cro_2 \} && \\
 %     \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_2}) &= \{ \cro_1 \} && \text{and} &
+  \irB_{\cro}^{\{ \cro \}}(\state{\cro_2}) &= \{ \cro_1 \} && \text{and} &
     \Phi&(\cro_2) = \emptyset \\
 %     \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_1}) &= \{ \cro_1 \} && \text{and} &
+  \irB_{\cro}^{\{ \cro \}}(\state{\cro_1}) &= \{ \cro_1 \} && \text{and} &
     \Phi&(\cro_1) = \emptyset \\
 %     \text{(from \pref{eq:B-no-bounce})} \\
-  \irB_{\cro}^{\{ \cro \}}(\PHetat{\cro_0}) &= \{ \cro_0 \} && \text{and} &
-    \PHetat{\cI_2, \cro_0} \in \Phi&(\cro_0)
+  \irB_{\cro}^{\{ \cro \}}(\state{\cro_0}) &= \{ \cro_0 \} && \text{and} &
+    \state{\cI_2, \cro_0} \in \Phi&(\cro_0)
 %     \text{(from \pref{eq:B-no-bounce})}
 \end{align*}
 We thus cannot infer any local influence from \pref{eq:edges-inference-auto}
@@ -242,17 +251,17 @@ these processes can therefore not be considered stable in any configuration.
 
 Let us now focus instead on the group of regulators $\{ \cI \}$.
 One again, we trivially have:
-$\forall \cI_i \in \PHl_{\cI}, \forall \cro_j \in \PHl_{\cro},
-  \ctx_{\{ \cI, \cro \}}(\PHetat{\cI_i, \cro_j}) = \{ \cI_i, \cro_j \}$.
+\[\forall \cI_i \in \PHl_{\cI}, \forall \cro_j \in \PHl_{\cro},
+  \ctx_{\cro}^{\{ \cI \}}(\state{\cI_i, \cro_j}) = \{ \cI_i, \cro_j \}\]
 Furthermore, from \pref{eq:irB}, we especially find:
 \begin{align*}
-%   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_0}) &= \{ \cro_1 \} &&
+%   \irB_{\cro}^{\{ \cI, \cro \}}(\state{\cI_0, \cro_0}) &= \{ \cro_1 \} &&
 %   \text{(from \pref{eq:B-bounce})} \\
-%   \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_1}) &= \{ \cro_2 \} &&
+%   \irB_{\cro}^{\{ \cI, \cro \}}(\state{\cI_0, \cro_1}) &= \{ \cro_2 \} &&
 %   \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_2}) &= \{ \cro_3 \} \\
+  \irB_{\cro}^{\{ \cI \}}(\state{\cI_0, \cro_2}) &= \{ \cro_3 \} \\
 %     \text{(from \pref{eq:B-bounce})} \\
-  \irB_{\cro}^{\{ \cI, \cro \}}(\PHetat{\cI_0, \cro_3}) &= \{ \cro_2 \}
+  \irB_{\cro}^{\{ \cI \}}(\state{\cI_0, \cro_3}) &= \{ \cro_2 \}
 %     \text{(from \pref{eq:B-bounce})}
 \end{align*}
 Therefore, \pref{eq:edges-inference} gives: $\cro \xrightarrow{3} \cro \in \hat{E}_-$.
@@ -305,33 +314,32 @@ The complete parametrization produced is available in \pref{tb:phage-lambda-k}.
 
 \begin{table}[t]
 \begin{align*}
-  K_{\cI, \emptyset} &= \{2\} &
-  K_{\N, \emptyset} &= \{1\} \\
-  K_{\cI, \{\cro\}} &= \{0\} &
-  K_{\N, \{\cro\}} &= \{0\} \\
-  K_{\cI, \{\cII\}} &= \{2\} &
-  K_{\N, \{\cI\}} &= \{0\} \\
-  K_{\cI, \{\cII;cro\}} &= \{2\} &
-  K_{\N, \{\cI;cro\}} &= \{0\} \\
+  K_{\cI, \emptyset} &= 2 &
+  K_{\N, \emptyset} &= 1\\
+  K_{\cI, \{\cro\}} &= 0&
+  K_{\N, \{\cro\}} &= 0\\
+  K_{\cI, \{\cII\}} &= 2&
+  K_{\N, \{\cI\}} &= 0\\
+  K_{\cI, \{\cII;cro\}} &= 2&
+  K_{\N, \{\cI;cro\}} &= 0\\
   \\
-  K_{\cII, \emptyset} &= \{0\} &
-  K_{\cro, \emptyset} &= \{3\} \\
-  K_{\cII, \{\cro\}} &= \{0\} &
-  K_{\cro, \{\cro\}} &= \{2\} \\
-  K_{\cII, \{\cI\}} &= \{0\} &
-  K_{\cro, \{\cI\}} &= \{0\} \\
-  K_{\cII, \{\cI;cro\}} &= \{0\} &
-  K_{\cro, \{\cI;cro\}} &= \{2\} \\
-  K_{\cII, \{\N\}} &= \{1\} \\
-  K_{\cII, \{\N;cro\}} &= \{0\} \\
-  K_{\cII, \{\N;cI\}} &= \{0\} \\
-  K_{\cII, \{\N;cI;cro\}} &= \{0\}
+  K_{\cII, \emptyset} &= 0&
+  K_{\cro, \emptyset} &= 3\\
+  K_{\cII, \{\cro\}} &= 0&
+  K_{\cro, \{\cro\}} &= 2\\
+  K_{\cII, \{\cI\}} &= 0&
+  K_{\cro, \{\cI\}} &= 0\\
+  K_{\cII, \{\cI;cro\}} &= 0&
+  K_{\cro, \{\cI;cro\}} &= 2\\
+  K_{\cII, \{\N\}} &= 1\\
+  K_{\cII, \{\N;cro\}} &= 0\\
+  K_{\cII, \{\N;cI\}} &= 0\\
+  K_{\cII, \{\N;cI;cro\}} &= 0
 \end{align*}
 \caption{\label{tb:phage-lambda-k}%
   Result of the parameters inference performed on the Process Hitting model
   of the phage lambda immunity response
   taken from \cite{thieffry_dynamical_1995}.
-  \todo{Remove the curly brackets $\{\}$?}
 }
 \end{table}
 
@@ -340,7 +348,8 @@ and the one proposed in \cite{thieffry_dynamical_1995}:
 \begin{itemize}
   \item The absence of the self-regulation of $\cI$ automatically reduces the size
     of the parametrization, but this does not modify the dynamics, as mentioned previously;
-  \item Our inference returns $K_{\cro, \{\cI;cro\}} = 2$ instead of originally $0$;
-    once again, this does not change the dynamics, and $1$ would also have been
-    an acceptable value.
+  \item Our inference returns $K_{\cro, \{\cI;cro\}} = 2$, \modLP{which is a value
+  equivalent to the original $0$ value according to \pref{rem:K-equiv}:
+  	the resulting dynamics is the same, and $1$ would also have been an
+	acceptable value}.
 \end{itemize}

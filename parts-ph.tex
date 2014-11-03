@@ -105,9 +105,9 @@ $\PHl_c = \{c_0, c_1\}$, and
 The action $h=\PHfrappe{b_1}{a_1}{a_2}$ is playable in the state
 $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 
-\begin{figure}[t]
+\begin{figure}[tb]
 \centering
-\scalebox{1.3}{
+\scalebox{1.5}{
 \begin{tikzpicture}
 \TSort{(0,0)}{a}{3}{r}
 \TSort{(-3,0.5)}{b}{2}{l}
@@ -118,11 +118,11 @@ $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 \THit{b_0}{}{a_2}{.west}{a_1}
 \THit{b_0}{}{a_1}{.west}{a_0}
 
-\path[bounce, bend left=60]
+\path[bounce, bend left=30]
 \TBounce{a_1}{very thick}{a_2}{.south}
 \TBounce{a_0}{very thick}{a_1}{.south}
 ;
-\path[bounce, bend right=60]
+\path[bounce, bend right=40]
 \TBounce{a_2}{}{a_1}{.north}
 \TBounce{a_1}{}{a_0}{.north}
 ;
@@ -132,13 +132,13 @@ $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 \THit{c_0}{}{a_2}{.east}{a_1}
 \THit{c_0}{}{a_1}{.east}{a_0}
 
-\path[bounce, bend right=60]
+\path[bounce, bend right=30]
 \TBounce{a_1}{very thick}{a_2}{.south east}
 \TBounce{a_0}{very thick}{a_1}{.south east}
 ;
-\path[bounce, bend left=60]
+\path[bounce, bend left=40]
 \TBounce{a_2}{}{a_1}{.north}
-\TBounce{a_1}{}{a_0}{.north east}
+\TBounce{a_1}{}{a_0}{.north}
 ;
 
 \THit{a_2}{bend right}{b_1}{.north east}{b_0}
@@ -149,7 +149,6 @@ $s = \state{b_1,a_1,c_0}$; and $s\play h=\state{b_1,a_2,c_0}$.
 \end{tikzpicture}
 }
 \caption{\label{fig:runningPH-1}
-\todo{make more visible}
 A Process Hitting (PH) example.
 Sorts are represented by labeled boxes, and processes by circles (ticks are
 the identifiers of the processes within the sort, for instance, $a_0$ is the

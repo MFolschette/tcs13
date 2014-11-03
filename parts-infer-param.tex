@@ -22,7 +22,7 @@ Hence, we propose in \pref{ssec:admissible-K} the notion of \emph{compatible} pa
 ot the PH dynamics: a Thomas model is compatible with a PH if Thomas dynamics is included in the PH
 dynamics, i.e., all the transitions in the Thomas model are possible transitions in the PH.
 This relaxed notion of parameterization compatibility allows to enumerate all parametrizations
-compatible with a given PH, i.e. all Thomas model whose dynamics is included in the PH dynamics.}
+compatible with a given PH, \ie all Thomas model whose dynamics is included in the PH dynamics.}
 
 
 \subsection{Parameters inference}\label{ssec:infer-K}
@@ -126,39 +126,44 @@ $a$.
 If $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP{$K_{a,\omega} = i$}.
 \end{proposition}
 
+\modMF{
+\begin{example}
+\label{ex:infer-param-runningPH-2}
+When applied to the refined PH in \pref{fig:runningPH-2},
+and with the IG of \pref{fig:runningBRN}(left)
+(which is the result of the IG inference on this PH model,
+as explained in \pref{ssec:infer-ig-examples}),
+\pref{pps:param_K} infers the parametrization of \pref{fig:runningBRN}(right).
+In other words, the inference of parameters allows to find back all parameters
+of the original model when the cooperations are fully defined.
+\end{example}
+}
+
+\modMF{
 \begin{example}
 \label{ex:infer-param-runningPH-1}
-
-Applied to the PH in \pref{fig:runningPH-1}, we infer the following parameters:
+Regarding the non-refined PH of \pref{fig:runningPH-1},
+with the IG produced by the IG inference described in \pref{ssec:infer-ig-examples}
+(that is, the same as \pref{fig:runningBRN}(left)
+without the self-influence $\GRNedgef{b}{+}{1}{b}$)
+the following parameters are inferred:
 \begin{align*}
-K_{a, \emptyset} &= 0&
-K_{b, \emptyset} &= 0 \\
-K_{a, \{a\}} &= 0 &
-K_{b, \{a\}} &= 0 \\
-K_{a, \{c\}} &= 1 &
-K_{b, \{b\}} &= 1 \\
-K_{a, \{b\}} &= 1 &
-K_{b, \{a,b\}} &= 0 \\
-K_{a, \{b,c\}} &= 1 &
-K_{c, \emptyset} &= 0 \\
-K_{a, \{a,b,c\}} &= 2 &
-K_{c, \{c\}} &= 1
-%K_{a, \{a,b\}} = ?
-%K_{a, \{a,c\}} = ?
+  K_{a,\emptyset} &= 0 &
+  K_{b,\{a\}} &= 0 \\
+%  K_{a,\{b\}} &= 0 \\
+%  K_{a,\{c\}} &= 0 &
+  K_{a,\{b,c\}} &= 2 \\ \\
+%  K_{b,\emptyset} &= 0
+  K_{c,\emptyset} &= 0 &
+  K_{c,\{c\}} &= 1
 \end{align*}
-$K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ cannot be inferred,
-which is a direct consequence of the lack of cooperation between $b$ and $c$ on $a$.
+The parameters $K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$
+could not be inferred,
+mainly due to the lack of precision in the cooperation between $b$ and $c$.
+Note that the parameters $K_{b,\{b\}}$ and $K_{b,\{a,b\}}$ do not exist for this IG,
+because of the absence of any self-influence $b \rightarrow b$.
 \end{example}
-
-\begin{example}
-Regarding the refined PH of \pref{fig:runningPH-2}, all parameters can be inferred.
-We obtain the same value for the inferred parameters of \pref{ex:infer-param-runningPH-1},
-together with the following results:
-\begin{align*}
-  K_{a,\{a,b\}} &= 1 &
-  K_{a,\{a,c\}} &= 1
-\end{align*}
-\end{example}
+}
 
 Given the \pref{pps:param_K}, we see that in some cases, the inference of the targeted parameter is impossible.
 This can be due to a lack of cooperation between regulators:
@@ -182,13 +187,15 @@ This is verified by the existence of a hit making the concerned component bounce
 of the value of the parameter in the matching context.
 Thus, assuming \pref{pro:wf-ph-K} holds, any transition in the inferred BRN corresponds to at least
 one transition in the PH, proving the correctness of our inference.
-We remark that any parameter inferred by \pref{pps:param_K} satisfies this property.
+\modMF{%
+Any parameter that does not satisfy \pref{pro:K-valid} is therefore excluded from the enumeration.
+}%
+We remark that all parameters inferred by \pref{pps:param_K} satisfy this property.
 
-\todo{update notations}
 \begin{property}[Parameter validity]\label{pro:K-valid}
-A parameter $K_{a,\omega}$ is valid w.r.t. the PH if and only if the following equation is verified:
+A parameter $K_{a,\omega}$ is valid w.r.t.~the PH if and only if the following equation is verified:
 \begin{align*}
-  \forall a_i\in C^a_{a,\omega}, a_i \notin K_{a,\omega} \Longrightarrow
+  \forall a_i \in C^a_{a,\omega}, a_i \neq K_{a,\omega} \Longrightarrow
     (& \exists \PHfrappe{c_k}{a_i}{a_j}\in\PHa, c_k \in C^c_{a,\omega} \\
      & \wedge a_i < K_{a,\omega} \Rightarrow j > i \wedge  a_i > K_{a,\omega} \Rightarrow j <i )
 \end{align*}
@@ -201,7 +208,9 @@ Then, we use some additional biological constraints on Thomas' parameters given 
 Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} if and only if:
 \label{pro:param_enum_extreme}
 \begin{align*}
-  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Longrightarrow \exists \omega \subset \GRNreg{b}, 0 \in K_{b,\omega} \wedge \exists \omega' \subset \GRNreg{b}, l_b \in K_{b,\omega'}
+  \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Longrightarrow
+    \exists \omega \subset \GRNreg{b}, K_{b,\omega} = 0 \wedge
+    \exists \omega' \subset \GRNreg{b}, K_{b,\omega'} = l_b
 \end{align*}
 \end{property}
 
@@ -220,28 +229,40 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
   \forall b \in \Gamma,
   \forall A^+ \subset \{ a \in \Gamma \mid \GRNedge{a}{+}{t}{b} \in E_+ \}&,
   \forall A^- \subset \{ a \in \Gamma \mid \GRNedge{a}{-}{t}{b} \in E_- \},\\
-  K_{b,\omega \cup A^-} & \leqsegm K_{b,\omega \cup A^+}
+  K_{b,\omega \cup A^-} & \leq K_{b,\omega \cup A^+}
 \end{align*}
 \end{property}
 
 \begin{example}\label{ex:enum-param-runningPH-1}
-The parametrization inferred in \pref{ex:infer-param-runningPH-1} was partial because $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ could not be inferred.
-It is however possible to enumerate all complete and admissible parametrizations
+The parametrization inferred in \pref{ex:infer-param-runningPH-1} was partial
+because \modMF{$K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$} could not be inferred.
+It is however possible to enumerate all \modMF{partial} and admissible parametrizations
 compatible with both the inferred parameters, and the properties of this subsection.
-This enumeration gives 9 different parametrizations which correspond to the 3 possible values
-for each of the two parameters that could not be inferred:
+This enumeration gives 9 different \modMF{partial} parametrizations
+which correspond to the 3 possible values
+\modMF{%
+for both $K_{a,\{b\}}$ and $K_{a,\{c\}}$:
 \begin{align*}
-  K_{a,\{a,b\}} &\in \{ \segm{1}{1}, \segm{1}{2}, \segm{2}{2} \} \\
-  K_{a,\{a,c\}} &\in \{ \segm{1}{1}, \segm{1}{2}, \segm{2}{2} \}
+  K_{a,\{b\}} &\in \{ 0, 1, 2 \} \\
+  K_{a,\{c\}} &\in \{ 0, 1, 2 \}
 \end{align*}
-We note that for all solutions, $0 \notin K_{a,\{a,b\}} \wedge 0 \notin K_{a,\{a,c\}}$.
-This is due to the monotonicity assumption (\pref{pro:param_enum_monotonicity}) which especially states that:
-\begin{align*}
-  K_{a,\{b\}} \leqsegm K_{a,\{a,b\}} \wedge
-  K_{a,\{c\}} \leqsegm K_{a,\{a,c\}}
-\end{align*}
+$K_{b,\emptyset}$ is excluded
+from all return parametrizations because no value is compatible with the previous properties.
+}%
+% We note that for all solutions, $0 \notin K_{a,\{a,b\}} \wedge 0 \notin K_{a,\{a,c\}}$.
+% This is due to the monotonicity assumption (\pref{pro:param_enum_monotonicity}) which especially states that:
+% \begin{align*}
+%   K_{a,\{b\}} \leqsegm K_{a,\{a,b\}} \wedge
+%   K_{a,\{c\}} \leqsegm K_{a,\{a,c\}}
+% \end{align*}
+\todo{Find an example to apply the assumptions (properties 6--8)?}
 
-Finally, we note that $\segm{1}{1}$ belongs to the possible values for both parameters.
+Finally, we note that \modMF{$1$} belongs to the possible values for both parameters.
 Therefore this enumeration allows, from the model in \pref{fig:runningPH-1},
-to find the behavior of the model refined with a cooperative sort described in \pref{fig:runningPH-2}.
+\modMF{%
+to find the behavior of component $a$ in the model refined with a cooperative sort described in
+\pref{fig:runningPH-2}.
+}%
+% to find the behavior of the model refined with a cooperative sort described in \pref{fig:runningPH-2}.
+\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
 \end{example}
