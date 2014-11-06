@@ -181,14 +181,18 @@ It is thereby possible to enumerate the possible values of all parameters for wh
 Indeed, this rule applies to any possible parameter $\var{P}$ of any component $\var{A}$ ($\paramlabel$) whose value is still unknown ($\nota \inferedparam$),
 and states that any expression level $\var{I}$ of this component ($\componentlevels$)
 is a candidate value for the parameter ($\param$).
+\modMF{
 Furthermore, both the lower and upper bounds are $1$,
 which forces each enumerated parameter to have exactly one value.
+}
 %but no upper bound is specified ($\infty$) for the size of each parameter
 %(which is in fact already bounded by the number of possible expression levels of the related component).
 %each parameter contains at least $1$ value, as stated by the lower bound, and has no upper bound ($\infty$) but the number of expression levels of its component.
 In other worlds, this cardinality rule creates as many answer sets as there are \emph{candidate} parametrizations
 so that if $K_{a, \omega_p}$ could not be inferred by \pref{pps:param_K}, then
+\modMF{
 $K_{a, \omega_p} \in \segm{0}{l_a}$
+}
 (thus completely disregarding the notion of admissible parametrizations given in \pref{ssec:admissible-K}).
 
 
