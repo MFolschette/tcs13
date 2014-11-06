@@ -139,28 +139,18 @@ E_\pm &= \{ \GRNedge{a}{\uns}{t}{b} \mid \exists a \xrightarrow{t'} b \in \hat{E
 \label{ssec:infer-ig-examples}
 
 \modMF{
-The IG inference of the PH of \pref{fig:runningPH-2} gives the
-IG in \pref{fig:runningBRN}(left), that is, allows to find back all the edges
-and their signs and thresholds.
-This is mainly due to the fact that the cooperation between $b$ and $c$ is well-defined,
-using a (deterministic) cooperative sort.
+The IG inference on the PH of \pref{fig:runningPH-2} returns the
+IG in \pref{fig:runningBRN}(left), that is, allows to find back all the expected edges
+alongside with their signs and thresholds.
+Furthermore, the IG inference on the PH of \pref{fig:runningPH-1}, which is not refined,
+gives the same result, despite the absence of the cooperative sort.
+This is due to the fact that the inference of \pref{pps:inference-edges}
+is able to analyze the influences from different regulators independently
+if they do not share a cooperative sort.
 }
 
 \modMF{
-Indeed, the inference of the PH of \pref{fig:runningPH-1},
-that is, without refinement with a cooperative sort, gives the following IG:
-\begin{align*}
-  E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{c}{+}{1}{c}\}\\
-  E_- &= \{\GRNedgef{a}{-}{2}{b}\} \qquad\qquad\qquad\qquad\qquad
-  E_\uns = \emptyset
-\end{align*}
-This IG is close to the one in \pref{fig:runningBRN} but misses the self-influence
-$\GRNedgef{b}{+}{1}{b}$.
-\todo{Detail why?}
-}
-
-\modMF{
-If we add the action $\PHfrappe{a_2}{b_0}{b_1}$ to the PH of \pref{fig:runningPH-2},
+If an action $\PHfrappe{a_2}{b_0}{b_1}$ is added to the PH of \pref{fig:runningPH-2},
 then two \modLP{non-monotonous} edges towards $b$ are inferred instead of the previous signed edges:
 \begin{align*}
   E_+ &= \{\GRNedgef{b}{+}{1}{a}, \GRNedgef{c}{+}{1}{a}, \GRNedgef{a}{+}{1}{a}, \GRNedgef{c}{+}{1}{c}\}\\

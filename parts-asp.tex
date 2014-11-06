@@ -175,14 +175,14 @@ Then, suppose that:
 \end{itemize}
 It is thereby possible to enumerate the possible values of all parameters for which \pref{pps:param_K} was not conclusive, with the following cardinality rule:
 \begin{align*}
-  & 1\ \{\ \param(\var{A}, \var{P}, \var{I}) \mid \componentlevels(\var{A}, \var{I})\ \}\ \infty\ \la \\
+  & 1\ \{\ \param(\var{A}, \var{P}, \var{I}) \mid \componentlevels(\var{A}, \var{I})\ \}\ \modMF{1}\ \la \\
   & \qquad\qquad\qquad \paramlabel(\var{A}, \var{P}), \nota \inferedparam(\var{A}, \var{P}).
 \end{align*}
 Indeed, this rule applies to any possible parameter $\var{P}$ of any component $\var{A}$ ($\paramlabel$) whose value is still unknown ($\nota \inferedparam$),
 and states that any expression level $\var{I}$ of this component ($\componentlevels$)
 is a candidate value for the parameter ($\param$).
 Furthermore, both the lower and upper bounds are $1$,
-which force each enumerated parameter to have exactly one value.
+which forces each enumerated parameter to have exactly one value.
 %but no upper bound is specified ($\infty$) for the size of each parameter
 %(which is in fact already bounded by the number of possible expression levels of the related component).
 %each parameter contains at least $1$ value, as stated by the lower bound, and has no upper bound ($\infty$) but the number of expression levels of its component.
@@ -196,26 +196,21 @@ $K_{a, \omega_p} \in \segm{0}{l_a}$
 \begin{example}\label{ex:cardinality}
 \modMF{%
 In the scope of \pref{ex:infer-param-runningPH-1},
-$K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$
+$K_{a,\{b\}}$ and $K_{a,\{c\}}$
 could not be inferred by \pref{pps:param_K}.
-The previous cardinality rule allows to produce 18 parametrizations,
+The previous cardinality rule allows to produce 9 parametrizations,
 in which these three parameters can take all possible values:
-%The enumeration thus produces 36 parametrizations, in which these parameters can take all possible values:
 %(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
 \begin{align*}
   (K_{a,\{b\}}; K_{a,\{c\}}; K_{b,\emptyset}) \in
-    \{ 0, 1, 2 \} \times \{ 0, 1, 2 \} \times \{ 0, 1 \}
-%   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2}, \{ 0, 2 \} \}^2
+    \{ 0, 1, 2 \} \times \{ 0, 1, 2 \}
 \end{align*}
 and all the other parameters keep their inferred values.
-Note that $0$ belongs to the set of candidate values for parameter $K_{b,\emptyset}$
-because the extreme values assumption (\pref{pro:param_enum_extreme})
-has not been taken into account yet.
 %These parametrizations take the form of sets of $\param$ atoms.
 % Note that $\{ 0, 2 \}$ belongs to the set of candidate parametrizations
 % as no rule specifying that a parameter has to be an interval has been defined yet.
 }%
-\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
+\todo{Find an example to apply the assumptions (properties 6--8)?}
 \end{example}
 
 
@@ -244,35 +239,21 @@ but $K_{\var{A},\omega_\var{Q}} < K_{\var{A},\omega_\var{P}}$,
 thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
-\begin{example}
-\modMF{%
-The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
-% For example, a constraint was written in order to obtain only interval parameters
-% (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
-% Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
-% \begin{align*}
-%   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
-% \end{align*}
-% }%
-% 
+% \begin{example}
 % \modMF{%
-For example,
-% , due to the fact that the parameters $K_{a,\{b\}} = \segm{1}{1}$ and $K_{a,\{c\}} = \segm{1}{1}$ could be inferred,
-the extreme values assumption (\pref{pro:param_enum_extreme}) removes all parametrizations with
-$K_{b,\emptyset} = 0$,
-thus reducing the set of candidate values to 9 possible values:
-\begin{align*}
-  (K_{a,\{b\}}; K_{a,\{c\}}; K_{b,\emptyset}) \in
-    \{ 0, 1, 2 \} \times \{ 0, 1, 2 \} \times \{ 1 \}
-\end{align*}
-Furthermore, parameter $K_{b,\emptyset} = 1$ doest not respect \pref{pro:K-valid},
-because no action in the model of \pref{fig:runningPH-1} allows to bounce from $b_0$ to $b_1$.
-Therefore, this parameter is removed from all returned parametrizations.
-In the end, 9 partial parametrizations are therefore produced.
-}%
-\todo{Find an example to apply the monotonicity assumption?}
-\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
-\end{example}
+% The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
+% % For example, a constraint was written in order to obtain only interval parameters
+% % (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
+% % Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
+% % \begin{align*}
+% %   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
+% % \end{align*}
+% % }%
+% % 
+% % \modMF{%
+% }%
+% \todo{Find an example to apply the monotonicity assumption?}
+% \end{example}
 
 
 

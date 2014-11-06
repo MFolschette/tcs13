@@ -129,10 +129,10 @@ If $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP
 \modMF{
 \begin{example}
 \label{ex:infer-param-runningPH-2}
-When applied to the refined PH in \pref{fig:runningPH-2},
-and with the IG of \pref{fig:runningBRN}(left)
-(which is the result of the IG inference on this PH model,
-as explained in \pref{ssec:infer-ig-examples}),
+When applied to the refined PH of \pref{fig:runningPH-2},
+and using the IG of \pref{fig:runningBRN}(left)
+which is the result of the IG inference on this PH model,
+as explained in \pref{ssec:infer-ig-examples},
 \pref{pps:param_K} infers the parametrization of \pref{fig:runningBRN}(right).
 In other words, the inference of parameters allows to find back all parameters
 of the original model when the cooperations are fully defined.
@@ -143,25 +143,13 @@ of the original model when the cooperations are fully defined.
 \begin{example}
 \label{ex:infer-param-runningPH-1}
 Regarding the non-refined PH of \pref{fig:runningPH-1},
-with the IG produced by the IG inference described in \pref{ssec:infer-ig-examples}
-(that is, the same as \pref{fig:runningBRN}(left)
-without the self-influence $\GRNedgef{b}{+}{1}{b}$)
-the following parameters are inferred:
-\begin{align*}
-  K_{a,\emptyset} &= 0 &
-  K_{b,\{a\}} &= 0 \\
-%  K_{a,\{b\}} &= 0 \\
-%  K_{a,\{c\}} &= 0 &
-  K_{a,\{b,c\}} &= 2 \\ \\
-%  K_{b,\emptyset} &= 0
-  K_{c,\emptyset} &= 0 &
-  K_{c,\{c\}} &= 1
-\end{align*}
-The parameters $K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$
-could not be inferred,
-mainly due to the lack of precision in the cooperation between $b$ and $c$.
-Note that the parameters $K_{b,\{b\}}$ and $K_{b,\{a,b\}}$ do not exist for this IG,
-because of the absence of any self-influence $b \rightarrow b$.
+and using the same IG of \pref{fig:runningBRN}(left),
+the parameters of \pref{fig:runningBRN}(right) are inferred,
+except the parameters $K_{a,\{b\}}$ and $K_{a,\{c\}}$
+for which \pref{pps:param_K} is not conclusive.
+The obtained parametrization is therefore partial.
+This is due to the lack of precision in the cooperation between $b$ and $c$,
+caused by the absence of the cooperative sort.
 \end{example}
 }
 
@@ -235,19 +223,15 @@ Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \
 
 \begin{example}\label{ex:enum-param-runningPH-1}
 The parametrization inferred in \pref{ex:infer-param-runningPH-1} was partial
-because \modMF{$K_{a,\{b\}}$, $K_{a,\{c\}}$ and $K_{b,\emptyset}$} could not be inferred.
-It is however possible to enumerate all \modMF{partial} and admissible parametrizations
+because \modMF{$K_{a,\{b\}}$ and $K_{a,\{c\}}$} could not be inferred.
+It is however possible to enumerate all admissible parametrizations
 compatible with both the inferred parameters, and the properties of this subsection.
-This enumeration gives 9 different \modMF{partial} parametrizations
+This enumeration gives 9 different parametrizations
 which correspond to the 3 possible values
 \modMF{%
 for both $K_{a,\{b\}}$ and $K_{a,\{c\}}$:
-\begin{align*}
-  K_{a,\{b\}} &\in \{ 0, 1, 2 \} \\
-  K_{a,\{c\}} &\in \{ 0, 1, 2 \}
-\end{align*}
-$K_{b,\emptyset}$ is excluded
-from all return parametrizations because no value is compatible with the previous properties.
+%\[(K_{a,\{b\}}; K_{a,\{c\}}) \in \{ 0, 1, 2 \} \times \{ 0, 1, 2 \}\]
+\[K_{a,\{b\}} \in \{ 0, 1, 2 \} \qquad \text{and} \qquad K_{a,\{c\}} \in \{ 0, 1, 2 \}\]
 }%
 % We note that for all solutions, $0 \notin K_{a,\{a,b\}} \wedge 0 \notin K_{a,\{a,c\}}$.
 % This is due to the monotonicity assumption (\pref{pro:param_enum_monotonicity}) which especially states that:
@@ -259,10 +243,6 @@ from all return parametrizations because no value is compatible with the previou
 
 Finally, we note that \modMF{$1$} belongs to the possible values for both parameters.
 Therefore this enumeration allows, from the model in \pref{fig:runningPH-1},
-\modMF{%
-to find the behavior of component $a$ in the model refined with a cooperative sort described in
+to find the behavior of the model refined with a cooperative sort described in
 \pref{fig:runningPH-2}.
-}%
-% to find the behavior of the model refined with a cooperative sort described in \pref{fig:runningPH-2}.
-\todo{Check this example w.r.t.~\pref{pro:K-valid}.}
 \end{example}
