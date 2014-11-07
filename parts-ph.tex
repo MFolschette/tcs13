@@ -75,7 +75,7 @@ $(s\play h\play h')$.
 
 \medskip
 
-\modLP{PH can be seens as a particular sub-class of safe Petri nets \cite{BC92},
+\modLP{PH is a particular sub-class of safe Petri nets \cite{BC92},
 i.e. Petri nets with at most one token per place, having
 groups of multually exclusive places (processes) acting as the sorts, and where each
 transition has at most one read-arc (connected to the \emph{hitter}), and
@@ -189,7 +189,7 @@ a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of t
 processes $b_1$ and $c_1$).
 For the sake of clarity, the processes of $bc$ are indexed using the sub-state they represent.
 Hence, $bc_{01}$ represents the sub-state $\state{b_0,c_1}$, and so on.
-Each process of sort $b$ and $c$ hit $bc$ to make it bounce to the process reflecting the status of the sorts $b$
+Each process of sort $b$ and $c$ hit $bc$ to make it bounce to the process reflecting the state of the sorts $b$
 and $c$ (e.g., $\PHfrappe{b_1}{bc_{00}}{bc_{10}}$ and $\PHfrappe{b_1}{bc_{01}}{bc_{11}}$).
 Then, it is process $bc_{11}$ which hits $a_1$ to make it bounce to $a_2$ instead of
 independent hits from $b_1$ and $c_1$.

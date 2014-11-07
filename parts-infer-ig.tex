@@ -41,7 +41,7 @@ when the configuration changes.
 with a threshold $t$.
 \modLP{The inference relies on finding configurations $\sigma$ of groups $g$ of regulators of $a$
 such that the increase of one of the regulator $b\in g$ from $b_t$ to $b_{t+1}$
-changes the sign of the evolution of $a$.
+changes the direction of the evolution of $a$.
 If $b\neq a$ (\pref{eq:edges-inference}), this is achieved by finding a configuration $\sigma$ of $g$ and $a$ such
 that there exists a bounce $a_j$ from $a_i$ in $\sigma\{b_t\}$ which is different
 from a bounce $a_k$ from $a_i$ in $\sigma\{b_{t+1}\}$.
@@ -81,8 +81,8 @@ $\hat{E}_-$) by
     (j=t \Rightarrow \exists \sigma'\in\fp(a_t): \sigma\{a_t\}\subseteq \sigma') \\
   \qquad & \wedge 
     (k=t+1 \Rightarrow \exists \sigma'\in\fp(a_{t+1}): \sigma\{a_{t+1}\}\subseteq \sigma') \\
-  \qquad & \wedge k\geq t+1 \wedge j \leq t \wedge s=+ \\
-    \qquad & \vee k<t+1 \wedge j>t \wedge s=-
+  \qquad & \wedge (k\geq t+1 \wedge j \leq t \wedge s=+ \\
+    \qquad & \vee k<t+1 \wedge j>t \wedge s=-)
 \end{split}
 \label{eq:edges-inference-auto}
 \end{align}
@@ -111,7 +111,7 @@ and $\fp(a_i) \subseteq  L(\PHpredecgene{a}\cup\{a\})$ is defined as follows:
 We are now able to infer the edges of the final IG by considering positive and negative influences
 (\pref{pps:inference-IG}).
 We infer a positive (resp. negative) edge if there only exist corresponding influences with the same sign.
-If an influence is both positive and negative, we infer an
+If an influence is both positive and negative, we infer a
 \modLP{non-monotonous} edge.
 In the end, the threshold of each edge is the minimum threshold for which an influence has been found.
 \modLP{Note that as regulations matches with sign changes of the evolution of the

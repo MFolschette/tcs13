@@ -57,13 +57,11 @@ which was impossible with other state-of-the-art approaches \cite{PMR12-MSCS,PAK
  
 The PH is suitable to model BRNs with different levels of abstraction in the specification of
 cooperations (associated influences) between components. \modOR{The concept of cooperation refers to the} \modMM{way two (or more) components jointly influence a third one. In other words, it captures the logical functions stating how} \modOR{various elements coalesce and act together upon an other element among the network.}
-%\todo{Explain the notion of “cooperation” (informally) to be understandable until the definition of cooperative sorts.}
-
-The modeling and analysis of the qualitative dynamics of large interaction net- works face two important challenges. For modeling, it is very rare that all logical functions governing the dynamics are known, even if the interaction graph is con- sidered as prior knowledge. One technique would then be to enumerate all logical networks that are compatible with the prior knowledge on the interaction graph and partial logical functions. But, with large networks, such an enumeration suffers from high combinatorics. For analysis, because the size of the state transition graph grows exponentially with the number of components, proving dynamical properties becomes intractable for networks with hundreds or thousands of elements.
-In order to illustrate the challenge of modeling interactions with partial knowledge,
-
-This allows to model BRNs with a partial knowledge on precise evolution functions for components
-by capturing the largest (the most general) dynamics.
+\modLP{In particular, PH allows to specify partial (non-deterministic) cooperations that superpose the dynamics of 
+candidate fully-specified (deterministic) cooperations.
+This permit to model BRNs with a partial knowledge on precise evolution functions for components
+by capturing the largest (the most general) dynamics, without a combinatorics enumeration of
+compatible Thomas models.}
 
 \medskip
 
@@ -106,7 +104,7 @@ More formally, the resulting BRN dynamics is ensured to be included in the PH dy
 transition in the (asynchronous) Thomas model exists in the PH model.
 In practice, the number of compatible Thomas parameters can be huge for large networks where only a
 few cooperations are specified.
-This highlights the fact that the PH is very suitable to analyze dynamics of large-scale networks
+This highlights that the PH is suitable to analyze dynamics of large-scale networks
 where the knowledge on cooperations is often incomplete:
 instead of dealing with a possibly non-tractable number of Thomas models, one can already capture
 precise dynamical features using a single PH model which gathers all the plausible dynamics.
