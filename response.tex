@@ -120,9 +120,10 @@ not enter in the interpretation, why they are included in the formalism as
 necessary ``comments''?}
 
 Having both the (signed) interaction graph (IG) and the parametrization in the model allows to decouple the IG from the dynamics, which is interesting for modeling biological systems as the IG is often a prior knowledge with possible inconsistencies with the dynamics we want to encode with. A further step may then infer back the IG of the actual dynamics (here, an abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior one, we have consistency.
-Conversely, the signs of the prior IG can be used to constraint the possible parametrizations to
+Conversely, the signs of the prior IG can be used to constrain the possible parametrizations to
 ensure consistency with the signed interactions (e.g. by imposing an ordering between parameters
-values to ensure monotonicity, see section 5.2).
+values to ensure monotonicity, see section 5.2) -- in such a case, in your example, we would impose
+that $K_{b,\{a\}} \geq K_{b,\emptyset}$.
 
 % \DISCUSS{LP}
 %Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to a parametrization (which contains the name of each component, and where each maximum level can be inferred from the maximum value found in the related parameters) by simply adding information about the thresholds. Furthermore, the parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t. the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
