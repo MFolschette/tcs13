@@ -1,5 +1,10 @@
 \documentclass[11pt]{article}
 % vim:set spell spelllang=en:
+
+%\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
 \usepackage{color}
 \usepackage{fullpage}
 
@@ -56,13 +61,73 @@
 
 \begin{document}
 
-\section*{Comments and answers to the reviewer}
+\section*{Summary of the main changes}
 
-We thank the reviewer for th comments and  suggestions.
+\TODO{Detail more/less these changes?}
 
-\TODO{summary of response + changes}
+\begin{itemize}
+  \item The title has been changed from “Constructing...” to “Identification of...”.
+  \item The abstract and the introduction have been improved to better contextualize our work.
+  \item New explanations have been added at the beginning of every section
+    to detail their objectives and methods.
+  \item The explanations about cooperations in Process Hitting have been partially rewritten.
+  \item In the section defining Thomas modeling (subsection 2.2):
+    \begin{itemize}
+      \item “Unsigned edges” are now called “non-monotonous edges”,
+        and explanations have been added to explain their meaning;
+      \item We now only consider single-value parameters
+        (as opposed to previous interval parameters);
+      \item A property has been added to characterize equivalent parametrizations
+        (see Remark 1).
+    \end{itemize}
+  \item A new section has been created (section 3)
+    in order to better separate general definitions (esp. the notions of focal processes,
+    deterministic sorts, components/cooperative sorts separation,
+    regulators and configuration extension)
+    from the IG inference propositions of section 4.
+  \item The IG inference method has been improved in order to get more accurate results
+    (see Proposition 1).
+  \item Property 4 (Well-formed PH for parameter inference) has been improved
+    to handle more general forms of PH models,
+    namely, with cooperative sorts containing more than 4 processes.
+  \item Equations of section 5 (19 to 22) have been adapted to single-value parameters.
+  \item All examples in sections 2 to 5 have been actualized to the new formalism
+    and propositions.
+  \item A detailed example has been added in section 7 (see subsection 7.1)
+    where we detail the application of our method to some parts of a model of
+    the bacteriophage lambda immunity control.
+  \item Actualized results are given in subsection 7.3,
+    related to several improvements brought to our method.
+\end{itemize}
+
+
+
+\section*{Summary of our answers to the reviewer}
+
+We thank the reviewer for these comments and  suggestions.
+The reviewer's main concerns about our work were the readability of our paper and the consistency problems posed by our definition of Thomas' modeling.
+
+The readability has been improved by rewriting large parts of the section previously numbered 3, by:
+\begin{itemize}
+  \item Splitting it into two sections, in order to handle apart the general definitions and the propositions linked to the IG inference;
+  \item Adding some paragraphs of explanations at the beginning of sections and before the most complex definitions;
+  \item Adding running examples in these sections;
+  \item Dealing with a detailed example of a model of the bacteriophage lambda immunity control (subsection 7.1) to illustrate our method.
+\end{itemize}
+
+Regarding the definition of Thomas' modeling, we completely understand the reviewer's concerns and comments. These definitions are indeed redundant and some pieces of informations can be contradictory (namely, the parametrization vs. the sings on the edges that describe the kind of influences between the components).
+However, we chose to keep the current definition of Thomas' models. Our motivations are the following:
+\begin{itemize}
+  \item We wish to stay close to the traditional definition of this formalism, in order not to destabilize the reader;
+  \item Introducing new definitions such as an unsigned IG, or new constrains on the IG such as a monotonicity property may add unnecessary complexity;
+  \item The signs in the IG are interesting in themselves and lead to several works on IG-based static analyses.
+\end{itemize}
 
 Please find below our detailed answers.
+
+
+
+\section*{Comments and answers to the reviewer}
 
 \question{Beside, the definition of RT model, including signs that can be
 deduced
@@ -75,18 +140,23 @@ on the other side I define a as an inhibitor with K parameters. As signs do
 not enter in the interpretation, why they are included in the formalism as
 necessary ``comments''?}
 
-\DISCUSS{LP}
-Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to the set of nodes and the corresponding logical parameters. The single parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t to the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
+% \DISCUSS{LP}
+Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to a parametrization (which contains the name of each component, and where each maximum level can be inferred from the maximum value found in the related parameters) by simply adding information about the thresholds. Furthermore, the parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t. the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
 
-Moreover signs and edges have been an inspiration for numerous works with regard to the analysis of networks. As showed for example in THOMAS, R. \& D'ARI, R., "Biological feedback", CRC Press, Boca Raton , Florida, USA, (1990), 316 pp), the analysis of some dynamical properties (e.g. sustained oscillations) can derive from the study of positive or negative circuits. 
+Moreover signs and edges have been an inspiration for numerous works with regard to the analysis of networks. As showed for example in THOMAS, R. \& D'ARI, R., “Biological feedback” (CRC Press, Boca Raton , Florida, USA, 1990, 316 pp), the analysis of some dynamical properties (e.g. sustained oscillations) can derive from the study of positive or negative circuits. 
 
 In addition, having both the interaction graph and the parametrization in the model allows to decouple the IG from the dynamics, which is interesting for modeling biological systems as the IG is often a prior knowledge with possible inconsistencies with the dynamics we want to encode with. A further step may then infer back the IG of the actual dynamics (here, an abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior one, we have consistency.
 
 Finally, several alternative definitions exist, with various degree of equivalency. As a consequence, we chose here to stick to the original formalism and picked this definition as it the original and standard one in the Thomas' community.
 
-Nevertheless, to remove ambiguity and comply with the reviewer's suggestions, we redesigned section 2.2, emphasizing such a choice. 
+Nevertheless, to remove ambiguity and comply with the reviewer's suggestions, we redesigned section 2.2, emphasizing such a choice, especially with this excerpt:
+“distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (e.g., necessary condition on sustained oscillations) solely based on the structure of the IG (e.g., the analysis of positive or negative circuits)”.
+
+% \DISCUSS{MF} I just changed a little bit the first paragraph.
 
 %\TODO{Answer inc. text modification}
+
+
 
 \question{
 (P.1) Abstract: the following sentence is not understandable. Either more explanations
@@ -96,13 +166,17 @@ analysis of very large systems tractable.''
 }
 
 \answer
-\DISCUSS{LP}
-proposition: ``The PH is a particular class of Indeterministic Asynchronous Automata
-Network (or safe Petri nets) on which have been designed static analysis for
-dynamical properties that are tractable on very large systems.''
+% \DISCUSS{LP}
+% proposition: ``The PH is a particular class of Indeterministic Asynchronous Automata
+% Network (or safe Petri nets) on which have been designed static analysis for
+% dynamical properties that are tractable on very large systems.''
+
+This comment has been taken into account and the sentence has been replaced by:
+“The analysis of dynamics of very large models is however a rather hard problem, which led us to previously introduce a new framework: the Process Hitting (PH), which is a particular class of Indeterministic Asynchronous Automata Network (or safe Petri nets). Its major advantage lies in the efficiency of several static analyses recently designed to assess dynamical properties, making it possible to tackle very large models.”
+
+%\TODO{Modify sentence + answer (quote)}
 
 
-\TODO{Modify sentence + answer (quote)}
 
 \question{
 The BRNs were introduced by S. Kauffman in 1969. His work also covers
@@ -113,8 +187,12 @@ of a Boolean system dynamics with a Boolean function which is a normal
 way to define a dynamical system. The R.T.'s formalization is slightly unconventional, namely not based on a stepwise function.}
 
 \answer
-\DISCUSS{LP} yes, we have to mention Kauffman of course, while stressing the
-differences brought by Thomas (async + parameters).
+% \DISCUSS{LP} yes, we have to mention Kauffman of course, while stressing the
+% differences brought by Thomas (async + parameters).
+
+This comment has been taken into account and we added a reference to Kauffman in the abstract and in the introduction. However, we do not insist more on this as we only use BRNs as later extended and defined by Thomas in our work.
+
+
 
 \question{
 For Boolean networks, symbolic methods and parsimonious generation of
@@ -124,13 +202,17 @@ Therefore, claiming that it is a ``major difficulty'' is partly true only.
 }
 
 \answer
-\DISCUSS{LP} yes, we have to mention those work, while stressing that they have
-hard time with transient dynamics on very large networks, partly due to
-concurrency, which makes model-checking very hard even with symbolic techniques.
+We added some references to such methods, but did not emphasis on this as it is not the main subject of our work. The main interesting feature of Process Hitting in our work is that it is able to model multy-valued and indeterministic systems.
 
-\DISCUSS{LP} how such a discussion is relevant for the paper? Can't we simply
-say that PH allows to model indeterministic Boolean and multi-valued networks
-and remove (or drastically reduce) this discussion on model-checking?
+% \DISCUSS{LP} yes, we have to mention those work, while stressing that they have
+% hard time with transient dynamics on very large networks, partly due to
+% concurrency, which makes model-checking very hard even with symbolic techniques.
+% 
+% \DISCUSS{LP} how such a discussion is relevant for the paper? Can't we simply
+% say that PH allows to model indeterministic Boolean and multi-valued networks
+% and remove (or drastically reduce) this discussion on model-checking?
+
+
 
 \question{
 (P.3 and 6) The term “cooperation” is often mentioned. It is not self-
@@ -140,22 +222,30 @@ explained, but the notion of cooperation that cooperative sort encompasses.
 A definition of “cooperation” is required (formal or not) or more explanations of the notion of cooperation in this context.
 }
 
-\DISCUSS{LP} we should avoid this term in introduction, and only use once
-formally defined.
-In the introduction, maybe we should mention that
-PH models can embed additional automata that encode for some (partial) logic
-gates. Such additional automata that can be considered as ``internal''
-variables, and we may want to mask them in abstract representations of the
-systems, such as IG and Thomas' parameters.
-\DISCUSS{LP} the general the notion of cooperation should be defined in the
-introduction.
+We took this comment into account and added more explanations in the introduction of paper to better explain what we meant by “cooperations” or “associated influences”, and by changing a little bit the terminology for better understanding. We especially added the following sentences just after the first occurrence of this notion of cooperation:
+“The concept of cooperation refers to the way two (or more) components jointly influence a third one. In other words, it captures the logical functions stating how various elements coalesce and act together upon an other element among the network.”
+
+% \DISCUSS{LP} we should avoid this term in introduction, and only use once
+% formally defined.
+% In the introduction, maybe we should mention that
+% PH models can embed additional automata that encode for some (partial) logic
+% gates. Such additional automata that can be considered as ``internal''
+% variables, and we may want to mask them in abstract representations of the
+% systems, such as IG and Thomas' parameters.
+% \DISCUSS{LP} the general the notion of cooperation should be defined in the
+% introduction.
+
+
 
 \question{
 (P. 6) The arrows representing the hitting of sort a fig 1. are too small.
 }
 
 \answer
-\TODO{improve figure}
+% \TODO{improve figure}
+We took this comment into account and made the figure more readable.
+
+
 
 \question{
 (P. 8)
@@ -165,11 +255,14 @@ Again I don't understand the message related to your own notion of cooperation. 
 mention these elements?}
 
 \answer
-\DISCUSS{LP} I would go for removing this discussion.
+% \DISCUSS{LP} I would go for removing this discussion.
+We took this comment into account and removed this part of the discussion as it was more confusing than explanatory regarding our work.
+
+
 
 \question{
 (P. 9) Interaction Graph. $\Gamma$ refers to the set of vertices. However
-$\Gamma^{−1}(b)$
+$\Gamma^{-1}(b)$
 requires to seek the pre-image in E. I find the choice of $\Gamma$ to annotate
 a function giving the regulators confusing. If we admit that E defines a
 relation, $Eb$ or $E^{-1} (b)$ are more natural notations for the pre-image or more
@@ -179,7 +272,10 @@ require additional notations.
 }
 
 \answer
-\TODO{Apply the changes + quick answer}
+% \TODO{Apply the changes + quick answer}
+This notation was intended to match the corresponding one for the Process Hitting models, but it was indeed a poor choice. We took this comment into account and changed this notation to $E^{-1}(b)$.
+
+
 
 \question{
 (P. 8) You mention that Thomas formalism lies on two complementary descriptions of the system IG and K parameters. However There exists some
@@ -193,8 +289,11 @@ properties.
 }
 
 \answer
-\DISCUSS{LP} See 1. The definitions need to be more clear with more textual
-explanation for CS people.
+Please refer to our answer to question 1. There are indeed several less redundant ways to represent a BRN but we decided to keep the definition proposed by Thomas. Even if the parametrization is present, the signs on the edges still have an informative value. Furthermore, we do consider the signs in the case of the parameters enumeration.
+% \DISCUSS{LP} See 1. The definitions need to be more clear with more textual
+% explanation for CS people.
+
+
 
 \question{
 (P. 11) Definition of the sign. The term of monotony is classically associated
@@ -205,12 +304,18 @@ it necessary here just for mentioning that PH may accept any level?
 }
 
 \answer
+We took the second comment into account and removed the discussion about maximum levels which was indeed unnecessary.
+
 \DISCUSS{LP} Yes, we should make clear that we are looking for monotonic
 influences - but not necessarily at the global scope, which mean that we can
 find two contradictory monotonic influences, leading to those ``unsigned'' edges
 in the IG.
 And yes, we should just mention that PH models can have an arbitrary number of
 levels.
+
+\DISCUSS{MF} In fact I don't really understand this comment --- I fist thought it was related to questions 1 and 9 but in fact it is not. There is no inference on page 11; was the reviewer talking about the dynamics? In the end, has the discussion about monotonic influences been added to the paper?
+
+
 
 \question{
 (P. 12) The order of your explanations makes the text confusing. Signs
@@ -222,7 +327,11 @@ signed IG which is an abstraction of the monotony of the K parameters.
 }
 
 \answer
-\DISCUSS{LP} Same as 1 and 9.
+Please refer to our answers to questions 1 and 9.
+A definition of unsigned IG could indeed be included, but we do not think that it would make the matter clearer because our method is not related to unsigned IGs.
+% \DISCUSS{LP} Same as 1 and 9.
+
+
 
 \question{
 (P. 12) ``However, it is common that the prior IG actually refers to interaction
@@ -234,14 +343,28 @@ the arguments or the sentence has to be rephrased.
 }
 
 \answer
-\DISCUSS{LP}
-Indeed, the motivation is quite weak. Some arguments:
-\begin{enumerate}
-\item Abstract representation of influences
-\item Consistency with prior knowledge: if the modelling started from an IG, we may want to
-verify that the dynamical models is consistent w.r.t. to the prior IG
-\item + remove non-used influences (IG reduction).
-\end{enumerate}
+We took this comment into account and added the following explanations (2nd paragraph of section 4):
+“The inference of the IG also allows to check for the consistency of the model
+with respect to prior knowledge on the influences. This is the case for Thomas
+models, where a prior IG is required to specify the parameters of the dynamics.
+As detailed in A. Richard, J.-P. Comet, G. Bernot, “Formal Methods for Modeling Biological Regulatory Networks” (Modern Formal Methods and Applications, 2006, pp. 83--122), the IG of a dynamical model is consistent with a prior IG
+if it is a sub-graph of the prior IG. On the one hand, having influences in the
+model not referenced in the prior IG indicates either mistakes in the encoding
+of the dynamics, or potential influences that might need to be verified in the
+biological system. One the other hand, some influences specified in the prior IG
+may not have been necessary to encode the desired dynamics, indicating some
+non-minimality of the prior IG.”
+
+% \DISCUSS{LP}
+% Indeed, the motivation is quite weak. Some arguments:
+% \begin{enumerate}
+% \item Abstract representation of influences
+% \item Consistency with prior knowledge: if the modelling started from an IG, we may want to
+% verify that the dynamical models is consistent w.r.t. to the prior IG
+% \item + remove non-used influences (IG reduction).
+% \end{enumerate}
+
+
 
 \question{
 (P. 13 -14 - 15) 3 pages contain 5 definitions with no example and no
@@ -253,7 +376,10 @@ extended to understand the core of the method.
 }
 
 \answer
-\DISCUSS{LP}redo this section
+We took this comment into account and made major changes to this section, by splitting it in two and adding explanations and examples for most definitions.
+% \DISCUSS{LP}redo this section
+
+
 
 \question{
 (P. 18) Figure 5 shows a result of Fig 3. However the detail concerns example
@@ -264,8 +390,13 @@ the reader.
 }
 
 \answer
-\DISCUSS{LP} use Lambda phage as a running example (or dedicate a subsection to
-apply the whole pipeline to it).
+We took these comments into account:
+\begin{itemize}
+  \item We have actualized the running examples, especially in order to fix this inconsistency between the explanations and the figure.
+  \item A subsection has been added (subsection 7.1) in order to detail an example of our method on the bacteriophage lambda immunity control, as suggested.
+\end{itemize}
 
+% \DISCUSS{LP} use Lambda phage as a running example (or dedicate a subsection to
+% apply the whole pipeline to it).
 
 \end{document}
