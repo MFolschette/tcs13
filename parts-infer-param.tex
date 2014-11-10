@@ -193,8 +193,8 @@ Then, we use some additional biological constraints on Thomas' parameters given 
 \cite{BernotSemBRN}, that we sum up in the following three properties:
 
 \begin{property}[Extreme values assumption]
-Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} if and only if:
 \label{pro:param_enum_extreme}
+Let $\IG = (\Gamma, E)$ be an IG. A parametrization $K$ on $\IG$ satisfies the \emph{extreme values assumption} if and only if:
 \begin{align*}
   \forall b \in \Gamma, \GRNreg{b} \neq \emptyset \Longrightarrow
     \exists \omega \subset \GRNreg{b}, K_{b,\omega} = 0 \wedge
@@ -232,16 +232,12 @@ which correspond to the 3 possible values
 for both $K_{a,\{b\}}$ and $K_{a,\{c\}}$:
 %\[(K_{a,\{b\}}; K_{a,\{c\}}) \in \{ 0, 1, 2 \} \times \{ 0, 1, 2 \}\]
 \[K_{a,\{b\}} \in \{ 0, 1, 2 \} \qquad \text{and} \qquad K_{a,\{c\}} \in \{ 0, 1, 2 \}\]
-}%
-% We note that for all solutions, $0 \notin K_{a,\{a,b\}} \wedge 0 \notin K_{a,\{a,c\}}$.
-% This is due to the monotonicity assumption (\pref{pro:param_enum_monotonicity}) which especially states that:
-% \begin{align*}
-%   K_{a,\{b\}} \leqsegm K_{a,\{a,b\}} \wedge
-%   K_{a,\{c\}} \leqsegm K_{a,\{a,c\}}
-% \end{align*}
-\todo{Find an example to apply the assumptions (properties 6--8)?}
+We note that all these solutions satisfy Properties
+\ref{pro:K-valid} to \ref{pro:param_enum_monotonicity}.
+All the parametrizations obtained from these combinations are thus admissible.
+}
 
-Finally, we note that \modMF{$1$} belongs to the possible values for both parameters.
+Finally, we note that the value \modMF{$1$} belongs to the possible values for both parameters.
 Therefore this enumeration allows, from the model in \pref{fig:runningPH-1},
 to find the behavior of the model refined with a cooperative sort described in
 \pref{fig:runningPH-2}.

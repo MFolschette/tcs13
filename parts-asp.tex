@@ -206,7 +206,7 @@ The previous cardinality rule allows to produce 9 parametrizations,
 in which these three parameters can take all possible values:
 %(as, in this case, the assumptions of \pref{ssec:admissible-K} bring no new constraint):
 \begin{align*}
-  (K_{a,\{b\}}; K_{a,\{c\}}; K_{b,\emptyset}) \in
+  (K_{a,\{b\}}; K_{a,\{c\}}) \in
     \{ 0, 1, 2 \} \times \{ 0, 1, 2 \}
 \end{align*}
 and all the other parameters keep their inferred values.
@@ -242,22 +242,13 @@ but $K_{\var{A},\omega_\var{Q}} < K_{\var{A},\omega_\var{P}}$,
 thus violating the monotonicity assumption.
 Of course, other assumptions can be formulated in the same way.
 
-% \begin{example}
-% \modMF{%
-% The set of candidate values given in \pref{ex:cardinality} can be filtered using constraints.
-% % For example, a constraint was written in order to obtain only interval parameters
-% % (thus avoiding parameters with “gaps” such as $\{ 0, 2 \}$).
-% % Applying such a constraint would reduce the set of possible values for the parameters $K_{a,\{a,b\}}$ and $K_{a,\{a,c\}}$ to:
-% % \begin{align*}
-% %   (K_{a,\{a,b\}} ; K_{a,\{a,c\}}) \in \{ \segm{0}{0} , \segm{1}{1} , \segm{2}{2} , \segm{0}{1} , \segm{1}{2} , \segm{0}{2} \}^2
-% % \end{align*}
-% % }%
-% % 
-% % \modMF{%
-% }%
-% \todo{Find an example to apply the monotonicity assumption?}
-% \end{example}
-\todo{Find an example to apply the filtering?}
+\begin{example}
+\modMF{%
+All the candidate values enumerated in \pref{ex:cardinality}
+already respect Properties \ref{pro:K-valid} to \ref{pro:param_enum_monotonicity}.
+Therefore, the constraints encoding these properties do not filter any solution.
+}
+\end{example}
 
 
 
