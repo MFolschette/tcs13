@@ -63,8 +63,10 @@
 
 \section*{Summary of the main changes}
 
-\TODO{Detail more/less these changes?}
+We thank the reviewer for these helpful comments and suggestions.
+The reviewer's main concerns about our work were the readability of our paper and the consistency problems posed by our definition of Thomas' modeling.
 
+We made the following main changes to the article:
 \begin{itemize}
   \item The title has been changed from “Constructing...” to “Identification of...”.
   \item The abstract and the introduction have been improved to better contextualize our work.
@@ -81,47 +83,24 @@
         (see Remark 1).
     \end{itemize}
   \item A new section has been created (section 3)
-    in order to better separate general definitions (esp. the notions of focal processes,
-    deterministic sorts, components/cooperative sorts separation,
-    regulators and configuration extension)
-    from the IG inference propositions of section 4.
-  \item The IG inference method has been improved in order to get more accurate results
-    (see Proposition 1).
-  \item Property 4 (Well-formed PH for parameter inference) has been improved
-    to handle more general forms of PH models,
-    namely, with cooperative sorts containing more than 4 processes.
-  \item Equations of section 5 (19 to 22) have been adapted to single-value parameters.
-  \item All examples in sections 2 to 5 have been actualized to the new formalism
-    and propositions.
+    in order to better separate general definitions 
+    from the Interaction Graph (IG) inference propositions of section 4.
+  %\item The IG inference method has been improved in order to get more accurate results
+  %  (see Proposition 1).
+  %\item Property 4 (Well-formed PH for parameter inference) has been improved
+  %  to handle more general forms of PH models,
+  %  namely, with cooperative sorts containing more than 4 processes.
+  %\item Equations of section 5 (19 to 22) have been adapted to single-value parameters.
+  \item Some definitions and propositions have been updated to make them more simple and readable
+  %All examples in sections 2 to 5 have been actualized to the new formalism
+  %  and propositions.
   \item A detailed example has been added in section 7 (see subsection 7.1)
     where we detail the application of our method to some parts of a model of
     the bacteriophage lambda immunity control.
-  \item Actualized results are given in subsection 7.3,
-    related to several improvements brought to our method.
+  %\item Actualized results are given in subsection 7.3,
+  %  related to several improvements brought to our method.
 \end{itemize}
 
-
-
-\section*{Summary of our answers to the reviewer}
-
-We thank the reviewer for these comments and  suggestions.
-The reviewer's main concerns about our work were the readability of our paper and the consistency problems posed by our definition of Thomas' modeling.
-
-The readability has been improved by rewriting large parts of the section previously numbered 3, by:
-\begin{itemize}
-  \item Splitting it into two sections, in order to handle apart the general definitions and the propositions linked to the IG inference;
-  \item Adding some paragraphs of explanations at the beginning of sections and before the most complex definitions;
-  \item Adding running examples in these sections;
-  \item Dealing with a detailed example of a model of the bacteriophage lambda immunity control (subsection 7.1) to illustrate our method.
-\end{itemize}
-
-Regarding the definition of Thomas' modeling, we completely understand the reviewer's concerns and comments. These definitions are indeed redundant and some pieces of informations can be contradictory (namely, the parametrization vs. the sings on the edges that describe the kind of influences between the components).
-However, we chose to keep the current definition of Thomas' models. Our motivations are the following:
-\begin{itemize}
-  \item We wish to stay close to the traditional definition of this formalism, in order not to destabilize the reader;
-  \item Introducing new definitions such as an unsigned IG, or new constrains on the IG such as a monotonicity property may add unnecessary complexity;
-  \item The signs in the IG are interesting in themselves and lead to several works on IG-based static analyses.
-\end{itemize}
 
 Please find below our detailed answers.
 
@@ -140,17 +119,21 @@ on the other side I define a as an inhibitor with K parameters. As signs do
 not enter in the interpretation, why they are included in the formalism as
 necessary ``comments''?}
 
+Having both the (signed) interaction graph (IG) and the parametrization in the model allows to decouple the IG from the dynamics, which is interesting for modeling biological systems as the IG is often a prior knowledge with possible inconsistencies with the dynamics we want to encode with. A further step may then infer back the IG of the actual dynamics (here, an abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior one, we have consistency.
+Conversely, the signs of the prior IG can be used to constraint the possible parametrizations to
+ensure consistency with the signed interactions (e.g. by imposing an ordering between parameters
+values to ensure monotonicity, see section 5.2).
+
 % \DISCUSS{LP}
-Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to a parametrization (which contains the name of each component, and where each maximum level can be inferred from the maximum value found in the related parameters) by simply adding information about the thresholds. Furthermore, the parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t. the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
+%Thomas' formalism with discrete parameters indeed includes some redundant piece of information in the sense that signs could be captured by the parameters with additional constraints, e.g. monotonous behaviors (which imposes an ordering between the value of parameters). Speaking from a computer science oriented point of view, the information encapsulated into a Thomas' network could be reduced to a parametrization (which contains the name of each component, and where each maximum level can be inferred from the maximum value found in the related parameters) by simply adding information about the thresholds. Furthermore, the parametrization is very generic, ranging from totally decoupled specification to very constrained valuation w.r.t. the interaction graph. This would however be a disruption with the Thomas framework as it has been considered for more than 25 years. 
 
-Moreover signs and edges have been an inspiration for numerous works with regard to the analysis of networks. As showed for example in THOMAS, R. \& D'ARI, R., “Biological feedback” (CRC Press, Boca Raton , Florida, USA, 1990, 316 pp), the analysis of some dynamical properties (e.g. sustained oscillations) can derive from the study of positive or negative circuits. 
+%Moreover signs and edges have been an inspiration for numerous works with regard to the analysis of networks. As showed for example in THOMAS, R. \& D'ARI, R., “Biological feedback” (CRC Press, Boca Raton , Florida, USA, 1990, 316 pp), the analysis of some dynamical properties (e.g. sustained oscillations) can derive from the study of positive or negative circuits. 
 
-In addition, having both the interaction graph and the parametrization in the model allows to decouple the IG from the dynamics, which is interesting for modeling biological systems as the IG is often a prior knowledge with possible inconsistencies with the dynamics we want to encode with. A further step may then infer back the IG of the actual dynamics (here, an abstraction of the encoded dynamics) and compare it with the prior IG. Typically, if the inferred IG is included in the prior one, we have consistency.
 
-Finally, several alternative definitions exist, with various degree of equivalency. As a consequence, we chose here to stick to the original formalism and picked this definition as it the original and standard one in the Thomas' community.
+Several alternative definitions exist, with various degree of equivalency. As a consequence, we chose here to stick to the original formalism and picked this definition as it the original and standard one in the Thomas' community.
 
-Nevertheless, to remove ambiguity and comply with the reviewer's suggestions, we redesigned section 2.2, emphasizing such a choice, especially with this excerpt:
-“distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (e.g., necessary condition on sustained oscillations) solely based on the structure of the IG (e.g., the analysis of positive or negative circuits)”.
+We added such a discussion in the introduction of section 2.2.
+%“distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (e.g., necessary condition on sustained oscillations) solely based on the structure of the IG (e.g., the analysis of positive or negative circuits)”.
 
 % \DISCUSS{MF} I just changed a little bit the first paragraph.
 
@@ -273,7 +256,8 @@ require additional notations.
 
 \answer
 % \TODO{Apply the changes + quick answer}
-This notation was intended to match the corresponding one for the Process Hitting models, but it was indeed a poor choice. We took this comment into account and changed this notation to $E^{-1}(b)$.
+%This notation was intended to match the corresponding one for the Process Hitting models, but it was indeed a poor choice. 
+We took this comment into account and changed this notation to $E^{-1}(b)$.
 
 
 
@@ -289,7 +273,7 @@ properties.
 }
 
 \answer
-Please refer to our answer to question 1. There are indeed several less redundant ways to represent a BRN but we decided to keep the definition proposed by Thomas. Even if the parametrization is present, the signs on the edges still have an informative value. Furthermore, we do consider the signs in the case of the parameters enumeration.
+Please refer to our answer to question 1.% There are indeed several less redundant ways to represent a BRN but we decided to keep the definition proposed by Thomas. Even if the parametrization is present, the signs on the edges still have an informative value. Furthermore, we do consider the signs in the case of the parameters enumeration.
 % \DISCUSS{LP} See 1. The definitions need to be more clear with more textual
 % explanation for CS people.
 
@@ -304,16 +288,9 @@ it necessary here just for mentioning that PH may accept any level?
 }
 
 \answer
-We took the second comment into account and removed the discussion about maximum levels which was indeed unnecessary.
-
-\DISCUSS{LP} Yes, we should make clear that we are looking for monotonic
-influences - but not necessarily at the global scope, which mean that we can
-find two contradictory monotonic influences, leading to those ``unsigned'' edges
-in the IG.
-And yes, we should just mention that PH models can have an arbitrary number of
-levels.
-
-\DISCUSS{MF} In fact I don't really understand this comment --- I fist thought it was related to questions 1 and 9 but in fact it is not. There is no inference on page 11; was the reviewer talking about the dynamics? In the end, has the discussion about monotonic influences been added to the paper?
+We added mentions to the notion of monotony in the definition of the signs of influences from the
+dynamics.\\
+As suggested, we removed the discussion about maximum levels which was indeed unnecessary.
 
 
 
@@ -376,8 +353,12 @@ extended to understand the core of the method.
 }
 
 \answer
-We took this comment into account and made major changes to this section, by splitting it in two and adding explanations and examples for most definitions.
-% \DISCUSS{LP}redo this section
+We took this comment into account and revised the structure of this section.
+We created a new section dedicated to the main definitions used by the IG and parameters inference
+section.
+Most of these definitions are related to the step of inferring global influences between components
+from local transitions specifications.
+We added explanations and examples to make such definitions more understandable.
 
 
 
@@ -390,13 +371,8 @@ the reader.
 }
 
 \answer
-We took these comments into account:
-\begin{itemize}
-  \item We have actualized the running examples, especially in order to fix this inconsistency between the explanations and the figure.
-  \item A subsection has been added (subsection 7.1) in order to detail an example of our method on the bacteriophage lambda immunity control, as suggested.
-\end{itemize}
-
-% \DISCUSS{LP} use Lambda phage as a running example (or dedicate a subsection to
-% apply the whole pipeline to it).
+As suggested, we added a new subsection (7.1) dedicated to a didactic application of our method to
+a concrete biological modeling example, on the bacteriophage lambda immunity control.
+We have also actualized the running examples, especially in order to fix this inconsistency between the explanations and the figure.
 
 \end{document}
