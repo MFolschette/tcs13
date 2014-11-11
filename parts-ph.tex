@@ -1,7 +1,8 @@
+% vi:spell spelllang=en:
 \subsection{The Process Hitting framework}
 \label{ssec:PH}
 
-We give the the definition and semantics of the Process Hitting (PH), and its usage to model
+We give the definition and semantics of the Process Hitting (PH), and its usage to model
 cooperation between concurrent components.
 Two examples of PH modeling a BRN at different abstraction levels are given.
 They serve as running examples in the rest of this article.
@@ -77,7 +78,7 @@ $(s\play h\play h')$.
 
 \modLP{PH is a particular sub-class of safe Petri nets \cite{BC92},
 \ie Petri nets with at most one token per place, having
-groups of multually exclusive places (processes) acting as the sorts, and where each
+groups of mutually exclusive places (processes) acting as the sorts, and where each
 transition has at most one read-arc (connected to the \emph{hitter}), and
 exactly one incoming arc (from the \emph{target}) and one outgoing arc (to the
 \emph{bounce}).
@@ -165,7 +166,7 @@ Here, actions involving $b_1$ or $c_1$ are in thick lines.
 This PH example actually models a BRN where the component $a$ has three qualitative
 levels and components $b$ and $c$ are boolean.
 In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
-The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$ (noted: $a_2$);
+The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$ (noted $a_2$);
 in the other cases, $b$ cannot evolve in any direction.
 The activation of $a$ by $b$ ($c$) is encoded by the actions making the level of $a$ increase (resp.
 decrease) when $b$ ($c$) is present (resp. absent).

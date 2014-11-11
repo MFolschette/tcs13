@@ -22,7 +22,7 @@ the farthest reachable processes, called \emph{focal processes}, of a given sort
 for a given configuration.
 It is possible that several different focal processes are identified, indicating an indeterministic
 evolution of the sort;
-and it is also possible possible that no focal process exist, when in presence of terminal cycles of
+and it is also possible that no focal process exist, when in presence of terminal cycles of
 transitions.
 In those cases, there is no possible Thomas specification for the PH.
 The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
@@ -30,7 +30,7 @@ The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
 
 Finally, \pref{ssec:split-sorts} addresses the separation of PH sorts into
 components and intermediate cooperate sorts, the latter having to be masked in Thomas models.
-It notably defines the predecessors, (group of) regulators of a
+It notably defines the predecessors, the (groups of) regulators of a
 sort, and the extension of a configuration to incorporate the state of the
 cooperative sorts.
 
@@ -296,7 +296,8 @@ Given $a\in\PHs$, a sub-set of regulators $g\subseteq \PHpredecgene{a}$ and a co
 $\sigma\in L(g)$, $\ctx_a^g(\sigma)$ is the configuration $\sigma$ with the corresponding
 processes of the cooperative sorts in $\PHdirectpredec{a}$:
 \begin{align}
-\ctx_a^g(\sigma) & \DEF \sigma \uplus \state{\upsilon(\sigma) \mid\upsilon \in\PHdirectpredec{a} \cap \CSorts} 
+\ctx_a^g(\sigma) & \DEF \sigma \uplus \state{\upsilon(\sigma) \mid\upsilon \in\PHdirectpredec{a} \cap \CSorts
+\wedge \PHpredecgene{\upsilon}\subseteq g} 
 \label{eq:ctx-sigma}
 \\
 \upsilon(\sigma') & \DEF

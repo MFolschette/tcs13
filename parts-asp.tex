@@ -1,3 +1,4 @@
+% vi:spell spelllang=en:
 \section{Answer Set Programming implementation concepts}\label{sec:impl}
 
 %\newcommand{\atom}{\mathbf}
@@ -21,18 +22,18 @@
 
 Answer Set Programming (ASP) is a logic programming paradigm \cite{Baral03, Baral10},
 which has been chosen to address the enumeration of all admissible parametrizations.
-The motivations are following:
-\begin{itemize}
-  \item ASP efficiently tackles the inherent complexity of the used models, thus enabling us fast execution of the formal tools defined in this paper,
-  \item ASP can efficiently enumerate a large set of possible answers,
-  \item and it is easy to constrain the answers according to some properties.
-\end{itemize}
-We now synthesize some key points to better make the reader understand our ASP implementation with the enumeration example.
+%The motivations are following:
+ASP can efficiently enumerate a large set of possible answers,
+  and it is easy to constrain the answers according to some properties.
+Applied to the models and constraints defined in this papers,
+ASP appears to be efficient for tackling the inherent complexity of the enumeration of parametrizations.
+
+Hereafter, we synthesize some key points of our ASP implementation with the enumeration example.
 
 
 
 \subsection{Simple rules and answer sets}\label{sssec:simple_rules}
-ASP is based on a set of rules of of the form:
+ASP is based on a set of rules of the form:
 \begin{align*}
   \underbrace{{\ }\atom{H}_{\ }}_{head} \la \underbrace{\atom{A}_1, \atom{A}_2, \dots, \atom{A}_n, \nota \atom{B}_1, \nota \atom{B}_2, \dots, \nota \atom{B}_m}_{body}.
 \end{align*}

@@ -34,7 +34,7 @@ Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influence
 when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
 
 \modMM{The IG is not sufficient to unambiguously define the dynamics of the system. In particular, a component may be regulated by both a positive and negative interaction derived from two different components. To refine the dynamics, a parametrization had been added to the model \cite{snoussi1989qualitative}. This parametrization allows to define focal points, \ie it clarifies the level towards which a component evolves depending on the expression of its regulators.
-Some of the information included in the IG and the parametrization may appear as slighltly redundant. Especially, if the single parametrization were enriched with additional constraints (\eg monotonicity requiring an ordering on the value of parameters), then it may directly capture the signs. However, distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (\eg necessary condition on sustained oscillations) solely based on the structure of the IG (\eg the analysis of positive or negative circuits).}
+Some of the information included in the IG and the parametrization may appear as slightly redundant. Especially, if the single parametrization were enriched with additional constraints (\eg monotonicity requiring an ordering on the value of parameters), then it may directly capture the signs. However, distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (\eg necessary condition on sustained oscillations) solely based on the structure of the IG (\eg the analysis of positive or negative circuits).}
 
 %For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
 %otherwise, the opposite influence is expressed.
@@ -230,7 +230,7 @@ A positive (resp. negative) interaction from $b$ to $a$ is inferred if there exi
 that increasing $b$ in $s$ would increase (resp. decrease) $f^a$; in other words, if
 there exists a state $s$ so that:
 $f^a(s\{b_i\}) < \text{(resp. $>$) } f^a(s\{b_{i+1}\})$, 
-where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $b_i$.
+where $i < l_b$ and $s\{b_i\}$ denotes the state $s$ where the component $b$ is assigned to $i$.
 \modLP{If all the interactions from $b$ to $a$ are positive (resp. negative), there is a positive
 (resp. negative) edge from $b$ to $a$ in the IG, denoting a monotonous influence of $b$ on $a$.
 In the case when there exists two differently signed interactions, the edge in the IG is said

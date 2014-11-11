@@ -1,3 +1,4 @@
+% vi:spell spelllang=en:
 \section{Parametrization inference}\label{sec:infer-K}
 
 \modLP{
@@ -5,7 +6,7 @@ Given a PH and an IG (either arbitrary, or inferred following the previous secti
 addresses the identification of the parametrization for the corresponding Thomas model.}
 
 \modLP{
-As described in \pref{ssec:infer-K}, this identifcation relies on the computation of the focal
+As described in \pref{ssec:infer-K}, this identification relies on the computation of the focal
 processes for each configuration of the parameters.
 When there is a unique focal process of a component for a given configuration of its regulators,
 the focal process matches with the value of the associated Thomas parameter.}
@@ -13,7 +14,7 @@ the focal process matches with the value of the associated Thomas parameter.}
 \modLP{
 However, in the general case, as described in \pref{sec:tr2global} and even when the PH is
 well-formed for parameter inference (characterized in the next subsection by \pref{pro:wf-ph-K}),
-there maybe several focal processes (non-deterministic behaviour) or none (cyclic behaviour).  Such
+there may be several focal processes (non-deterministic behaviour) or none (cyclic behaviour).  Such
 a case occurs notably when the PH encodes the union of several Boolean or discrete networks, as
 described in \cite{PMR10-TCSB,PCFMR14-chapterLMBS}.}
 
@@ -119,11 +120,10 @@ a singleton, denoting a deterministic behaviour (\pref{pps:param_K})}.
 
 \begin{proposition}[Parameter inference]
 \label{pps:param_K}
-Let $(\PHs, \PHl, \PHh)$ be a Process Hitting \modLP{with $\PHs=\Gamma\cup\CSorts$} 
-well-formed for parameter inference, and $\IG = (\Gamma, E)$ the inferred IG.
-Let $A$ (resp. $B$) $\subseteq \Gamma$ be the set of regulators that activate (resp. inhibit) a sort
-$a$.
-If $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP{$K_{a,\omega} = i$}.
+Let $(\PHs, \PHl, \PHh)$ be a Process Hitting \modLP{with $\PHs=\Gamma\cup\CSorts$} and an
+associated IG $\IG = (\Gamma, E)$ well-formed for parameter inference.
+For all $a\in\Gamma$, for any $\omega\subseteq \GRNreg{a}$,
+if $\focals(a,S_a(\sigma_{a,\omega}),\sigma_{a,\omega})= \{ a_i \}$, then \modLP{$K_{a,\omega} = i$}.
 \end{proposition}
 
 \modMF{
@@ -134,7 +134,7 @@ and using the IG of \pref{fig:runningBRN}(left)
 which is the result of the IG inference on this PH model,
 as explained in \pref{ssec:infer-ig-examples},
 \pref{pps:param_K} infers the parametrization of \pref{fig:runningBRN}(right).
-In other words, the inference of parameters allows to find back all parameters
+The inference of parameters finds back all parameters
 of the original model when the cooperations are fully defined.
 \end{example}
 }
