@@ -101,21 +101,21 @@ Universit\'e Paris-Sud, 91405 Orsay Cedex, France}
 
 
 \begin{abstract}
-\modOR{Qualitative formalisms offer a well-established alternative to the more traditionally used differential equation models of Biological Regulatory Networks (BRNs). These formalisms, introduced by Kauffman, Glas and Thomas, led to numerous theoretical works and practical tools to understand emerging behaviors.} \modMM{The analysis of dynamics of very large models is however a rather hard problem, which led us to previously introduce a new framework:} the Process Hitting (PH), \modMM{which} \modLP{is a particular class of Indeterministic Asynchronous Automata
-Network (or safe Petri nets).} \modMM{Its major advantage lies in the efficiency of several static analyses recently designed to assess dynamical properties, making it possible to tackle very large models.}
+\modOR{Qualitative formalisms offer a well-established alternative to the more traditionally used differential equation models of Biological Regulatory Networks (BRNs). These formalisms led to numerous theoretical works and practical tools to understand emerging behaviors.} \modMM{The analysis of the dynamics of very large models is however a rather hard problem, which led us to previously introduce} \modMF{the Process Hitting framework (PH),} \modMM{which} \modLP{is a particular class of nondeterministic asynchronous automata
+network (or safe Petri nets).} \modMM{Its major advantage lies in the efficiency of several static analyses recently designed to assess dynamical properties, making it possible to tackle very large models.}
 
 \modLP{In this paper, we address the formal identification of qualitative
-models of Biological Regulatory Networks (BRNs) from PH models.}
-First, the inference of the Interaction Graph (IG) from a PH model
+models of BRNs from PH models.}
+First, the inference of the Interaction Graph from a PH model
 \modLP{summarizes the signed influences between the components} that are effective for the dynamics.
 Second, we provide the inference of all Ren\'e Thomas models of BRNs 
 that are compatible with a given PH.
-As the PH allows the specification of indeterministic interactions between
+As the PH allows the specification of nondeterministic interactions between
 components, our inference emphasizes the ability of PH to deal with large BRNs with incomplete knowledge
 on interactions, where Thomas' approach fails because of the combinatorics of parameters.
 
 The inference of corresponding Thomas models is \modLP{implemented} using Answer Set Programming,
-which allows an efficient enumeration of (possibly numerous) compatible parametrizations.
+which allows \modMF{in particular} an efficient enumeration of (possibly numerous) compatible parametrizations.
 \end{abstract}
 
 \begin{keyword}

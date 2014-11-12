@@ -164,7 +164,7 @@ Here, actions involving $b_1$ or $c_1$ are in thick lines.
 \end{figure}
 
 This PH example actually models a BRN where the component $a$ has three qualitative
-levels and components $b$ and $c$ are boolean.
+levels and components $b$ and $c$ are Boolean.
 In this BRN, $b$ and $c$ activate $a$, while $a$ inhibits $b$.
 The inhibition of $b$ by $a$ is only effective when $a$ is at level $2$ (noted $a_2$);
 in the other cases, $b$ cannot evolve in any direction.
@@ -182,7 +182,7 @@ One may want to model transitions that should be taken only when several
 processes are present, \ie modeling conjunctions -- or cooperations -- between the presence of
 several processes.
 As described in \cite{PMR10-TCSB}, such cooperations can be encoded in PH with
-the use of some intermediate sorts, so-called \emph{cooperative sorts}, that
+the use of some intermediate sorts, called \emph{cooperative sorts}, that
 merge information on the state of cooperating sorts.}
 \pref{fig:PH-cooperativity} shows an example of cooperation between processes $b_1$ and $c_1$ to
 make $a_1$ bounce to $a_2$:
@@ -190,7 +190,7 @@ a cooperative sort $bc$ is defined with 4 processes (one for each sub-state of t
 processes $b_1$ and $c_1$).
 For the sake of clarity, the processes of $bc$ are indexed using the sub-state they represent.
 Hence, $bc_{01}$ represents the sub-state $\state{b_0,c_1}$, and so on.
-Each process of sort $b$ and $c$ hit $bc$ to make it bounce to the process reflecting the state of the sorts $b$
+Each process of sorts $b$ and $c$ hit $bc$ to make it bounce to the process reflecting the state of the sorts $b$
 and $c$ (\eg $\PHfrappe{b_1}{bc_{00}}{bc_{10}}$ and $\PHfrappe{b_1}{bc_{01}}{bc_{11}}$).
 Then, it is process $bc_{11}$ which hits $a_1$ to make it bounce to $a_2$ instead of
 independent hits from $b_1$ and $c_1$.

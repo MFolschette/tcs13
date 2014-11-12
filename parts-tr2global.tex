@@ -7,7 +7,7 @@ Thomas parametrization defines a global function
 which associates to each component and each resource configuration a level toward which the component
 eventually evolves in the given configuration.
 Such a function is always deterministic (whereas the associated asynchronous dynamics can be
-indeterministic due to concurrent evolution of components).
+nondeterministic due to concurrent evolution of components).
 In contrast, 
 PH models specify a list of local transitions between the levels (processes) of the components (sorts)
 that are conditioned with the presence of other processes.
@@ -16,11 +16,11 @@ to the components of the network.
 
 Hence, identifying Thomas models from PH requires to lump a set of transitions that can be
 applied in a given configuration into a single process that correspond to the level toward which the
-component evolve.
+component evolves.
 This step is detailed in \pref{ssec:focal} in which is defined the $\focals$ function associating 
 the farthest reachable processes, called \emph{focal processes}, of a given sort
 for a given configuration.
-It is possible that several different focal processes are identified, indicating an indeterministic
+It is possible that several different focal processes are identified, indicating an nondeterministic
 evolution of the sort;
 and it is also possible that no focal process exist, when in presence of terminal cycles of
 transitions.

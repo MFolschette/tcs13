@@ -5,9 +5,9 @@
 %\todo{Name Kaufman as the creator of BRNs.}
 
 \modMM{
-The principle of qualitative modeling was introduced as synchronous Boolean networks by Stuart Kauffman on the one hand \cite{kauffman1969metabolic}, asynchronous Ren\'e Thomas’ networks on the other \cite{Thomas73}. Both models have been considered of interest and led to numerous works. In the following, we choose to focus on  Thomas' modelling, with its asynchronous, unitary and multi-level semantics.}
+The principle of qualitative modeling was introduced as synchronous Boolean networks by Stuart Kauffman on the one hand \cite{kauffman1969metabolic}, and asynchronous Ren\'e Thomas' networks on the other \cite{Thomas73}. Both models have been considered of interest and led to numerous works. In the following, we choose to focus on  Thomas' modelling, with its asynchronous, unitary and multi-level semantics.}
 
-\modMM{In this paragraph, we} concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
+\modMM{In this section, we} concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
 \cite{thomas1990biological, Richard06,BernotSemBRN}.
 %In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
 %inference),
@@ -33,7 +33,7 @@ the latter meaning that \modLP{the regulation have different sign depending on t
 Regarding the dynamics, an edge $\GRNedge{a}{s}{t}{b}$ states that $a$ influences the evolution of $b$ in a certain way when its expression level is above or equal to the threshold $t$;
 when its expression level is strictly below this threshold, another kind of influence is expressed, which usually consists of the opposite influence.
 
-\modMM{The IG is not sufficient to unambiguously define the dynamics of the system. In particular, a component may be regulated by both a positive and negative interaction derived from two different components. To refine the dynamics, a parametrization had been added to the model \cite{snoussi1989qualitative}. This parametrization allows to define focal points, \ie it clarifies the level towards which a component evolves depending on the expression of its regulators.
+\modMM{The IG is not sufficient to unambiguously define the dynamics of the system. In particular, a component may be regulated by both a positive and negative interaction derived from two different components. To refine the dynamics, a parametrization has been added to the model \cite{snoussi1989qualitative}. This parametrization allows to define focal points, \ie it clarifies the level towards which a component evolves depending on the expression of its regulators.
 Some of the information included in the IG and the parametrization may appear as slightly redundant. Especially, if the single parametrization were enriched with additional constraints (\eg monotonicity requiring an ordering on the value of parameters), then it may directly capture the signs. However, distinguishing the IG and parametrization allows to decouple the graph (which is generally one of the prior knowledge from the biologists) from the constraints on its dynamics. It opened the way to numerous studies (\eg necessary condition on sustained oscillations) solely based on the structure of the IG (\eg the analysis of positive or negative circuits).}
 
 %For a regulation to take place (activation or inhibition), the expression level of its head component has to be higher than its threshold;
@@ -206,7 +206,7 @@ This sequence of states ends in a steady state: no evolution is possible in $\GR
 In the scope of the asychronous dynamics (\pref{def:dynamics}), one can remark
 that some parameters values can be equivalent, \ie the resulting dynamics is
 the same.
-It is notably the case with auto-regulations:
+It is notably the case with self-regulations:
 if $\GRNedge{a}{s}{t}{a}$,
 then for any $\omega\subseteq \GRNreg{a}$,
 two values $v$ and $v'$ of the parameter 

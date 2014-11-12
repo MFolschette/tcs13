@@ -4,7 +4,7 @@
 As regulatory phenomena play a crucial role in biological systems, they need to be studied accurately.
 Biological Regulatory Networks (BRNs) consist in sets of either positive or negative mutual effects between the components.
 With the purpose of analyzing these systems, they are often modeled as graphs which make it possible to determine the possible evolutions of all the interacting components of the system.
-\modOR{Besides continuous models of physicists, generally designed through systems of ordinary differential equations, modeling regulatory networks by means of Boolean networks has become popular in the wake of Kauffman work \cite{kauffman1969metabolic}.
+\modOR{Besides continuous models of physicists, generally designed through systems of ordinary differential equations, modeling regulatory networks by means of Boolean networks has become popular in the wake of Kauffman's work \cite{kauffman1969metabolic}.
 We based our work on a logical formalism developed by Ren\'e Thomas from 1973 \cite{Thomas73} that generalizes upon Boolean networks in the sense that it allows variables to have more than two values and transitions between states to occur asynchronously.}
 
 In this approach, the different levels of a component, such as concentration or expression levels, are abstractly represented by (positive) integer values and transitions between these levels may be considered as instantaneous.
@@ -24,7 +24,7 @@ and the incorporation of time (\eg \cite{Siebert06,Ahmad08}) and probability
 
 While the formal checking of dynamical properties is often limited to small networks because of the
 state graph explosion, an other major drawback of this framework is the difficulty to
-specify Thomas' parameters, especially for large networks. \modOR{Other works have also been carried out with the aim of dealing with large systems (\eg \cite{Corblin200991,Bollman2007,Delaplace2012, 10.1371/journal.pone.0007992}).} \modMM{Because of the complexity of such systems, these works generally focus on some restricted properties,} \modOR{as finding out steady states.} 
+specify Thomas' parameters, especially for large networks. \modOR{Other works have also been carried out with the aim of dealing with large systems (\eg \cite{Corblin200991,Bollman2007,Delaplace2012, 10.1371/journal.pone.0007992}).} \modMM{Because of the complexity of such systems, these works generally focus on some restricted properties,} \modOR{such as finding steady states.} 
 %\todo{The reviewer proposes to nuance this with several papers:
 %\begin{itemize}
 %  \item Corblin, F., Tripodi, S., Fanchon, E., Ropers, D., \& Trilling, L. (2009).
@@ -57,7 +57,7 @@ which was impossible with other state-of-the-art approaches \cite{PMR12-MSCS,PAK
  
 The PH is suitable to model BRNs with different levels of abstraction in the specification of
 cooperations (associated influences) between components. \modOR{The concept of cooperation refers to the} \modMM{way two (or more) components jointly influence a third one. In other words, it captures the logical functions stating how} \modOR{various elements coalesce and act together upon an other element among the network.}
-\modLP{In particular, PH allows to specify partial (non-deterministic) cooperations that superpose the dynamics of 
+\modLP{In particular, PH allows to specify partial (nondeterministic) cooperations that superpose the dynamics of 
 candidate fully-specified (deterministic) cooperations.
 This permit to model BRNs with a partial knowledge on precise evolution functions for components
 by capturing the largest (the most general) dynamics, without a combinatorics enumeration of
@@ -81,7 +81,7 @@ we intend to be able to get upstream the results in accordance at the regulatory
 The outcome of the present work is that we could make such changes on the PH model
 and then recover afterwards the BRN corresponding to the transformed behavioral system.
 In a more general framework and in an interesting way,
-we should be able to synthesize families of BRN having some featuring behavioral properties.
+we should be able to synthesize families of BRNs having some featuring behavioral properties.
 
 Firstly, we derive rules that, given a PH model, infer the IG corresponding to the dynamics of the
 encoded BRN.
@@ -111,14 +111,17 @@ precise dynamical features using a single PH model which gathers all the plausib
 
 Finally, we discuss on an implementation of these inference schemes using Answer Set
 Programming (ASP) \cite{Baral03},  which turns out to be effective for these enumerative searches.
-The whole method is also applied to the biological model of ERBB receptor-regulated G1/S transition,
-containing 20 components,
-which allows to detail how joint actions can be defined inside a PH model in order
-to refine its dynamics, and study a more precise class of underlying Thomas models.
+The whole method is also applied to
+the model of the bacteriophage lambda immunity control with 4 components,
+in order to give a detailed application of our method,
+and to the biological model of the ERBB receptor-regulated G1/S transition,
+which contains 20 components
+and allows to show how joint actions can be defined inside a PH model in order
+to refine its dynamics and study a more precise class of underlying Thomas models.
 %\todo{describe application}
 
-Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} which also uses constraint programming.
-Both aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
+Our work is related to the approach of \cite{Khalis09} which relies on temporal logic, and to \cite{20646302,DBLP:conf/ipcat/CorblinFTCT12} that use constraint programming.
+All three of them aim at determining a class of models which are consistent with available partial data on the regulatory structure and dynamical properties.
 %These classes are built in order to infer properties common to some studied models.
 %In our approach, we intend to focus on the Thomas' parameters inference
 Our method is based on a model rather than on constraints, which allows to define some properties on the system structure (such as cooperations).

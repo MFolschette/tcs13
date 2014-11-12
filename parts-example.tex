@@ -33,7 +33,7 @@ Instead of the \texttt{-{}-dot ig.dot} option, it is possible to specify
 an alternative IG to perform the parameters inference on
 (instead of using the inferred IG) with the \texttt{-{}-ig model.ig} option,
 where \texttt{model.ig} is an IG model file in \textsc{Pint} format.
-The admissible parametrizations enumeration is performed by adding the \texttt{-{}-enumerate}
+The admissible parametrizations enumeration is performed by appending the \texttt{-{}-enumerate}
 option to the command.
 %or \texttt{-{}-enumerate} instead to obtain only simple parameters (intervals of cardinality $1$).
 }%
@@ -152,6 +152,10 @@ Bigger models related to the aforementioned systems were also tested with our im
 These two models were obtained in a previous work by an automatic translation from the CellNetAnalyzer~\cite{klamt2007structural} formalism.
 
 The composition of all models and the results of the inferences are summarized in \pref{tb:computation}.
+\modMF{%
+In every case, all parameters could be inferred and it was not necessary to
+enumerate compatible parametrizations.
+}%
 %We note that due to a very high number of parameters, no parameters inference could be performed on the $94$ and $104$ component models.
 %These models would therefore be more efficiently studied as PH than as BRNs.
 %Finally, we note that the complexity of the method is exponential in the number of regulators of one
@@ -160,7 +164,7 @@ The composition of all models and the results of the inferences are summarized i
 \begin{table}[ht]
 \begin{center}
   \begin{tabular}{r|c|c|c|c|c}
-    \textbf{Model} & $\mathbf{|\Gamma|}$ & $\mathbf{|\PHs \setminus \Gamma|}$ & \textbf{$\Delta t$ IG} & \textbf{$\Delta t$ K} & $\mathbf{|K|}$
+    \textbf{Model} & $\mathbf{|\Gamma|}$ & $\mathbf{|\Delta|}$ & \textbf{IG inference} & \textbf{K inference} & $\mathbf{|K|}$
 \\\hline\hline
     EGF receptor \cite{Sahin09} & $20$ & $22$ & <1s & <1s & 192
 \\\hline

@@ -40,7 +40,7 @@ when the configuration changes.
 \pref{pps:inference-edges} details the inference of all existing influences between components occurring
 with a threshold $t$.
 \modLP{The inference relies on finding configurations $\sigma$ of groups $g$ of regulators of $a$
-such that the increase of one of the regulator $b\in g$ from $b_t$ to $b_{t+1}$
+such that the increase of one of the regulators $b\in g$ from $b_t$ to $b_{t+1}$
 changes the direction of the evolution of $a$.
 If $b\neq a$ (\pref{eq:edges-inference}), this is achieved by finding a configuration $\sigma$ of $g$ and $a$ such
 that there exists a bounce $a_j$ from $a_i$ in $\sigma\{b_t\}$ (\ie the state $\sigma$ where the
@@ -84,7 +84,7 @@ $\hat{E}_-$) by
 \end{split}
 \label{eq:edges-inference-auto}
 \end{align}
-\modMF{where $\irB_a^g(\sigma) \subset \PHl_a$ is defined as follows:}
+\modMF{where $\irB_a^g(\sigma) \subseteq \PHl_a$ is defined as follows:}
 \begin{align}
 \bar\irB_a^g(\sigma) &\DEF \{ a_j \mid \PHfrappe{b_k}{a_i}{a_j}\in\PHa, b\in g \wedge b_k\in\ctx_a^g(\sigma)
 \wedge a_i\in\sigma \}
@@ -112,12 +112,12 @@ We infer a positive (resp. negative) edge if there only exist corresponding infl
 If an influence is both positive and negative, we infer a
 \modLP{non-monotonous} edge.
 In the end, the threshold of each edge is the minimum threshold for which an influence has been found.
-\modLP{Note that as regulations matches with sign changes of the evolution of the
+\modLP{Note that as regulations match with sign changes in the evolution of the
 regulated components,
 if two positive (negative) regulations from $b$ to $a$ have been inferred,
 necessarily, a third regulation of opposite sign has been inferred in between.
-The only exception is when $a$ is never hit ($\PHpredecgene{a} = \emptyset$), in
-such a case, we arbitrarily pick the minimum threshold (1) for the
+The only exception is when $a$ is never hit ($\PHpredecgene{a} = \emptyset$); in
+such a case, we arbitrarily pick the minimum threshold (that is, 1) for the
 self-activation.}
 %
 \begin{proposition}[Interaction Graph inference]\label{pps:inference-IG}
