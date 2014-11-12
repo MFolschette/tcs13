@@ -4,7 +4,7 @@
 Process Hitting (PH) and Thomas modelling rely on two different paradigms for the specification of
 network dynamics:
 Thomas parametrization defines a global function
-which associates to each component and each resource configuration a level toward which the component
+which associates to each component and each resource configuration a level towards which the component
 eventually evolves in the given configuration.
 Such a function is always deterministic (whereas the associated asynchronous dynamics can be
 nondeterministic due to concurrent evolution of components).
@@ -15,7 +15,7 @@ In addition, PH allows the use of intermediate sorts, such as cooperative sorts,
 to the components of the network.
 
 Hence, identifying Thomas models from PH requires to lump a set of transitions that can be
-applied in a given configuration into a single process that correspond to the level toward which the
+applied in a given configuration into a single process that correspond to the level towards which the
 component evolves.
 This step is detailed in \pref{ssec:focal} in which is defined the $\focals$ function associating 
 the farthest reachable processes, called \emph{focal processes}, of a given sort
@@ -29,7 +29,7 @@ The \pref{ssec:dfocals} discusses on constraints for obtaining deterministic
 (local) behaviours in PH.
 
 Finally, \pref{ssec:split-sorts} addresses the separation of PH sorts into
-components and intermediate cooperate sorts, the latter having to be masked in Thomas models.
+components and intermediate cooperative sorts, the latter having to be masked in Thomas models.
 It notably defines the predecessors, the (groups of) regulators of a
 sort, and the extension of a configuration to incorporate the state of the
 cooperative sorts.
@@ -286,7 +286,7 @@ it is sufficient to specify the configuration $\sigma$ of a group $g$ of regulat
 to obtain the configuration of all the sorts hitting $a$ directly.
 Indeed, because of the absence of cycles between cooperative sorts
 (\pref{pro:wf-ph}), one can recursively
-evaluate the focal process of each cooperative sort that hit $a$ with respect to
+evaluate the focal process of each cooperative sort that hits $a$ with respect to
 the configuration $\sigma$ of the regulators $g$.
 Such an extended configuration is denoted by $\ctx_a^g(\sigma)$, formalized in
 \pref{def:ctx-sigma}
