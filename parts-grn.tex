@@ -1,13 +1,13 @@
 % vim:spell spelllang=en
-\subsection{Thomas' modeling}
+\subsection{Thomas's modeling}
 \label{ssec:thomas}
 
 %\todo{Name Kaufman as the creator of BRNs.}
 
 \modMM{
-The principle of qualitative modeling was introduced as synchronous Boolean networks by Stuart Kauffman on the one hand \cite{kauffman1969metabolic}, and asynchronous Ren\'e Thomas' networks on the other \cite{Thomas73}. Both models have been considered of interest and led to numerous works. In the following, we choose to focus on  Thomas' modelling, with its asynchronous, unitary and multi-level semantics.}
+The principle of qualitative modeling was introduced as synchronous Boolean networks by Stuart Kauffman on the one hand \cite{kauffman1969metabolic}, and asynchronous Ren\'e-Thomas networks on the other \cite{Thomas73}. Both models have been considered of interest and led to numerous works. In the following, we choose to focus on  Thomas's modeling, with its asynchronous, unitary and multi-level semantics.}
 
-\modMM{In this section, we} concisely present Thomas' modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
+\modMM{In this section, we} concisely present Thomas's modeling of a Biological Regulatory Network (BRN) and its dynamics, merely inspired by
 \cite{thomas1990biological, Richard06,BernotSemBRN}.
 %In order to enlarge the class of Thomas' models compatible with PH dynamics (w.r.t.~the presented
 %inference),
@@ -17,7 +17,7 @@ The principle of qualitative modeling was introduced as synchronous Boolean netw
 
 \medskip
 
-Thomas' formalism lies on two complementary descriptions of the system. First, the
+Thomas's formalism lies on two complementary descriptions of the system. First, the
 \emph{Interaction Graph} (IG) models the structure of the system by defining the components'
 mutual influences and the conditions of these influences. \modMM{
 Then t}he \emph{parametrization} \modMM{
@@ -146,7 +146,7 @@ or not a resource (if $\GRNget{s}{b} \in \ulevels{b}{a}$).
 %For each possible state, all regulators of a component $a$ can be divided into
 %\emph{activators} and \emph{inhibitors}, given their type of interaction and expression level,
 %referred to as the \emph{resources} of $a$ in this state (\pref{def:resources}).
-Relying on this observation, the specificity of Thomas' approach lies in the use of discrete \emph{parameters} to represent the
+Relying on this observation, the specificity of Thomas's approach lies in the use of discrete \emph{parameters} to represent the
 focal level interval towards which the component will evolve in every configuration of the resources (\pref{def:param}).
 
 \begin{definition}[Resources ($\GRNreslabel$)]\label{def:resources}
@@ -178,7 +178,7 @@ However, $a$ cannot evolve if its expression level already \modMF{equals}
 the parameter $K_{a,\GRNres{a}{s}}$.
 
 \begin{definition}[Asynchronous dynamics ($\GRNtrans{}{}$)]\label{def:dynamics}
-The dynamics of a BRN using Thomas' parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
+The dynamics of a BRN using Thomas's parameters is given by the transition relation $\GRNtrans{}{}\ \in \GRNstates \times \GRNstates$ defined by:
 \begin{align*}
   \forall s, s' \in \GRNstates, \GRNtrans{s}{s'} &\Longleftrightarrow \exists a \in \Gamma,
   \GRNget{s}{a} \neq K_{a, \GRNres{a}{s}} \wedge \GRNget{s'}{a} = \GRNget{s}{a} + \delta^a(s) \\

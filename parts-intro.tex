@@ -10,12 +10,12 @@ We based our work on a logical formalism developed by Ren\'e Thomas from 1973 \c
 In this approach, the different levels of a component, such as concentration or expression levels, are abstractly represented by (positive) integer values and transitions between these levels may be considered as instantaneous.
 Hence, qualitative state graphs may be derived from which we are able to formally find out all the possible behaviors expressed as sequences of transitions between these states.
 Nevertheless, these dynamics can be precisely established only with regard to some discrete parameters,
-hereafter called ``Thomas' parameters'',
+hereafter called ``Thomas's parameters'',
 which stand for kinds of ``focal points'', \ie the evolutionary tendency from each state and depending on the set of the other currently interacting components.
 %resources in this very state, that is, the set of the other currently interacting components.
 %Hereafter, we refer to these discrete parameters as Thomas' parameters.
 
-Thomas' modeling has motivated numerous works around the link between the Interaction Graph (IG)
+Thomas's modeling has motivated numerous works around the link between the Interaction Graph (IG)
 (summarizing the global influences between components) and the possible dynamics (\eg
 \cite{RiCo07,RRT08}),
 model reduction (\eg \cite{Naldi09}), formal checking of dynamics (\eg \cite{Richard06,Naldi07}), 
@@ -24,7 +24,7 @@ and the incorporation of time (\eg \cite{Siebert06,Ahmad08}) and probability
 
 While the formal checking of dynamical properties is often limited to small networks because of the
 state graph explosion, an other major drawback of this framework is the difficulty to
-specify Thomas' parameters, especially for large networks. \modOR{Other works have also been carried out with the aim of dealing with large systems (\eg \cite{Corblin200991,Bollman2007,Delaplace2012, 10.1371/journal.pone.0007992}).} \modMM{Because of the complexity of such systems, these works generally focus on some restricted properties,} \modOR{such as finding steady states.} 
+specify Thomas's parameters, especially for large networks. \modOR{Other works have also been carried out with the aim of dealing with large systems (\eg \cite{Corblin200991,Bollman2007,Delaplace2012, 10.1371/journal.pone.0007992}).} \modMM{Because of the complexity of such systems, these works generally focus on some restricted properties,} \modOR{such as finding steady states.} 
 %\todo{The reviewer proposes to nuance this with several papers:
 %\begin{itemize}
 %  \item Corblin, F., Tripodi, S., Fanchon, E., Ropers, D., \& Trilling, L. (2009).
@@ -70,7 +70,7 @@ qualitative dynamics of BRNs, namely:
 the Interaction Graph (IG), referencing the sign of direct regulations between components;
 the Process Hitting (PH), which permits to specify the qualitative dynamics of the system with
 various degrees of knowledge for joint regulations;
-and Thomas' parameters, which completely specify the functions governing the evolution of
+and Thomas's parameters, which completely specify the functions governing the evolution of
 components.
 Another motivation for the work depicted in this paper is that it constitutes an important step
 to go further in the study of large biological regulatory networks systems beyond simple analysis:
@@ -90,19 +90,19 @@ This typically results into IGs that contain less interactions than an hypotheti
 IG, as the specification of component evolutions may reveal non-functional regulations.
 Based on the derived IG, various static analysis allows to conclude on global properties
 of the system dynamics (see \cite{PR11-SASB} for a short survey).
-The most known are the Thomas' conjectures (that have been proved since,
+The most known are the Thomas's conjectures (that have been proved since,
 \eg \cite{RRT08,RiCo07,Richard2010378}
 for Boolean and discrete networks),
 which relate the absence of
 positive cycle to the impossibility for multi-stationarity (distinct attractors),
 and the absence of negative cycle to the impossibility for oscillatory behaviors.
 
-Second, we tackle the inference of Thomas' parameters that are compatible with a given PH
+Second, we tackle the inference of Thomas's parameters that are compatible with a given PH
 model, \ie that fully specify the evolution of components while respecting the cooperations
 specified in PH.
 More formally, the resulting BRN dynamics is ensured to be included in the PH dynamics: any
 transition in the (asynchronous) Thomas model exists in the PH model.
-In practice, the number of compatible Thomas parameters can be huge for large networks where only a
+In practice, the number of compatible Thomas's parameters can be huge for large networks where only a
 few cooperations are specified.
 This highlights that the PH is suitable to analyze dynamics of large-scale networks
 where the knowledge on cooperations is often incomplete:
@@ -142,7 +142,7 @@ and give a new detailed biological application of our work.
 \paragraph{Outline}
 \pref{sec:frameworks} recalls the PH and Thomas frameworks;
 \pref{sec:infer-IG} defines the IG inference from PH;
-\pref{sec:infer-K} details the parameters inference and the enumeration of Thomas parametrizations compatible with a PH;
+\pref{sec:infer-K} details the parameters inference and the enumeration of Thomas's parametrizations compatible with a PH;
 \pref{sec:impl} discusses the implementation of the latter in ASP.
 \pref{sec:examples} illustrates our method on a biological model
 and discusses its applicability on large models.
